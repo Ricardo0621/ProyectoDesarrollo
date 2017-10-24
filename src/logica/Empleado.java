@@ -16,11 +16,13 @@ public class Empleado {
     String primer_apellido;
     String segundo_apellido;
     String identificacion;
+    String id_sede;
     String direccion;
     String telefono;
     String correo;
     String password;
     String rol;
+    String estado;
 
     /***** Constructor *****/
     public Empleado() {
@@ -34,6 +36,7 @@ public class Empleado {
         correo = "";
         password = "";
         rol = "";
+        estado = "";
     }
     /***** Fin Constructor ****/
     
@@ -53,7 +56,10 @@ public class Empleado {
     public String getIdentificacion(){
         return identificacion;
     }
-    public String getDirecion(){
+    public String getIdSede(){
+        return id_sede;
+    }
+    public String getDireccion(){
         return direccion;
     }
     public String getTelefono(){
@@ -67,6 +73,9 @@ public class Empleado {
     }
     public String getRol(){
         return rol;
+    }
+    public String getEstado(){
+        return estado;
     }
     /***** Fin Gets****/
     
@@ -86,7 +95,10 @@ public class Empleado {
     public void setIdentificacion(String identificacion){
         this.identificacion=identificacion;
     }
-    public void setDirecion(String direccion){
+    public void setIdSede(String id_sede){
+        this.id_sede=id_sede;
+    }
+    public void setDireccion(String direccion){
         this.direccion=direccion;
     }
     public void setTelefono(String telefono){
@@ -100,6 +112,9 @@ public class Empleado {
     }
     public void setRol(String rol){
         this.rol=rol;
+    }
+    public void setEstado(String estado){
+        this.estado=estado;
     }
     /***** Fin Sets ****/
     
