@@ -29,11 +29,12 @@ public class DaoSede {
     public int modificarSede(Sede sede ){
        
         String sql_modificar;
-        sql_modificar = "UPDATE sede SET nombre = " + sede.getNombre() +","
-                        + "direccion = "+ sede.getDirecion() + ","
-                        + "telefono = "+ sede.getTelefono()  +" ;"
-                        + "WHERE identificacion = "+ sede.getIdentificacion()
-                + ";"; 
+        sql_modificar = "UPDATE sedes SET nombre = '" + sede.getNombre() +"',"
+                        + "direccion = '"+ sede.getDirecion() + "',"
+                        + "telefono = '"+ sede.getTelefono()  +"'," 
+                        + "id_empleado = '"+ sede.getDirector() + "'" 
+                        + "WHERE identificacion = '"
+                        + sede.getIdentificacion() + "';"; 
         
         System.out.println("Se construyó sentencia SQL");
         try{
