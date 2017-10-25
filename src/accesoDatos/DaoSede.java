@@ -5,6 +5,7 @@
  */
 package accesoDatos;
 
+import java.sql.*;
 import logica.Sede;
 
 /**
@@ -17,15 +18,37 @@ public class DaoSede {
     public DaoSede(){
         fachada = new FachadaBD();
     }
-    public int guardarSede(Sede sede){
+    public int guardarSede(){
         int filasGuardadas = 0;
         return filasGuardadas;
     }
-    public Sede consultarAsistente(String identificacion){
+    public Sede consultarAsistente(){
         Sede sede = null;
         return sede;
     }
-    public void modificarSede(String identificacion){}
+    public int modificarSede(Sede sede ){
+       
+        String sql_modificar;
+        sql_modificar = "UPDATE sedes SET nombre = '" + sede.getNombre() +"',"
+                        + "direccion = '"+ sede.getDirecion() + "',"
+                        + "telefono = '"+ sede.getTelefono()  +"'," 
+                        + "id_empleado = '"+ sede.getDirector() + "'" 
+                        + "WHERE identificacion = '"
+                        + sede.getIdentificacion() + "';"; 
+        
+        System.out.println("Se construyó sentencia SQL");
+        try{
+        Connection conn= fachada.conectar();
+        Statement sentencia = conn.createStatement();
+        int numFilas = sentencia.executeUpdate(sql_modificar);
+        conn.close();
+        return numFilas;
+        }
+        catch(SQLException e){ System.out.println(e); }
+        catch(Exception e){ System.out.println(e); }
+        return -1;
+        //fin guardar
+    }
     public void listarSedes(){}
     public void borrarSede(String identificacion){}
     public void cerrarConexionBD(){
