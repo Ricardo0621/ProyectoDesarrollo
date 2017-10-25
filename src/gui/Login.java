@@ -99,19 +99,21 @@ public class Login_front extends javax.swing.JFrame {
         controladorEmpleado= new ControladorEmpleado();
         Empleado empleado;
         empleado = new Empleado();
+	boolean result = false;
             
 
             if(validarCampos()){
 						
                     String cedula = jTextField1.getText();
                     char [] password = jPasswordField1.getPassword();
-                    empleado = controladorEmpleado.consultarEmpleado(cedula);
-                    if(empleado.getP_nombre() == null){
+                    result = controladorEmpleado.consultarEmpleado(cedula);
+                    if(result == false){
                             System.out.print("el nombre o la contraseñae están errados");
                     }
                     else 
                     {   
-                        String pass = empleado.getPass();
+			empleado = controladorEmpleado.recuperarEmpleado(cedula);
+                        String pass = empleado.getPassword();
                         
                         if(pass.equals(String.valueOf(password))){
                             
@@ -120,7 +122,7 @@ public class Login_front extends javax.swing.JFrame {
                         }
                         else{
                             
-                            System.out.print("password incorrecto");
+                            System.out.print("password o usuario incorrecto");
                         
                         }
                     
