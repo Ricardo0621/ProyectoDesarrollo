@@ -51,7 +51,7 @@ public class Login extends javax.swing.JFrame {
 
         jLabel2.setText("password");
 
-        jPasswordField1.setText("jPasswordField1");
+        jPasswordField1.setText("");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -117,8 +117,8 @@ public class Login extends javax.swing.JFrame {
                     }
                     else 
                     {   
-			empleado = controladorEmpleado.extraerEmpleado(cedula);
-                        String pass = empleado.getPassword();
+			String[] data = controladorEmpleado.extraerEmpleado(cedula);
+                        String pass = data[10];
                         
                         if(pass.equals(String.valueOf(password))){
                             

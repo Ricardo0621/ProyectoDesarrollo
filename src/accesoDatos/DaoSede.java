@@ -61,11 +61,11 @@ public class DaoSede {
         sql_modificar = "UPDATE sedes SET nombre = '" + sede.getNombre() +"',"
                         + "direccion = '"+ sede.getDirecion() + "',"
                         + "telefono = '"+ sede.getTelefono()  +"'," 
-                        + "id_empleado = '"+ sede.getDirector() + "'" 
-                        + "WHERE identificacion = '"
+                        + "id_empleado = '"+ sede.getDirector() + "' " 
+                        + "WHERE id = '"
                         + sede.getIdentificacion() + "';"; 
         
-        System.out.println("Se construyó sentencia SQL");
+        System.out.println(sql_modificar);
         try{
         Connection conn= fachada.conectar();
         Statement sentencia = conn.createStatement();

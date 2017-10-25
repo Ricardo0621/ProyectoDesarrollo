@@ -58,7 +58,7 @@ public class ProyectoDesarrollo {
          */
 
         if(controladorEmpleado.consultarEmpleado(id_empleado)){
-            Empleado empleado = controladorEmpleado.extraerEmpleado(id_empleado);
+            String[] datos_empleado = controladorEmpleado.extraerEmpleado(id_empleado);
         }else{
             System.err.println("No exixte un empleado con esa identificación");
         }
@@ -67,26 +67,16 @@ public class ProyectoDesarrollo {
          * Modificar empleado
          */
         if(controladorEmpleado.consultarEmpleado(id_empleado)){
-            Empleado empleado = new Empleado();
-            empleado = controladorEmpleado.extraerEmpleado(id_empleado);
-            System.out.println("Identificación: "+empleado.getIdentificacion());
-            System.out.println("Sede: "+empleado.getIdSede());
-            System.out.println("Cargo: "+empleado.getRol());
-            System.out.println("Nombres y apellidos: "+empleado.getPrimerNombre()+" "+empleado.getSegundoNombre()+" "+empleado.getPrimerApellido()+" "+empleado.getSegundoApellido());
-            System.out.println("Dirección: "+empleado.getDireccion());
-            System.out.println("Telefono: "+empleado.getTelefono());
-            System.out.println("Email: "+empleado.getCorreo());
-            System.out.println("Password: "+empleado.getPassword());
-            System.out.println("Estado: "+empleado.getEstado());
-            
-            /*Desactivando/Activando el usuario*/
-            empleado.setEstado("activo");
-            
-            if(controladorEmpleado.editarEmpleado(empleado) >= 1){
-                Empleado emp = new Empleado();
-                emp = controladorEmpleado.extraerEmpleado(id_empleado);
-                System.out.println("Se actualizó el campo estado = "+emp.getEstado());
-            }
+            String[] datos_empleados = controladorEmpleado.extraerEmpleado(id_empleado);
+            System.out.println("Identificación: "+datos_empleados[0]);
+            System.out.println("Sede: "+datos_empleados[1]);
+            System.out.println("Cargo: "+datos_empleados[2]);
+            System.out.println("Nombres y apellidos: "+datos_empleados[3]+" "+datos_empleados[4]+" "+datos_empleados[5]+" "+datos_empleados[6]);
+            System.out.println("Dirección: "+datos_empleados[7]);
+            System.out.println("Telefono: "+datos_empleados[8]);
+            System.out.println("Email: "+datos_empleados[9]);
+            System.out.println("Password: "+datos_empleados[10]);
+            System.out.println("Estado: "+datos_empleados[11]);
         }else{
             System.err.println("No exixte un empleado con esa identificación"); 
         }
