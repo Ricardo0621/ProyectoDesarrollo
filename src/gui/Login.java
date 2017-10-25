@@ -117,8 +117,8 @@ public class Login extends javax.swing.JFrame {
                     }
                     else 
                     {   
-			empleado = controladorEmpleado.extraerEmpleado(cedula);
-                        String pass = empleado.getPassword();
+			String[] data = controladorEmpleado.extraerEmpleado(cedula);
+                        String pass = data[10];
                         
                         if(pass.equals(String.valueOf(password))){
                             
