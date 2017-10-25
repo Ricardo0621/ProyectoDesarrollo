@@ -40,10 +40,29 @@ public class ControladorEmpleado {
         return daoEmpleado.consultarEmpleado(identificacion);
     }//Fin de consultarEmpleado()
 
-    public Empleado extraerEmpleado(String identificacion){
+    /*public Empleado extraerEmpleado(String identificacion){
         Empleado empleado = new Empleado();
         empleado = daoEmpleado.recuperarEmpleado(identificacion);
         return empleado;
+    }//Fin de extraerEmpleado()*/
+    
+    public String[] extraerEmpleado(String identificacion){
+        String[] datos_empleado = new String[12];
+        Empleado empleado = new Empleado();
+        empleado = daoEmpleado.recuperarEmpleado(identificacion);
+        datos_empleado[0] = empleado.getIdentificacion();
+        datos_empleado[1] = empleado.getIdSede();
+        datos_empleado[2] = empleado.getRol();
+        datos_empleado[3] = empleado.getPrimerNombre();
+        datos_empleado[4] = empleado.getSegundoNombre();
+        datos_empleado[5] = empleado.getPrimerApellido();
+        datos_empleado[6] = empleado.getSegundoApellido();
+        datos_empleado[7] = empleado.getDireccion();
+        datos_empleado[8] = empleado.getTelefono();
+        datos_empleado[9] = empleado.getCorreo();
+        datos_empleado[10] = empleado.getPassword();
+        datos_empleado[11] = empleado.getEstado();
+        return datos_empleado;
     }//Fin de extraerEmpleado()
     
     public int editarEmpleado(Empleado e){

@@ -90,7 +90,7 @@ public class ProyectoDesarrollo {
     }//Fin de testCreaUsuario()
     public static void main(String[] args) {
         ProyectoDesarrollo proyectoDesarrollo = new ProyectoDesarrollo();
-        //proyectoDesarrollo.testCrearUsuario(); 
+        proyectoDesarrollo.testCrearUsuario(); 
     }
     
 }
