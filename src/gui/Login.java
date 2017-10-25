@@ -1,5 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
+package gui;
+
+/** To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
@@ -8,12 +9,16 @@
  *
  * @author alejo
  */
-public class Login_front extends javax.swing.JFrame {
+
+import controladores.ControladorEmpleado;
+import logica.Empleado;
+
+public class Login extends javax.swing.JFrame {
 
     /**
      * Creates new form Login_front
      */
-    public Login_front() {
+    public Login(){
         initComponents();
       
     }
@@ -112,7 +117,7 @@ public class Login_front extends javax.swing.JFrame {
                     }
                     else 
                     {   
-			empleado = controladorEmpleado.recuperarEmpleado(cedula);
+			empleado = controladorEmpleado.extraerEmpleado(cedula);
                         String pass = empleado.getPassword();
                         
                         if(pass.equals(String.valueOf(password))){
@@ -154,20 +159,20 @@ public class Login_front extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Login_front.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Login_front.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Login_front.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Login_front.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Login_front().setVisible(true);
+                new Login().setVisible(true);
             }
         });
     }
