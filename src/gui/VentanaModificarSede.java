@@ -130,33 +130,27 @@ public class VentanaModificarSede extends javax.swing.JFrame {
         String tel = jTextFieldTelefono.getText(); 
         String direc = jTextFieldDirector.getText(); 
                                    
-        
-        
         ControladorSede controlador = new ControladorSede() ;
-        if( controlador.validarDatosModif(id, nombre, dir,tel,direc ) )
-        {  
+        if( controlador.validarDatosModif(direc, direc, nombre, direc, tel, direc))
+          {  
             System.out.println("datosValidos");
-            controlador.modificarSede(id, nombre, dir,tel, direc );
+            //controlador.modificarSedesid, nombre, dir,tel, direc );
         }
         
         
-       else if(controlador.datosVacios(id, nombre, dir, tel,direc).equals("Todos los campos son obligatorios."))
+       else if(controlador.datosVacios(direc, direc, nombre, direc, tel, direc).equals("Todos los campos son obligatorios."))
        {
           
            jOptionPaneError.showMessageDialog(null,"Todos los campos son obligatorios.","##ERROR##", JOptionPane.INFORMATION_MESSAGE);
           
        }
-       else if (controlador.datosIdentificacion(id, nombre, dir, tel,direc).equals("Identificación con uno o varios caracteres inválidos."))
+       else if (controlador.datosIdentificacion(direc, direc, nombre, direc, tel, direc).equals("Identificación con uno o varios caracteres inválidos."))
            jOptionPaneError.showMessageDialog(null,"Identificación con uno o varios caracteres inválidos.","##ERROR##", JOptionPane.INFORMATION_MESSAGE);
            
-       else if (controlador.datosNombre(id, nombre, dir, tel,direc).equals("Nombre con uno o varios caracteres inválidos."))
+       else if (controlador.datosNombre(direc, direc, nombre, direc, tel, direc).equals("Nombre con uno o varios caracteres inválidos."))
            jOptionPaneError.showMessageDialog(null,"Nombre con uno o varios caracteres inválidos.", "##ERROR##", JOptionPane.INFORMATION_MESSAGE);
-       else if (controlador.datosDireccion(id, nombre, dir, tel,direc).equals("Dirección con uno o varios caracteres inválidos."))
-            jOptionPaneError.showMessageDialog(null,"Dirección con uno o varios caracteres inválidos.", "##ERROR##", JOptionPane.INFORMATION_MESSAGE);
-       else if (controlador.datosTelefono(id, nombre, dir, tel,direc).equals("Teléfono con uno o varios caracteres inválidos."))
+       else if (controlador.datosTelefono(direc, direc, nombre, direc, tel, direc).equals("Teléfono con uno o varios caracteres inválidos."))
            jOptionPaneError.showMessageDialog(null,"Teléfono con uno o varios caracteres inválidos.", "##ERROR##", JOptionPane.INFORMATION_MESSAGE);
-       
-            
        
     }//GEN-LAST:event_jButtonModificarActionPerformed
 

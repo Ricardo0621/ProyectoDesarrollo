@@ -6,6 +6,7 @@
 package accesoDatos;
 
 import java.sql.*;
+import java.util.HashSet;
 import logica.Sede;
 
 /**
@@ -26,7 +27,35 @@ public class DaoSede {
         Sede sede = null;
         return sede;
     }
-    public int modificarSede(Sede sede ){
+    
+    public int registarSede(Sede sede){
+        String sql_registrar;
+        int filasGuardadas = 0;
+        sql_registrar = "INSERT INTO sedes VALUES" + "(" + "'" +
+                sede.getIdentificacion() + "'" + "," + "'" +
+                sede.getIdEmpleado() + "'" + "," + "'" +
+                sede.getNombre()  + "'" + "," + "'"+ 
+                sede.getDirecion() + "'" +  "," +  "'" +
+                sede.getTelefono() + "'" +  "," +  "'" +
+                sede.getFechaCreacion() + "'"
+                + ")";
+        System.out.println(sql_registrar);
+        try {
+            Connection conn= fachada.getConnetion();
+            Statement sentencia = conn.createStatement();
+            filasGuardadas = sentencia.executeUpdate(sql_registrar);            
+            System.out.println("up " + filasGuardadas);
+            //fachada.closeConection(conn);
+            return filasGuardadas;
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        } catch(Exception ex){ 
+            System.out.println(ex);
+        }
+        return 0;
+   
+    }
+    /*public int modificarSede(Sede sede ){
        
         String sql_modificar;
         sql_modificar = "UPDATE sedes SET nombre = '" + sede.getNombre() +"',"
@@ -48,7 +77,7 @@ public class DaoSede {
         catch(Exception e){ System.out.println(e); }
         return -1;
         //fin guardar
-    }
+    }*/
     public void listarSedes(){}
     public void borrarSede(String identificacion){}
     public void cerrarConexionBD(){

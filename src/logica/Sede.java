@@ -14,34 +14,39 @@ import java.util.regex.Pattern;
 public class Sede {
     /***** Atributos *****/
     String identificacion;
+    String id_empleado;
     String nombre;
     String direccion;
     String telefono;
-    String director;
+    String fecha_creacion;
     
     /***** Constructor *****/
      public Sede() {
          identificacion = "";
+         id_empleado = "";
          nombre = "";
          direccion = "";
          telefono = "";
-         director = "";
+         fecha_creacion = "";
     }
     /***** Fin Constructor ****/
      
-     public Sede (String id, String nombre, String dir, String tel, String director)
+     public Sede (String identificacion, String id_empleado,  String nombre, String direccion, String telefono, String fecha_creacion)
      {
-         this.identificacion = id; 
+         this.identificacion = identificacion; 
+         this.id_empleado = id_empleado;
          this.nombre = nombre; 
-         this.direccion = dir; 
-         this.telefono = tel; 
-         if(director == "") 
-             this.director = "";
-         else this.director = director;
+         this.direccion = direccion; 
+         this.telefono = telefono;
+         this.fecha_creacion = fecha_creacion;
      }
      /***** Gets ******/
     public String getIdentificacion(){
         return identificacion;
+    }
+    public String getIdEmpleado()
+    {
+        return id_empleado;
     }
     public String getNombre(){
         return nombre;
@@ -52,14 +57,19 @@ public class Sede {
     public String getTelefono(){
         return telefono;
     }
-    public String getDirector(){
-        return director;
+    public String getFechaCreacion(){
+        return fecha_creacion;
     }
     /***** Fin Gets****/
     
     /***** Sets *****/
     public void setIdentificacion(String identificacion){
         this.identificacion=identificacion;
+    }
+    
+    public void setIdEmpleado(String id_empleado)
+    {
+        this.id_empleado = id_empleado;
     }
     public void setNombre(String nombre){
         this.nombre=nombre;
@@ -70,8 +80,8 @@ public class Sede {
     public void setTelefono(String telefono){
         this.telefono=telefono;
     }
-    public void setDirector (String director){
-        this.director = director; 
+    public void setFechaCreacion (String fecha_creacion){
+        this.fecha_creacion = fecha_creacion; 
     }
     /***** Fin Sets ****/   
     
@@ -79,7 +89,7 @@ public class Sede {
     
     public boolean validarDatosVacios ()
     {
-        if (identificacion.equals("") || telefono.equals("") || nombre.equals("") || direccion.equals("") || director.equals("")) {
+        if (identificacion.equals("") || id_empleado.equals("") || telefono.equals("") || nombre.equals("") || direccion.equals("") || fecha_creacion.equals("")) {
             return false;
         }
         else {

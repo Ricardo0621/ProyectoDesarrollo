@@ -6,8 +6,11 @@
 package proyectodesarrollo;
 
 import controladores.ControladorEmpleado;
+import controladores.ControladorSede;
+import gui.RegistrarSedes;
 import gui.UserPanel;
 import logica.Empleado;
+import logica.Sede;
 
 /**
  *
@@ -88,9 +91,24 @@ public class ProyectoDesarrollo {
             System.err.println("No exixte un empleado con esa identificación"); 
         }
     }//Fin de testCreaUsuario()
+    
+    public void testCrearSede()
+    {
+        /*ControladorSede controladorSede = new ControladorSede();
+        String identificacion = "12346";
+        String id_empleado = "1130589899";
+        String nombre = "Ricardo";
+        String direccion = "Cra 2 #12-21";
+        String telefono = "3234566";
+        String director = "Ricardo";
+        String fecha_creacion = "2017-10-23 10:52:00";
+        
+        controladorSede.registrarSede(identificacion,id_empleado, nombre, direccion,telefono, fecha_creacion);
+        
+        Sede sede = new Sede();*/
+    }
     public static void main(String[] args) {
         ProyectoDesarrollo proyectoDesarrollo = new ProyectoDesarrollo();
-        //proyectoDesarrollo.testCrearUsuario(); 
-    }
-    
+        proyectoDesarrollo.testCrearSede(); 
+    } 
 }
