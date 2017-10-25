@@ -84,18 +84,8 @@ public class ProyectoDesarrollo {
     
     public void testCrearSede()
     {
-        /*ControladorSede controladorSede = new ControladorSede();
-        String identificacion = "12346";
-        String id_empleado = "1130589899";
-        String nombre = "Ricardo";
-        String direccion = "Cra 2 #12-21";
-        String telefono = "3234566";
-        String director = "Ricardo";
-        String fecha_creacion = "2017-10-23 10:52:00";
-        
-        controladorSede.registrarSede(identificacion,id_empleado, nombre, direccion,telefono, fecha_creacion);
-        
-        Sede sede = new Sede();*/
+        RegistrarSedes registrarSedes = new RegistrarSedes();
+        registrarSedes.setVisible(true);
     }
     public static void main(String[] args) {
         ProyectoDesarrollo proyectoDesarrollo = new ProyectoDesarrollo();
