@@ -5,6 +5,7 @@
  */
 package gui;
 import controladores.ControladorSede;
+import javax.swing.JOptionPane;
 /**
  *
  * @author daniel
@@ -16,6 +17,7 @@ public class VentanaModificarSede extends javax.swing.JFrame {
      */
     public VentanaModificarSede() {
         initComponents();
+        jOptionPaneError.setVisible(false);
     }
 
     /**
@@ -38,6 +40,7 @@ public class VentanaModificarSede extends javax.swing.JFrame {
         jTextFieldDireccion = new javax.swing.JTextField();
         jLabelNota1 = new javax.swing.JLabel();
         jLabelNota2 = new javax.swing.JLabel();
+        jOptionPaneError = new javax.swing.JOptionPane();
         jLabelFondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -98,6 +101,7 @@ public class VentanaModificarSede extends javax.swing.JFrame {
         jLabelNota2.setFont(new java.awt.Font("Ubuntu", 1, 8)); // NOI18N
         jLabelNota2.setText("Al finalizar se modificar solo la sede con el identificador indicado.");
         getContentPane().add(jLabelNota2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, -1, -1));
+        getContentPane().add(jOptionPaneError, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 310, -1, -1));
 
         jLabelFondo.setBackground(new java.awt.Color(10, 56, 86));
         jLabelFondo.setForeground(new java.awt.Color(20, 35, 118));
@@ -107,16 +111,39 @@ public class VentanaModificarSede extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonModificarActionPerformed
-        
-        
+        System.out.println("Click!");
+        String id = jTextFieldIdentificacion.getText();
+        String nombre = jTextFieldNombre.getText();
+        String dir = jTextFieldDireccion.getText(); 
+        String tel = jTextFieldTelefono.getText(); 
+                                   
         
         
         ControladorSede controlador = new ControladorSede() ;
-        controlador.modificarSede(jTextFieldIdentificacion.getText(),
-                                  jTextFieldNombre.getText(), 
-                                   jTextFieldDireccion.getText(), 
-                                   jTextFieldTelefono.getText());
+        if( controlador.validarDatosModif(id, nombre, dir,tel ) )
+        {  
+            System.out.println("datosValidos");
+            controlador.modificarSede(id, nombre, dir,tel );
+        }
         
+        
+       else if(controlador.datosVacios(id, nombre, dir, tel).equals("Todos los campos son obligatorios."))
+       {
+          
+           jOptionPaneError.showMessageDialog(null,"Todos los campos son obligatorios.","##ERROR##", JOptionPane.INFORMATION_MESSAGE);
+          
+       }
+       else if (controlador.datosIdentificacion(id, nombre, dir, tel).equals("Identificación con uno o varios caracteres inválidos."))
+           jOptionPaneError.showMessageDialog(null,"Identificación con uno o varios caracteres inválidos.","##ERROR##", JOptionPane.INFORMATION_MESSAGE);
+           
+       else if (controlador.datosNombre(id, nombre, dir, tel).equals("Nombre con uno o varios caracteres inválidos."))
+           jOptionPaneError.showMessageDialog(null,"Nombre con uno o varios caracteres inválidos.", "##ERROR##", JOptionPane.INFORMATION_MESSAGE);
+       else if (controlador.datosDireccion(id, nombre, dir, tel).equals("Dirección con uno o varios caracteres inválidos."))
+            jOptionPaneError.showMessageDialog(null,"Dirección con uno o varios caracteres inválidos.", "##ERROR##", JOptionPane.INFORMATION_MESSAGE);
+       else if (controlador.datosTelefono(id, nombre, dir, tel).equals("Teléfono con uno o varios caracteres inválidos."))
+           jOptionPaneError.showMessageDialog(null,"Teléfono con uno o varios caracteres inválidos.", "##ERROR##", JOptionPane.INFORMATION_MESSAGE);
+       
+            
        
     }//GEN-LAST:event_jButtonModificarActionPerformed
 
@@ -135,7 +162,7 @@ public class VentanaModificarSede extends javax.swing.JFrame {
     private void jTextFieldDireccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldDireccionActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldDireccionActionPerformed
-
+ 
     /**
      * @param args the command line arguments
      */
@@ -168,8 +195,10 @@ public class VentanaModificarSede extends javax.swing.JFrame {
             public void run() {
                 new VentanaModificarSede().setVisible(true);
             }
+            
         });
     }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonModificar;
@@ -180,6 +209,7 @@ public class VentanaModificarSede extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelNota1;
     private javax.swing.JLabel jLabelNota2;
     private javax.swing.JLabel jLabelTelefono;
+    private javax.swing.JOptionPane jOptionPaneError;
     private javax.swing.JTextField jTextFieldDireccion;
     private javax.swing.JTextField jTextFieldIdentificacion;
     private javax.swing.JTextField jTextFieldNombre;
