@@ -6,6 +6,7 @@
 package proyectodesarrollo;
 
 import controladores.ControladorEmpleado;
+import gui.UserPanel;
 import logica.Empleado;
 
 /**
@@ -16,10 +17,11 @@ public class ProyectoDesarrollo {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
-        // TODO code application logic here
+    public void testCrearUsuario(){
         ControladorEmpleado controladorEmpleado = new ControladorEmpleado();
         String id_empleado = "1130589899";
+        UserPanel userPanel = new UserPanel(id_empleado);
+        userPanel.setVisible(true);
         
         //Crear empleado
         String id = "1340666252";
@@ -51,6 +53,7 @@ public class ProyectoDesarrollo {
         /**
          * Consultar empleado
          */
+
         if(controladorEmpleado.consultarEmpleado(id_empleado)){
             Empleado empleado = controladorEmpleado.extraerEmpleado(id_empleado);
         }else{
@@ -84,6 +87,10 @@ public class ProyectoDesarrollo {
         }else{
             System.err.println("No exixte un empleado con esa identificación"); 
         }
+    }//Fin de testCreaUsuario()
+    public static void main(String[] args) {
+        ProyectoDesarrollo proyectoDesarrollo = new ProyectoDesarrollo();
+        //proyectoDesarrollo.testCrearUsuario(); 
     }
     
 }

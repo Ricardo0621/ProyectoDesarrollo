@@ -21,7 +21,7 @@ public class Login {
         usuario = "";
         password = "";
         controladorEmpleado = new ControladorEmpleado();
-        userPanel = new UserPanel();
+        //userPanel = new UserPanel();
     }
     
     boolean verificarLogin(){
