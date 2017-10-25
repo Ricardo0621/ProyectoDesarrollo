@@ -20,49 +20,49 @@ public class ControladorSede {
         daoSede = new DaoSede(); 
     }
  
-    public String datosVacios (String identificacion, String nombre, String direccion, String telefono)
+    public String datosVacios (String identificacion, String nombre, String direccion, String telefono,String director)
     {
-        Sede s= new Sede (identificacion, nombre, direccion, telefono);
+        Sede s= new Sede (identificacion, nombre, direccion, telefono, director);
         if (!(s.validarDatosVacios()))
             return "Todos los campos son obligatorios.";
         else return "";
     }
-    public String datosIdentificacion (String identificacion, String nombre, String direccion, String telefono)
+    public String datosIdentificacion (String identificacion, String nombre, String direccion, String telefono,String director)
     {
-        Sede s = new Sede (identificacion, nombre, direccion, telefono);
+        Sede s = new Sede (identificacion, nombre, direccion, telefono, director);
         if(!(s.validarCaracteresIdentificacion()))
             return "Identificación con uno o varios caracteres inválidos.";
         else return "";
     }
             
-    public String datosNombre (String identificacion, String nombre, String direccion, String telefono)
+    public String datosNombre (String identificacion, String nombre, String direccion, String telefono,String director)
     {
-        Sede s = new Sede (identificacion, nombre, direccion, telefono);
+        Sede s = new Sede (identificacion, nombre, direccion, telefono, director);
         if(!(s.validarCaracteresNombre()))
             return "Nombre con uno o varios caracteres inválidos.";
         else return "";
     }
     
-    public String datosDireccion (String identificacion, String nombre, String direccion, String telefono)
+    public String datosDireccion (String identificacion, String nombre, String direccion, String telefono,String director)
     {
-        Sede s = new Sede (identificacion, nombre, direccion,telefono);
+        Sede s = new Sede (identificacion, nombre, direccion,telefono, director);
         if(!(s.validarCaracteresNombre()))
             return "Dirección con uno o varios caracteres inválidos.";
         else return "";
     }
     
-    public String datosTelefono( String identificacion, String nombre, String direccion, String telefono)
+    public String datosTelefono( String identificacion, String nombre, String direccion, String telefono, String director)
     {
-        Sede s = new Sede (identificacion, nombre, direccion, telefono);
+        Sede s = new Sede (identificacion, nombre, direccion, telefono, director);
         if(!(s.validarCaracteresTelefono()))
             return"Teléfono con uno o varios caracteres inválidos.";
         else return "";
     }
     
    
-    public boolean validarDatosModif(String identificacion, String nombre, String direccion, String telefono)
+    public boolean validarDatosModif(String identificacion, String nombre, String direccion, String telefono, String director)
     {
-        Sede s = new Sede(identificacion, nombre, direccion, telefono);
+        Sede s = new Sede(identificacion, nombre, direccion, telefono, director);
         
         if (!s.validarDatosVacios() )
             return false; 
@@ -82,9 +82,9 @@ public class ControladorSede {
         else //return ""; 
             return true;
     }
-    public int  modificarSede(String identificacion, String nombre, String direccion, String telefono)
+    public int  modificarSede(String identificacion, String nombre, String direccion, String telefono, String director)
     {
-        Sede s = new Sede(identificacion, nombre, direccion, telefono);
+        Sede s = new Sede(identificacion, nombre, direccion, telefono, director);
         System.out.println("se va a modificar una sede");
         
         
