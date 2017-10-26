@@ -7,6 +7,7 @@ package proyectodesarrollo;
 
 import controladores.ControladorEmpleado;
 import controladores.ControladorSede;
+import gui.InterfazAdministrador;
 import gui.RegistrarSedes;
 import gui.UserPanel;
 import logica.Empleado;
@@ -23,8 +24,8 @@ public class ProyectoDesarrollo {
     public void testCrearUsuario(){
         ControladorEmpleado controladorEmpleado = new ControladorEmpleado();
         String id_empleado = "1130589899";
-        UserPanel userPanel = new UserPanel(id_empleado);
-        userPanel.setVisible(true);
+        InterfazAdministrador interfazAdministrador = new InterfazAdministrador(id_empleado);
+        interfazAdministrador.setVisible(true);
         
         //Crear empleado
         String id = "1340666252";
@@ -89,6 +90,8 @@ public class ProyectoDesarrollo {
     }
     public static void main(String[] args) {
         ProyectoDesarrollo proyectoDesarrollo = new ProyectoDesarrollo();
-        proyectoDesarrollo.testCrearSede(); 
+        //proyectoDesarrollo.testCrearSede(); 
+        proyectoDesarrollo.testCrearUsuario();
+        
     } 
 }

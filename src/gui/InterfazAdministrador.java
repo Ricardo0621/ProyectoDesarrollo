@@ -13,17 +13,17 @@ import javax.swing.JTextField;
  *
  * @author diegoruiz
  */
-public class UserPanel extends JFrame{
+public class InterfazAdministrador extends JFrame{
     Reportes reportes;
-    /*TestPanelCrearUsuario testPanelCrearUsuario;
-    public UserPanel(String id_empleado){
+    PanelCrearUsuario testPanelCrearUsuario;
+    public InterfazAdministrador(String id_empleado){
         super();
         reportes = new Reportes();
-        configurarUserPanel();                                  // configuramos la ventana
-        testPanelCrearUsuario = new TestPanelCrearUsuario();
-        testPanelCrearUsuario.setBounds(190, 75, 420, 450);
+        configurarUserPanel();                                               // configuramos la ventana
+        testPanelCrearUsuario = new PanelCrearUsuario("Registrar Usuario");
+        testPanelCrearUsuario.setBounds(370, 10, 420, 550);
         this.add(testPanelCrearUsuario);
-    }*/
+    }
     
     private void configurarUserPanel() {
         this.setTitle("Panel de usuario");                      // colocamos titulo a la ventana
