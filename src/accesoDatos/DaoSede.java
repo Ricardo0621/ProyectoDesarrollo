@@ -78,7 +78,52 @@ public class DaoSede {
         return -1;
         //fin guardar
     }*/
-    public void listarSedes(){}
+    
+    /**
+     * Listar nombres sedes
+     */
+    public Sede[] listarSedes(){
+        Sede[] sedes;
+        Sede sede;
+        String sql_count = "SELECT COUNT(*) AS filas FROM sedes";
+        String sql = "SELECT * FROM sedes";
+        int filas = 0;
+        int contador = 0;
+        try {
+            Connection conn = fachada.getConnetion();
+            Statement sentencia = conn.createStatement();
+            ResultSet tabla = sentencia.executeQuery(sql_count);
+            tabla.next();
+            filas = tabla.getInt("filas");
+            sedes = new Sede[filas];
+            tabla = sentencia.executeQuery(sql);
+            while(tabla.next()){
+                sede = new Sede();
+                sede.setIdentificacion(tabla.getString(1));
+                sede.setIdEmpleado(tabla.getString(2));
+                sede.setNombre(tabla.getString(3));
+                sede.setDirecion(tabla.getString(4));
+                sede.setTelefono(tabla.getString(5));
+                sede.setFechaCreacion(tabla.getString(6));
+                sedes[contador] = sede;
+                contador++;
+            }
+            tabla.close();
+            sentencia.close();
+            conn.close();
+            return sedes;
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        } catch(Exception ex){ 
+            System.out.println(ex);
+        }
+        
+        
+        sedes = null; //Asumiendo que no hayan sedes
+        return sedes;
+    }
+    
+    
     public void borrarSede(String identificacion){}
     public void cerrarConexionBD(){
        fachada.closeConection(fachada.getConnetion());

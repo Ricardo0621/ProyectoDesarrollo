@@ -41,7 +41,7 @@ public class DaoEmpleado {
     }//Fin guardar empleado
     
     public boolean consultarEmpleado(String id_empleado){
-        String sql = "SELECT id FROM empleados WHERE id="+id_empleado+"::varchar";
+        String sql = "SELECT id FROM empleados WHERE id='"+id_empleado+"'";
         boolean result = false;
         try {
             Connection conn = fachada.getConnetion();
@@ -53,6 +53,9 @@ public class DaoEmpleado {
             }else{
                 result = false;
             }
+            //tabla.close();
+            //sentencia.close();
+            //conn.close();
         } catch(SQLException e){ 
             System.out.println(e); 
         } catch(Exception e){ 
@@ -63,7 +66,7 @@ public class DaoEmpleado {
     
     public Empleado recuperarEmpleado(String id_empleado){
         Empleado empleado = new Empleado();
-        String sql = "SELECT * FROM empleados WHERE id="+id_empleado+"::varchar";
+        String sql = "SELECT * FROM empleados WHERE id='"+id_empleado+"'";
         try {
             Connection conn = fachada.getConnetion();
             Statement sentencia = conn.createStatement();
@@ -82,12 +85,17 @@ public class DaoEmpleado {
                 empleado.setPassword(tabla.getString(11));
                 empleado.setEstado(tabla.getString(12));
             }
-            //fachada.closeConection(conn);
+            //tabla.close();
+            //sentencia.close();
+            //conn.close();
+            return empleado;
         } catch(SQLException e){ 
             System.out.println(e); 
         } catch(Exception e){ 
               System.out.println(e); 
         }
+        
+
         return empleado;
     }//Fin de recuperar empleado
     
@@ -102,7 +110,8 @@ public class DaoEmpleado {
 
             filas_guardadas = sentencia.executeUpdate(sql);            
             System.out.println("up " + filas_guardadas);
-            //fachada.closeConection(conn);
+            sentencia.close();
+            conn.close();
             return filas_guardadas;
         } catch (SQLException ex) {
             System.out.println(ex);

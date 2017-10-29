@@ -62,8 +62,7 @@ public class FachadaBD {
         try{
             if (conexion != null){
                 c.close();
-            }
-             
+            }   
         } catch( Exception e ) {
             System.out.println( "No se pudo cerrar." );
         }

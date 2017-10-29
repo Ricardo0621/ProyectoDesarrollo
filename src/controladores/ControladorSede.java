@@ -6,6 +6,7 @@
 package controladores;
 
 import accesoDatos.DaoSede;
+import java.util.Arrays;
 import logica.Sede;
 
 /**
@@ -110,4 +111,15 @@ public class ControladorSede {
         sede.setFechaCreacion(fecha_creacion);
         return daoSede.registarSede(sede);
     }
+    
+    public String[] listarIdNombreSedes(){
+        String[] nombres_ids_sedes;
+        Sede[] sedes = daoSede.listarSedes();
+        nombres_ids_sedes = new String[sedes.length];
+        for(int i=0; i<sedes.length; i++){
+            nombres_ids_sedes[i] = sedes[i].getIdentificacion()+" - "+sedes[i].getNombre();
+        }
+        return nombres_ids_sedes;
+    }
+     
 }

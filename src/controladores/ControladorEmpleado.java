@@ -6,6 +6,7 @@
 package controladores;
 
 import accesoDatos.DaoEmpleado;
+import java.util.Arrays;
 import logica.Empleado;
 
 /**
@@ -39,12 +40,6 @@ public class ControladorEmpleado {
     public boolean consultarEmpleado(String identificacion){
         return daoEmpleado.consultarEmpleado(identificacion);
     }//Fin de consultarEmpleado()
-
-    /*public Empleado extraerEmpleado(String identificacion){
-        Empleado empleado = new Empleado();
-        empleado = daoEmpleado.recuperarEmpleado(identificacion);
-        return empleado;
-    }//Fin de extraerEmpleado()*/
     
     public String[] extraerEmpleado(String identificacion){
         String[] datos_empleado = new String[12];
@@ -65,7 +60,20 @@ public class ControladorEmpleado {
         return datos_empleado;
     }//Fin de extraerEmpleado()
     
-    public int editarEmpleado(Empleado e){
+    public int editarEmpleado(String identificacion, String id_sede, String rol, String  primer_nombre, String segundo_nombre, String primer_apellido, String segundo_apellido, String direccion, String telefono, String correo, String password, String estado){
+        Empleado e = new Empleado();
+        e.setIdentificacion(identificacion);
+        e.setIdSede(id_sede);
+        e.setRol(rol);
+        e.setPrimerNombre(primer_nombre);
+        e.setSegundoNombre(segundo_nombre);
+        e.setPrimerApellido(primer_apellido);
+        e.setSegundoApellido(segundo_apellido);
+        e.setDireccion(direccion);
+        e.setTelefono(telefono);
+        e.setCorreo(correo);
+        e.setPassword(password);
+        e.setEstado(estado);
         return daoEmpleado.modificarEmpleado(e);
     }
 
