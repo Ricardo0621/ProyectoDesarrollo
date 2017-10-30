@@ -13,8 +13,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -25,12 +23,15 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -40,25 +41,30 @@ public class InterfazAdministrador extends JFrame implements ActionListener{
     Reportes reportes;
     PanelCrearUsuario panelCrearUsuario;
     PanelBienvenido panelBienvenido;
-    PanelBuscar panelBuscar;
-    JButton crear_usuario;
-    JButton modificar_usuario;
-    JButton listar_usuarios;
-    
+    PanelBuscarFiltrar panelBuscarFiltrar;
+    PanelListarUsuarios panelListarUsuarios;
+    JButton btn_crear_usuario;
+    JButton btn_modificar_usuario;
+    JButton btn_listar_usuarios;
+    JButton btn_salir;
+    ControladorSede controladorSede;    
     /**
      * 
      * @param id_empleado 
      */
     public InterfazAdministrador(String id_empleado){
-        panelBuscar = new PanelBuscar();
+        panelBuscarFiltrar = new PanelBuscarFiltrar("Buscar Usuario");
+        panelListarUsuarios = new PanelListarUsuarios();
+        controladorSede = new ControladorSede();
         configurarPanelBienvenida();
         configurarUserPanel(); // configuramos la ventana
         configurarBotones();
         mostrarPanelEmpleado("Crear Usuario", null,false);
+        this.repaint();
     }
     private void configurarPanelBienvenida(){
         panelBienvenido = new PanelBienvenido();
-        panelBienvenido.setBounds(370, 10, 420, 550);
+        panelBienvenido.setBounds(200, 10, 560, 550);
         this.add(panelBienvenido);
     }
     private void configurarUserPanel() {
@@ -71,62 +77,90 @@ public class InterfazAdministrador extends JFrame implements ActionListener{
     }
     
     public void configurarBotones(){
-        crear_usuario = new JButton("Crear Usuario");
-        modificar_usuario = new JButton("Modificar Usuario");
-        listar_usuarios = new JButton("Listar Usuarios");
+        btn_crear_usuario = new JButton("Crear Usuario");
+        btn_modificar_usuario = new JButton("Modificar Usuario");
+        btn_listar_usuarios = new JButton("Listar Usuarios");
+        btn_salir = new JButton("Salir");
         
-        crear_usuario.setBounds(20, 20, 200, 100);
-        modificar_usuario.setBounds(20, 140, 200, 100);
-        listar_usuarios.setBounds(20, 260, 200, 100);
+        btn_crear_usuario.setBounds(25, 20, 150, 60);
+        btn_modificar_usuario.setBounds(25, 90, 150, 60);
+        btn_listar_usuarios.setBounds(25, 160, 150, 60);
+        btn_salir.setBounds(25, 230, 150, 60);
         
-        crear_usuario.addActionListener(this);
-        listar_usuarios.addActionListener(this);
-        modificar_usuario.addActionListener(this);
+        btn_crear_usuario.addActionListener(this);
+        btn_listar_usuarios.addActionListener(this);
+        btn_modificar_usuario.addActionListener(this);
+        btn_salir.addActionListener(this);
         
-        this.add(crear_usuario);
-        this.add(modificar_usuario);
-        this.add(listar_usuarios);
+        this.add(btn_crear_usuario);
+        this.add(btn_modificar_usuario);
+        this.add(btn_listar_usuarios);
+        this.add(btn_salir);
     }
     public void mostrarPanelEmpleado(String accion, String[] datos_empleado, boolean visible){
         panelCrearUsuario = new PanelCrearUsuario(accion, datos_empleado);
-        panelCrearUsuario.setBounds(370, 10, 420, 550);
+        panelCrearUsuario.setBounds(200, 10, 560, 550);
         this.add(panelCrearUsuario);
         panelCrearUsuario.setVisible(visible);
+    }
+    
+    public void mostrarPanelBuscarListar(String accion, boolean visible){
+        panelBuscarFiltrar = new PanelBuscarFiltrar(accion);
+        panelBuscarFiltrar.setBounds(200, 10, 560, 550);
+        this.add(panelBuscarFiltrar);
+        panelCrearUsuario.setVisible(visible);
+    }
+    
+    public void mostrarPanelListar(String id_sede, String rol, String estado){
+        panelListarUsuarios = new PanelListarUsuarios(id_sede, rol, estado);
+        panelListarUsuarios.setBounds(200, 10, 560, 550);
+        this.add(panelListarUsuarios);
+        panelListarUsuarios.setVisible(true);
     }
     
     public void removerPaneles(){
         if(panelCrearUsuario != null){
             this.remove(panelCrearUsuario);
         }
-        if(panelBuscar != null){
-            this.remove(panelBuscar);
+        if(panelBuscarFiltrar != null){
+            this.remove(panelBuscarFiltrar);
         }
         if(panelBienvenido != null){
             this.remove(panelBienvenido);
+        }
+        if(panelListarUsuarios != null){
+            this.remove(panelListarUsuarios);
         }
         this.repaint();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource().equals(crear_usuario)){
+        if(e.getSource().equals(btn_crear_usuario)){
             removerPaneles();
             mostrarPanelEmpleado("Crear Usuario", null, true);
             this.repaint();
             panelCrearUsuario.setCombobox(null);
-        }else if(e.getSource().equals(modificar_usuario)){
+        }else if(e.getSource().equals(btn_modificar_usuario)){
             removerPaneles();
-            panelBuscar = new PanelBuscar();
-            panelBuscar.setBounds(370, 10, 420, 550);
-            this.add(panelBuscar);
+            panelBuscarFiltrar = new PanelBuscarFiltrar("Modificar Usuario");
+            panelBuscarFiltrar.setBounds(200, 10, 560, 550);
+            this.add(panelBuscarFiltrar);
             this.repaint();
+        }else if(e.getSource().equals(btn_listar_usuarios)){
+            removerPaneles();
+            mostrarPanelBuscarListar("Listar Usuarios", true);
+            panelBuscarFiltrar.setComboBox();
+        }else if(e.getSource().equals(btn_salir)){
+            removerPaneles();
+            configurarPanelBienvenida();
         }
     }
     
     /**
      * InnerClase que contiene el panel con el formulario para buscar un usuario
      */
-    public class PanelBuscar extends JPanel{
+    private class PanelBuscarFiltrar extends JPanel{
         JLabel label_buscar;
         JLabel label_alerta;
         JTextField txt_buscar;
@@ -134,36 +168,55 @@ public class InterfazAdministrador extends JFrame implements ActionListener{
         JButton btn_cancelar;
         String id_empleado;
         Keylistener keylistener; //Objeto para menjar evento de teclado en este panel
-        Mouselistener mouselistener; //Objeto para menjar evento de mouse en este panel
-        public PanelBuscar() {
+        Actionlistener actionlistener; //Objeto para menjar evento de mouse en este panel
+        String accion;
+        
+        /*
+            Para filtrar listado de usurios 
+        */
+        JLabel label_sedes_id;
+        JLabel label_rol;
+        JLabel label_estados;
+        JComboBox comb_sedes_id;
+        JComboBox comb_rol;
+        JComboBox comb_estados;
+        public PanelBuscarFiltrar(String accion) {
             setTitle("Buscar Usuario");                        // colocamos titulo a la ventana
             setSize(420, 550);                                 // colocamos tamanio a la ventana (ancho, alto)
             setLocationRelativeTo(null);                       // centramos la ventana en la pantalla
             setLayout(null);                                   // no usamos ningun layout, solo asi podremos dar posiciones a los componentes
             setResizable(false);                               // hacemos que la ventana no sea redimiensionable
             Border lowerEtched = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
-            TitledBorder title = BorderFactory.createTitledBorder(lowerEtched, "Buscar Usuario");
+            TitledBorder title = BorderFactory.createTitledBorder(lowerEtched, accion);
             Font titleFont = UIManager.getFont("TitledBorder.font");
             title.setTitleFont( titleFont.deriveFont(Font.ITALIC + Font.BOLD, 20) );
             setBorder(title);
-          
+            this.accion = accion;
+            if(accion.equals("Listar Usuarios")){
+                configurarComponentesFiltrar();
+            }else if(accion.equals("Modificar Usuario")){
+                configurarComponentesModificar();
+            }
+        }
+        
+        public void configurarComponentesModificar(){
             label_buscar = new JLabel("Identificación: ", SwingConstants.RIGHT);
             label_alerta = new JLabel("<html><font color='red'></font></html>", SwingConstants.CENTER);
             txt_buscar = new JTextField();
             btn_buscar = new JButton("Buscar");
             btn_cancelar = new JButton("Cancelar");
             keylistener = new Keylistener();
-            mouselistener = new Mouselistener();
+            actionlistener = new Actionlistener();
             
             label_buscar.setBounds(10, 50, 100, 35);
-            txt_buscar.setBounds(125, 50, 250, 35);
-            btn_buscar.setBounds(125, 90, 120, 35);
-            btn_cancelar.setBounds(255, 90, 120, 35);
+            txt_buscar.setBounds(125, 50, 300, 35);
+            btn_buscar.setBounds(125, 90, 145, 35);
+            btn_cancelar.setBounds(280, 90, 145, 35);
             label_alerta.setBounds(10, 130, 400, 32);
             txt_buscar.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1));
             
-            btn_buscar.addMouseListener(mouselistener);
-            btn_cancelar.addMouseListener(mouselistener);
+            btn_buscar.addActionListener(actionlistener);
+            btn_cancelar.addActionListener(actionlistener);
             txt_buscar.addKeyListener(keylistener);
             
             add(label_buscar);
@@ -171,6 +224,76 @@ public class InterfazAdministrador extends JFrame implements ActionListener{
             add(txt_buscar);
             add(btn_buscar);
             add(btn_cancelar);
+        }
+        
+        public void configurarComponentesFiltrar(){
+            label_buscar = new JLabel("Identificación: ", SwingConstants.RIGHT);
+            label_alerta = new JLabel("<html><font color='red'></font></html>", SwingConstants.CENTER);
+            label_sedes_id = new JLabel("Sede: ", SwingConstants.RIGHT);
+            label_rol = new JLabel("Cargo: ", SwingConstants.RIGHT);
+            label_estados = new JLabel("Estado: ", SwingConstants.RIGHT);
+            txt_buscar = new JTextField();
+            btn_buscar = new JButton("Buscar");
+            btn_cancelar = new JButton("Cancelar");
+            keylistener = new Keylistener();
+            actionlistener = new Actionlistener();
+            
+            comb_sedes_id = new JComboBox();
+            comb_rol = new JComboBox();
+            comb_estados = new JComboBox();
+            
+            //label_buscar.setBounds(10, 50, 100, 35);
+            //txt_buscar.setBounds(125, 50, 250, 35);
+            label_sedes_id.setBounds(10, 50, 100, 35);
+            label_rol.setBounds(10, 90, 100, 35);
+            label_estados.setBounds(10, 130, 100, 35);
+            comb_sedes_id.setBounds(125, 50, 300, 35);
+            comb_rol.setBounds(125, 90, 300, 35);
+            comb_estados.setBounds(125, 130, 300, 35);
+            btn_buscar.setBounds(125, 170, 145, 35);
+            btn_cancelar.setBounds(280, 170, 145, 35);
+            label_alerta.setBounds(10, 210, 400, 32);
+            txt_buscar.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1));
+
+            btn_buscar.addActionListener(actionlistener);
+            btn_cancelar.addActionListener(actionlistener);
+            txt_buscar.addKeyListener(keylistener);
+            comb_sedes_id.addActionListener(actionlistener);
+            comb_rol.addActionListener(actionlistener);
+            comb_estados.addActionListener(actionlistener);
+            
+            //add(label_buscar);
+            add(label_alerta);
+            //add(txt_buscar);
+            add(label_sedes_id);
+            add(label_rol);
+            add(label_estados);
+            add(comb_sedes_id);
+            add(comb_rol);
+            add(comb_estados);
+            add(btn_buscar);
+            add(btn_cancelar);
+        }
+        
+        public void setComboBox(){
+            String[] sedes_id = controladorSede.listarIdNombreSedes();
+            String[] roles = {"Seleccione", "Todos", "Administrador", "Gerente", "Operador"};
+            String[] estados = {"Seleccione", "Todos", "Activo", "Inactivo"};
+            
+            comb_sedes_id.addItem("Seleccione");
+            comb_sedes_id.addItem("Todos");
+            for(int i=0; i<sedes_id.length; i++){
+                comb_sedes_id.addItem(sedes_id[i]);
+            }
+            for(int i=0; i<roles.length; i++){
+                comb_rol.addItem(roles[i]);
+            }
+            for(int i=0; i<estados.length; i++){
+            comb_estados.addItem(estados[i]);                
+            }
+            comb_sedes_id.setSelectedIndex(0);
+            comb_rol.setSelectedIndex(0);
+            comb_estados.setSelectedIndex(0);
         }
         
         public void buscarUsuario(String id_empleado){
@@ -181,11 +304,47 @@ public class InterfazAdministrador extends JFrame implements ActionListener{
                 mostrarPanelEmpleado("Modificar Usuario", datos_empleado,true);
                 this.repaint();
                 String[] temp = {datos_empleado[1], datos_empleado[2], datos_empleado[11]}; //Setear combobox
-                System.out.println("Array set combox: "+Arrays.toString(temp));
                 panelCrearUsuario.setCombobox(temp);
             }else{
                 txt_buscar.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
                 label_alerta.setText("<html><font color='red' size='4'>!!! No Existe el usuario con esa identificación!!!</font></html>");
+            }
+        }
+        
+        public boolean buscarFiltrarUsuarios(){
+            if(accion.equals("Listar Usuarios")){
+                String[] alertas = {"Debe seleccionar una opción en el campo sedes", "Debe seleccionar una opción en el campo cargo", "Debe seleccionar una opción en el campo estado"};
+                if(comb_sedes_id.getSelectedIndex() != 0 && comb_rol.getSelectedIndex() != 0 && comb_estados.getSelectedIndex() != 0){
+                    return true;
+                }else{
+                    if(comb_sedes_id.getSelectedIndex() == 0){
+                        comb_sedes_id.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+                        label_alerta.setText("<html><font color='red' size='4'>!!!"+alertas[0]+"!!!</font></html>");
+                        txt_buscar.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+                        return false;
+                    }else if(comb_rol.getSelectedIndex() == 0){
+                        comb_rol.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+                        label_alerta.setText("<html><font color='red' size='4'>!!!"+alertas[1]+"!!!</font></html>");
+                        txt_buscar.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+                        return false;
+                    }else{
+                        comb_estados.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+                        label_alerta.setText("<html><font color='red' size='4'>!!!"+alertas[2]+"!!!</font></html>");
+                        txt_buscar.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+                        return false;
+                    }
+                }
+            }else if(accion.equals("Modificar Usuario")){
+                id_empleado = txt_buscar.getText();
+                if(id_empleado.equals("") || !Pattern.matches("[0-9]+", id_empleado)){
+                    label_alerta.setText("<html><font color='red' size='4'>!!! Ingrese un número de identificación Correcto !!!</font></html>");
+                    return false;
+                }else{
+                    buscarUsuario(id_empleado);
+                    return true;
+                }
+            }else{
+                return false;
             }
         }
         
@@ -197,8 +356,6 @@ public class InterfazAdministrador extends JFrame implements ActionListener{
                 if(e.getSource().equals(txt_buscar)){
                     label_alerta.setText("");
                     txt_buscar.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 2));
-                }else if(e.getSource().equals(btn_cancelar)){
-                    
                 }
             }
 
@@ -213,34 +370,30 @@ public class InterfazAdministrador extends JFrame implements ActionListener{
         }//Fin de clase keyListener
         
         /*Clase exclusiva para manejar eventos del mouse en este panel*/
-        public class Mouselistener implements MouseListener{
-
+        public class Actionlistener implements ActionListener{
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void actionPerformed(ActionEvent e) {
                 if(e.getSource().equals(btn_buscar)){
-                    id_empleado = txt_buscar.getText();
-                    buscarUsuario(id_empleado);
+                    if(buscarFiltrarUsuarios()){
+                        if(accion.equals("Modificar Usuario")){
+                            buscarUsuario(txt_buscar.getText());
+                        }else if(accion.equals("Listar Usuarios")){
+                            removerPaneles();
+                            mostrarPanelListar(comb_sedes_id.getSelectedItem().toString().split(" - ")[0], comb_rol.getSelectedItem().toString(), comb_estados.getSelectedItem().toString());                            
+                            //setVisible(false);
+                        }
+                    }
                 }else if(e.getSource().equals(btn_cancelar)){
                     setVisible(false);
                     removerPaneles();
                     configurarPanelBienvenida();
+                }else if(e.getSource().equals(comb_sedes_id) || e.getSource().equals(comb_rol) || e.getSource().equals(comb_estados)){
+                    label_alerta.setText("");
+                    comb_sedes_id.setBorder(null);
+                    comb_rol.setBorder(null);
+                    comb_estados.setBorder(null);
+                    txt_buscar.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 2));
                 }
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
             }
         
         }
@@ -249,7 +402,7 @@ public class InterfazAdministrador extends JFrame implements ActionListener{
     /**
      * InnerClase que contiene el panel de bienvenida para el usuario
      */
-    public class PanelBienvenido extends JPanel{
+    private class PanelBienvenido extends JPanel{
         public PanelBienvenido(){
             setTitle("Bienvenido");                        // colocamos titulo a la ventana
             setSize(420, 550);                                 // colocamos tamanio a la ventana (ancho, alto)
@@ -343,7 +496,6 @@ public class InterfazAdministrador extends JFrame implements ActionListener{
             if(datos_usuario == null){
             }else{
                 completarCampos(datos_usuario);
-                //this.repaint();
             }
         }
 
@@ -377,7 +529,7 @@ public class InterfazAdministrador extends JFrame implements ActionListener{
             label_email.setBounds(5, 363, 150, 35);
             label_password.setBounds(5, 400, 150, 35);
             label_estado.setBounds(5, 437, 150, 35);
-            label_alert.setBounds(10, 472, 400, 25);
+            label_alert.setBounds(10, 472, 450, 25);
 
             //label_alert.setOpaque(true);
             //label_alert.setBackground(Color.RED);
@@ -434,18 +586,18 @@ public class InterfazAdministrador extends JFrame implements ActionListener{
             comb_estado = new JComboBox(estados);
 
             //Posicionar Campos
-            txt_id.setBounds(165, 30, 250, 35);
-            comb_id_sede.setBounds(165, 67, 250, 35);
-            comb_rol.setBounds(165, 104, 250, 35);
-            txt_primer_nombre.setBounds(165, 141, 250, 35);
-            txt_segundo_nombre.setBounds(165, 178, 250, 35);
-            txt_primer_apellido.setBounds(165, 215, 250, 35);
-            txt_segundo_appelido.setBounds(165, 252, 250, 35);
-            txt_direccion.setBounds(165, 289, 250, 35);
-            txt_telefono.setBounds(165, 326, 250, 35);
-            txt_email.setBounds(165, 363, 250, 35);
-            txt_password.setBounds(165, 400, 250, 35);
-            comb_estado.setBounds(165, 437, 250, 35);
+            txt_id.setBounds(165, 30, 300, 35);
+            comb_id_sede.setBounds(165, 67, 300, 35);
+            comb_rol.setBounds(165, 104, 300, 35);
+            txt_primer_nombre.setBounds(165, 141, 300, 35);
+            txt_segundo_nombre.setBounds(165, 178, 300, 35);
+            txt_primer_apellido.setBounds(165, 215, 300, 35);
+            txt_segundo_appelido.setBounds(165, 252, 300, 35);
+            txt_direccion.setBounds(165, 289, 300, 35);
+            txt_telefono.setBounds(165, 326, 300, 35);
+            txt_email.setBounds(165, 363, 300, 35);
+            txt_password.setBounds(165, 400, 300, 35);
+            comb_estado.setBounds(165, 437, 300, 35);
 
             //evntos
             txt_id.addKeyListener(changeListener);
@@ -494,8 +646,8 @@ public class InterfazAdministrador extends JFrame implements ActionListener{
             btn_enviar = new JButton("Enviar");
             btn_cancelar = new JButton("Cancelar");
 
-            btn_enviar.setBounds(165, 502, 120, 35);
-            btn_cancelar.setBounds(295, 502, 120, 35);
+            btn_enviar.setBounds(165, 502, 145, 35);
+            btn_cancelar.setBounds(320, 502, 145, 35);
 
             btn_enviar.addActionListener(actionlistener);
             btn_cancelar.addActionListener(actionlistener);
@@ -555,6 +707,8 @@ public class InterfazAdministrador extends JFrame implements ActionListener{
                             JOptionPane.INFORMATION_MESSAGE, null, null, null);
                     if( res == 0 || res == -1){
                         this.setVisible(false);
+                        removerPaneles();
+                        configurarPanelBienvenida();
                     }
                 }else{
                     setBordes(txt_id, null);
@@ -626,7 +780,6 @@ public class InterfazAdministrador extends JFrame implements ActionListener{
             }else if(rol == 0){
                 return 3;
             }else if(primer_nombre.equals("") || !Pattern.matches("[a-zA-Z]+", primer_nombre)){
-                System.err.println("acá");
                 return 4;
             }else if(!Pattern.matches("[a-zA-Z]*", segundo_nombre)){
                 return 5;
@@ -707,12 +860,12 @@ public class InterfazAdministrador extends JFrame implements ActionListener{
             }
         } 
         public class Actionlistenr implements ActionListener{
-
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     if(e.getSource().equals(btn_cancelar)){
                     setVisible(false);
-
+                    removerPaneles();
+                    configurarPanelBienvenida();
                     }else if(e.getSource().equals(btn_enviar)){
                         crearUsuario();
                     }else if(e.getSource().equals(txt_id) || e.getSource().equals(comb_id_sede) || e.getSource().equals(comb_rol) || e.getSource().equals(txt_primer_nombre)){
@@ -720,9 +873,58 @@ public class InterfazAdministrador extends JFrame implements ActionListener{
                     }
                 }  
         }
-    }//Fin class TestPanelCreateUsuario
-
+    }//Fin class TestPanelCreateUsuario   
     
-   
+    /**
+     * InnerClass que muestra el listado de usuarios en el sistema
+     */
+    public class PanelListarUsuarios extends JPanel{
+        JTable tabla;
+        JScrollPane sp_tabla;
+        DefaultTableModel dtm;
+        ControladorEmpleado controladorEmpleado;
+        public PanelListarUsuarios(){
+            
+        }
+        public PanelListarUsuarios(String id_sede, String rol, String estado){
+            setTitle("Buscar Usuario");                        // colocamos titulo a la ventana
+            setSize(420, 550);                                 // colocamos tamanio a la ventana (ancho, alto)
+            setLocationRelativeTo(null);                       // centramos la ventana en la pantalla
+            setLayout(null);                                   // no usamos ningun layout, solo asi podremos dar posiciones a los componentes
+            setResizable(false);                               // hacemos que la ventana no sea redimiensionable
+            Border lowerEtched = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
+            TitledBorder title = BorderFactory.createTitledBorder(lowerEtched, "Lista de Usuarios");
+            Font titleFont = UIManager.getFont("TitledBorder.font");
+            title.setTitleFont( titleFont.deriveFont(Font.ITALIC + Font.BOLD, 20) );
+            setBorder(title); 
+            
+            configurarLLenarTabla(id_sede, rol, estado);
+        }
+        
+        public void configurarLLenarTabla(String id_sede, String rol, String estado){
+            String[] titulo = new String[]{"Id", "Nombre", "Sede", "Cargo", "Estado"};
+            
+            //System.out.println(Arrays.toString(datos));
+            
+            dtm = new DefaultTableModel();
+            dtm.setColumnIdentifiers(titulo);
+            String[] datos;
+            controladorEmpleado = new ControladorEmpleado();
+            datos = controladorEmpleado.listarEmpleados(id_sede, rol, estado);
+            for(int i=0; i<datos.length; i++){
+                String[] fila = datos[i].split(";;;");
+                String[] temp = {fila[0], fila[3]+" "+fila[4]+" "+fila[5]+" "+fila[6], fila[1], fila[2], fila[11]};
+                dtm.addRow(temp);
+            }
+             
+            tabla = new JTable(dtm);
+            sp_tabla = new JScrollPane(tabla);
+            
+            
+            sp_tabla.setBounds(10, 30, 540, 510);
+            
+            add(sp_tabla);
+        }
+    }
     
 }//Fin clase InterfazAdministrador

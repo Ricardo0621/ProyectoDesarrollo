@@ -102,8 +102,6 @@ public class Login extends javax.swing.JFrame {
             
         ControladorEmpleado controladorEmpleado;
         controladorEmpleado= new ControladorEmpleado();
-        Empleado empleado;
-        empleado = new Empleado();
 	boolean result = false;
             
 
@@ -121,7 +119,9 @@ public class Login extends javax.swing.JFrame {
                         String pass = data[10];
                         
                         if(pass.equals(String.valueOf(password))){
-                            
+                            InterfazAdministrador interfazAdministrador = new InterfazAdministrador("1130589899");
+                            interfazAdministrador.setVisible(true);
+                            this.setVisible(false);
                             System.out.print("binevenido");
                         
                         }

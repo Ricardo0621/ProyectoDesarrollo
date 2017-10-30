@@ -108,9 +108,9 @@ public class DaoSede {
                 sedes[contador] = sede;
                 contador++;
             }
-            tabla.close();
+            /*tabla.close();
             sentencia.close();
-            conn.close();
+            conn.close();*/
             return sedes;
         } catch (SQLException ex) {
             System.out.println(ex);

@@ -76,10 +76,19 @@ public class ControladorEmpleado {
         e.setEstado(estado);
         return daoEmpleado.modificarEmpleado(e);
     }
-
-    public void listarEmpleados(){
-        
-    }//Fin 
+    
+    public String[] listarEmpleados( String id_sede, String rol, String estado){
+        String[] empleados;
+        Empleado[] obj_empleados = daoEmpleado.listarEmpleados(id_sede, rol, estado);
+        empleados = new String[obj_empleados.length];
+        for(int i=0; i<empleados.length; i++){
+            empleados[i] = obj_empleados[i].getIdentificacion()+";;;"+obj_empleados[i].getIdSede()+";;;"+obj_empleados[i].getRol()+";;;"+
+                           obj_empleados[i].getPrimerNombre()+";;;"+obj_empleados[i].getSegundoNombre()+";;;"+obj_empleados[i].getPrimerApellido()+";;;"+
+                           obj_empleados[i].getSegundoApellido()+";;;"+obj_empleados[i].getDireccion()+";;;"+obj_empleados[i].getTelefono()+";;;"+
+                           obj_empleados[i].getCorreo()+";;;"+obj_empleados[i].getPassword()+";;;"+obj_empleados[i].getEstado();
+        }
+        return empleados;
+    }
     
     public void cerrarConexionBD(){
         daoEmpleado.cerrarConexionBD();

@@ -121,6 +121,94 @@ public class DaoEmpleado {
         return -1;
     }//Fin de modificarEmpleado
     
+    public Empleado[] listarEmpleados(String id_sede, String rol, String estado){
+        Empleado[] empleados;
+        Empleado empleado;
+        String sql_count;
+        String sql;
+        boolean sql_and = false;
+        if(!id_sede.equals("Todos") || !rol.equals("Todos") || !estado.equals("Todos")){
+            sql_count = "SELECT COUNT(*) AS filas FROM empleados WHERE ";
+            sql = "SELECT * FROM empleados WHERE ";
+            sql_and = false;
+        }else{
+            sql_count = "SELECT COUNT(*) AS filas FROM empleados";
+            sql = "SELECT * FROM empleados";
+        }
+        if(!id_sede.equals("Todos")){
+            if(sql_and){
+                sql_count += "AND id_sede='"+id_sede+"'";
+                sql += "AND id_sede='"+id_sede+"'";
+                sql_and = true;
+            }else{
+                sql_count += "id_sede='"+id_sede+"'";
+                sql += "id_sede='"+id_sede+"'";
+                sql_and = true;
+            }   
+        }
+        if(!rol.equals("Todos")){
+            if(sql_and){
+                sql_count += "AND rol='"+rol+"'";
+                sql += "AND rol='"+rol+"'";
+                sql_and = true;
+            }else{
+                sql_count += "rol='"+rol+"'";
+                sql += "rol='"+rol+"'";
+                sql_and = true;
+            }   
+        }
+        if(!estado.equals("Todos")){
+            if(sql_and){
+                sql_count += "AND estado='"+estado+"'";
+                sql += "AND estado='"+estado+"'";
+                sql_and = true;
+            }else{
+                sql_count += "estado='"+estado+"'";
+                sql += "estado='"+estado+"'";
+                sql_and = true;
+            }   
+        }
+        
+        int filas = 0;
+        int contador = 0;
+        try {
+            Connection conn = fachada.getConnetion();
+            Statement sentencia = conn.createStatement();
+            ResultSet tabla = sentencia.executeQuery(sql_count);
+            tabla.next();
+            filas = tabla.getInt("filas");
+            empleados = new Empleado[filas];
+            tabla = sentencia.executeQuery(sql);
+            while(tabla.next()){
+                empleado = new Empleado();
+                empleado.setIdentificacion(tabla.getString(1));
+                empleado.setIdSede(tabla.getString(2));
+                empleado.setRol(tabla.getString(3));
+                empleado.setPrimerNombre(tabla.getString(4));
+                empleado.setSegundoNombre(tabla.getString(5));
+                empleado.setPrimerApellido(tabla.getString(6));
+                empleado.setSegundoApellido(tabla.getString(7));
+                empleado.setDireccion(tabla.getString(8));
+                empleado.setTelefono(tabla.getString(9));
+                empleado.setCorreo(tabla.getString(10));
+                empleado.setPassword(tabla.getString(11));
+                empleado.setEstado(tabla.getString(12));
+                empleados[contador] = empleado;
+                contador++;
+            }
+            /*tabla.close();
+            sentencia.close();
+            conn.close();*/
+            return empleados;
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        } catch(Exception ex){ 
+            System.out.println(ex);
+        }
+        empleados = null; //Asumiendo que no hayan sedes
+        return empleados;
+    }
+    
     public void listarEmpleado(){}
     public void borrarEmpleado(String identificacion){}
     public void cerrarConexionBD(){

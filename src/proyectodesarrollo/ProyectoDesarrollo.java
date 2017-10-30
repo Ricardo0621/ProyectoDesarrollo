@@ -5,12 +5,8 @@
  */
 package proyectodesarrollo;
 
-import controladores.ControladorEmpleado;
-import controladores.ControladorSede;
 import gui.InterfazAdministrador;
 import gui.RegistrarSedes;
-import logica.Empleado;
-import logica.Sede;
 
 /**
  *
@@ -21,9 +17,7 @@ public class ProyectoDesarrollo {
      * @param args the command line arguments
      */
     public void testCrearUsuario(){
-        ControladorEmpleado controladorEmpleado = new ControladorEmpleado();
-        String id_empleado = "1130589899";
-        InterfazAdministrador interfazAdministrador = new InterfazAdministrador(id_empleado);
+        InterfazAdministrador interfazAdministrador = new InterfazAdministrador("1130589899");
         interfazAdministrador.setVisible(true);
     }//Fin de testCreaUsuario()
     
@@ -33,9 +27,13 @@ public class ProyectoDesarrollo {
         registrarSedes.setVisible(true);
     }
     public static void main(String[] args) {
-        ProyectoDesarrollo proyectoDesarrollo = new ProyectoDesarrollo();
-        //proyectoDesarrollo.testCrearSede(); 
-        proyectoDesarrollo.testCrearUsuario();
-        
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                ProyectoDesarrollo proyectoDesarrollo = new ProyectoDesarrollo();
+                //proyectoDesarrollo.testCrearSede(); 
+                //proyectoDesarrollo.testCrearUsuario();
+            }
+        });
     } 
 }
