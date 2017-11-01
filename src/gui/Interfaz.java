@@ -10,9 +10,9 @@ package gui;
  * @author diegoruiz
  */
 public class Interfaz {
-    Login login;
+    Login_front login;
     
     public Interfaz(){
-        login = new Login();
+        login = new Login_front();
     }
 }
