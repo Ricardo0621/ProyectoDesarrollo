@@ -155,14 +155,8 @@ public class Login_front extends javax.swing.JFrame {
     private void jTextField1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyTyped
         // TODO add your handling code here:
         char c = evt.getKeyChar();
-         if(Character.isDigit(c))
-     {
-         getToolkit().beep();
-         evt.consume();
-         JOptionPane.showMessageDialog(this, "Ingrese solo letras");
-         jTextField1.setCursor(null);
-     }
-     else if((int)evt.getKeyChar()>32 && (int)evt.getKeyChar()<=47
+    
+    if((int)evt.getKeyChar()>32 && (int)evt.getKeyChar()<=47
              ||(int)evt.getKeyChar()>=58 && (int)evt.getKeyChar()<=64
              || (int)evt.getKeyChar()>=91 && (int)evt.getKeyChar()<=96
              || (int)evt.getKeyChar()>=123 && (int)evt.getKeyChar()<=255)
