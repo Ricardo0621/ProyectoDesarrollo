@@ -138,15 +138,20 @@ public class Login_front extends javax.swing.JFrame {
                         }
                         else{
                             
-                            System.out.print("password o usuario incorrecto");
+                             JOptionPane.showMessageDialog(this, "password o usuario incorrectos");
                         
                         }
                     
                     }
                     
-            }else{
+            }
+          
             
-                System.out.print("los campos no pueden estar vacíos");
+            
+            
+            else{
+            
+                JOptionPane.showMessageDialog(this, "los campos no pueden estar vacíos");
             
             }
         // TODO add your handling code here:
@@ -155,8 +160,14 @@ public class Login_front extends javax.swing.JFrame {
     private void jTextField1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyTyped
         // TODO add your handling code here:
         char c = evt.getKeyChar();
-    
-    if((int)evt.getKeyChar()>32 && (int)evt.getKeyChar()<=47
+       if(Character.isLetter(c))
+     {
+         getToolkit().beep();
+         evt.consume();
+         JOptionPane.showMessageDialog(this, "Ingrese solo numeros");
+         jTextField1.setCursor(null);
+     }
+       else if((int)evt.getKeyChar()>32 && (int)evt.getKeyChar()<=47
              ||(int)evt.getKeyChar()>=58 && (int)evt.getKeyChar()<=64
              || (int)evt.getKeyChar()>=91 && (int)evt.getKeyChar()<=96
              || (int)evt.getKeyChar()>=123 && (int)evt.getKeyChar()<=255)
