@@ -7,6 +7,7 @@ package proyectodesarrollo;
 
 import gui.InterfazAdministrador;
 import gui.RegistrarSedes;
+import gui.InterfazOperador;
 
 /**
  *
@@ -21,6 +22,11 @@ public class ProyectoDesarrollo {
         interfazAdministrador.setVisible(true);
     }//Fin de testCreaUsuario()
     
+    public void testCrearAsistente(){
+        InterfazOperador interfazOperador = new InterfazOperador();
+        interfazOperador.setVisible(true);
+    }//Fin de testCrearAsistente()
+    
     public void testCrearSede()
     {
         RegistrarSedes registrarSedes = new RegistrarSedes();
@@ -33,6 +39,7 @@ public class ProyectoDesarrollo {
                 ProyectoDesarrollo proyectoDesarrollo = new ProyectoDesarrollo();
                 //proyectoDesarrollo.testCrearSede(); 
                 //proyectoDesarrollo.testCrearUsuario();
+                proyectoDesarrollo.testCrearAsistente();
             }
         });
     } 

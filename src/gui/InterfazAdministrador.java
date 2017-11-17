@@ -108,7 +108,7 @@ public class InterfazAdministrador extends JFrame implements ActionListener{
         panelBuscarFiltrar = new PanelBuscarFiltrar(accion);
         panelBuscarFiltrar.setBounds(200, 10, 560, 550);
         this.add(panelBuscarFiltrar);
-        panelCrearUsuario.setVisible(visible);
+        panelBuscarFiltrar.setVisible(visible);
     }
     
     public void mostrarPanelListar(String id_sede, String rol, String estado){
@@ -397,7 +397,7 @@ public class InterfazAdministrador extends JFrame implements ActionListener{
             }
         
         }
-    }
+    } //Fin PanelBuscarFiltrar
     
     /**
      * InnerClase que contiene el panel de bienvenida para el usuario
@@ -414,8 +414,7 @@ public class InterfazAdministrador extends JFrame implements ActionListener{
             Font titleFont = UIManager.getFont("TitledBorder.font");
             title.setTitleFont( titleFont.deriveFont(Font.ITALIC + Font.BOLD, 20) );
             setBorder(title);
-        }
-        
+        }  
     }
     
     
@@ -824,6 +823,7 @@ public class InterfazAdministrador extends JFrame implements ActionListener{
 
             if(campo != null){
                 campo.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+                campo.requestFocus();
             }else if(select != null){
                 select.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
             }
@@ -925,6 +925,6 @@ public class InterfazAdministrador extends JFrame implements ActionListener{
             
             add(sp_tabla);
         }
-    }
+    }//Fin panel listar usuarios
     
 }//Fin clase InterfazAdministrador

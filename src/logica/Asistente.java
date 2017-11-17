@@ -49,7 +49,7 @@ public class Asistente {
     public String getIdentificacion(){
         return identificacion;
     }
-    public String getDirecion(){
+    public String getDireccion(){
         return direccion;
     }
     public String getTelefono(){
@@ -76,7 +76,7 @@ public class Asistente {
     public void setIdentificacion(String identificacion){
         this.identificacion=identificacion;
     }
-    public void setDirecion(String direccion){
+    public void setDireccion(String direccion){
         this.direccion=direccion;
     }
     public void setTelefono(String telefono){

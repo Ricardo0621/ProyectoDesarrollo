@@ -209,7 +209,6 @@ public class DaoEmpleado {
         return empleados;
     }
     
-    public void listarEmpleado(){}
     public void borrarEmpleado(String identificacion){}
     public void cerrarConexionBD(){
        fachada.closeConection(fachada.getConnetion());

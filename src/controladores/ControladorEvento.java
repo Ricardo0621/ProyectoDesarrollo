@@ -28,6 +28,25 @@ public class ControladorEvento {
         Evento evento = new Evento();
         return evento;
     }
+    
+    public String[] listarIdsAsistentesEvento(String id_evento){
+        String[] ids = {"id_asistente1","id_asistente2"};
+        return ids;
+    }
+    
+    public String[] listarIdNombreEventos(){
+        String[] nombres_ids_eventos;
+        Evento[] eventos = daoEvento.listarEventos();
+        nombres_ids_eventos = new String[eventos.length];
+        for(int i=0; i<eventos.length; i++){
+            nombres_ids_eventos[i] = eventos[i].getIdentificacion()+" - "+eventos[i].getNombre();
+        }
+        return nombres_ids_eventos;
+    }
+    
+    public String[] listarIdsEvento(int evento_id){
+        return daoEvento.listarIdsEvento(evento_id);
+    }
 
     public void listarEventos(){}
     
