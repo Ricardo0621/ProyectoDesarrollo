@@ -5,6 +5,7 @@
  */
 package gui;
 
+import accesoDatos.DaoEvento;
 import controladores.ControladorAsistente;
 import controladores.ControladorEvento;
 import java.awt.Color;
@@ -71,9 +72,9 @@ public class InterfazOperador extends JFrame implements ActionListener{
     public void configurarBotones(){
         btn_crear_asistente = new JButton("Crear Asistente");
         btn_modificar_asistente = new JButton("Modificar Asistente");
-        btn_listar_asistentes = new JButton("Listar Asistentes");
+        btn_listar_asistentes = new JButton("Asistentes");
         btn_registrar_asistente_evento = new JButton("Asistente a evento");
-        btn_registrar_pago = new JButton("Registrar Pago");
+        btn_registrar_pago = new JButton("Pagos");
         btn_listar_eventos = new JButton("Listar Eventos");
         btn_salir = new JButton("Salir");
         
@@ -113,14 +114,14 @@ public class InterfazOperador extends JFrame implements ActionListener{
         this.add(panelCrearAsistente);
         panelCrearAsistente.setVisible(visible);
     }
-    public void mostrarPanelBuscarListar(String accion, boolean visible){
+    public void mostrarPanelBuscarFiltarPagarInscribir(String accion, boolean visible){
         panelBuscarFiltrarPagarRegistrar = new PanelBuscarFiltrarPagarRegistrar(accion);
         panelBuscarFiltrarPagarRegistrar.setBounds(200, 10, 560, 550);
         this.add(panelBuscarFiltrarPagarRegistrar);
         panelBuscarFiltrarPagarRegistrar.setVisible(visible);
     }
-    public void mostrarPanelListar(int evento_id){
-        panelListarAsistentes = new PanelListarAsistentes(evento_id);
+    public void mostrarPanelListar(String operacion, int evento_id, String asistente_id){
+        panelListarAsistentes = new PanelListarAsistentes(operacion, evento_id, asistente_id);
         panelListarAsistentes.setBounds(200, 10, 560, 550);
         this.add(panelListarAsistentes);
         panelListarAsistentes.setVisible(true);
@@ -149,20 +150,21 @@ public class InterfazOperador extends JFrame implements ActionListener{
             this.repaint();
         }else if(e.getSource().equals(btn_modificar_asistente)){
             removerPaneles();
-            mostrarPanelBuscarListar("Modificar Asistente", true);
+            mostrarPanelBuscarFiltarPagarInscribir("Modificar Asistente", true);
             this.repaint();
         }else if(e.getSource().equals(btn_listar_asistentes)){
             removerPaneles();
-            mostrarPanelBuscarListar("Listar Asistentes", true);
-            panelBuscarFiltrarPagarRegistrar.setComboBox();
+            mostrarPanelBuscarFiltarPagarInscribir("Listar Asistentes", true);
+            panelBuscarFiltrarPagarRegistrar.setComboBox("Listar Asistentes", null);
             this.repaint();
         }else if(e.getSource().equals(btn_registrar_asistente_evento)){
             removerPaneles();
-            mostrarPanelBuscarListar("Asistente a Evento", true);
+            mostrarPanelBuscarFiltarPagarInscribir("Asistente a Evento", true);
             this.repaint();
         }else if(e.getSource().equals(btn_registrar_pago)){
             removerPaneles();
-            mostrarPanelBuscarListar("Pago a Evento", true);
+            mostrarPanelBuscarFiltarPagarInscribir("Pagos", true);
+            panelBuscarFiltrarPagarRegistrar.setComboBox("Pagos Inicial", null);
             this.repaint();
         }else if(e.getSource().equals(btn_listar_eventos)){
             removerPaneles();
@@ -400,7 +402,7 @@ public class InterfazOperador extends JFrame implements ActionListener{
                     if( res == 0 || res == -1){
                         this.setVisible(false);
                         removerPaneles();
-                        configurarPanelBienvenida();
+                        mostrarPanelAsistente(accion, null, true);
                     }
                 }else{
                     setBordes(txt_id, null);
@@ -524,7 +526,7 @@ public class InterfazOperador extends JFrame implements ActionListener{
                     if(e.getSource().equals(btn_cancelar)){
                     setVisible(false);
                     removerPaneles();
-                    configurarPanelBienvenida();
+                        mostrarPanelAsistente(accion, null, true);
                     }else if(e.getSource().equals(btn_enviar)){
                         crearAsistente();
                     }
@@ -539,18 +541,27 @@ public class InterfazOperador extends JFrame implements ActionListener{
         JLabel label_buscar;
         JLabel label_alerta;
         JTextField txt_buscar;
+        JButton btn_confirmar;
         JButton btn_buscar;
         JButton btn_cancelar;
         String id_asistente;
         Keylistener keylistener; //Objeto para menjar evento de teclado en este panel
         Actionlistener actionlistener; //Objeto para menjar evento de mouse en este panel
         String accion;
+        String empleado_id;
+        String[] costos;
         
         /*
             Para filtrar listado de usurios 
         */
+        JLabel label_seleccion_operacion; 
         JLabel label_eventos_id;
+        JLabel label_metodos_pago;
+        JLabel label_valor;
+        JTextField txt_valor;
         JComboBox comb_eventos_id;
+        JComboBox comb_metodos_pago;
+        JComboBox comb_seleccion_operacion;
 
         public PanelBuscarFiltrarPagarRegistrar(String accion) {
             setTitle(accion);                        // colocamos titulo a la ventana
@@ -564,14 +575,15 @@ public class InterfazOperador extends JFrame implements ActionListener{
             title.setTitleFont( titleFont.deriveFont(Font.ITALIC + Font.BOLD, 20) );
             setBorder(title);
             this.accion = accion;
+            empleado_id = "123456781";
             if(accion.equals("Listar Asistentes")){
                 configurarComponentesFiltrar();
             }else if(accion.equals("Modificar Asistente")){
                 configurarComponentesModificar();
             }else if(accion.equals("Asistente a Evento")){
                 configurarComponentesAsistenteEvento();
-            }else if(accion.equals("Pago a Evento")){
-                
+            }else if(accion.equals("Pagos")){
+                configurarComponentesPagoEvento();
             }
         }
         
@@ -632,8 +644,11 @@ public class InterfazOperador extends JFrame implements ActionListener{
             label_alerta = new JLabel("<html><font color='red'></font></html>", SwingConstants.CENTER);
             label_buscar = new JLabel("Identificación: ");
             txt_buscar = new JTextField();
+            label_eventos_id = new JLabel("Evento");
+            comb_eventos_id = new JComboBox();
             btn_buscar = new JButton("Buscar");
             btn_cancelar = new JButton("Cancelar");
+            btn_confirmar = new JButton("Enviar");
             keylistener = new Keylistener();
             actionlistener = new Actionlistener();
             
@@ -643,29 +658,98 @@ public class InterfazOperador extends JFrame implements ActionListener{
             btn_cancelar.setBounds(280, 90, 145, 35);
             label_alerta.setBounds(10, 130, 400, 32);
             txt_buscar.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1));
-            
             btn_buscar.addActionListener(actionlistener);
             btn_cancelar.addActionListener(actionlistener);
+            btn_confirmar.addActionListener(actionlistener);
             txt_buscar.addKeyListener(keylistener);
+            comb_eventos_id.addActionListener(actionlistener);
             
             add(label_buscar);
             add(label_alerta);
+            add(btn_confirmar);
             add(txt_buscar);
+            add(label_eventos_id);
+            add(comb_eventos_id);
             add(btn_buscar);
             add(btn_cancelar);
         }
         
-        public void setComboBox(){
-            ControladorEvento controladorEvento = new ControladorEvento();
-            String[] eventos_id = controladorEvento.listarIdNombreEventos();
+        public void configurarComponentesPagoEvento(){
+            label_alerta = new JLabel("<html><font color='red'></font></html>", SwingConstants.CENTER);
+            label_buscar = new JLabel("Identificación: ", SwingConstants.RIGHT);
+            txt_buscar = new JTextField();
+            label_eventos_id = new JLabel("Evento", SwingConstants.RIGHT);
+            label_valor = new JLabel("Total: ", SwingConstants.RIGHT);
+            txt_valor = new JTextField("0");
+            txt_valor.setEditable(false);
+            label_metodos_pago = new JLabel("Metodo Pago", SwingConstants.RIGHT);
+            comb_eventos_id = new JComboBox();
+            label_seleccion_operacion = new JLabel("Operación", SwingConstants.RIGHT);
+            comb_seleccion_operacion = new JComboBox();
+            String[] opciones = {"Seleccione", "Tarjeta Crédito", "Efectivo", "Cheque"};
+            comb_metodos_pago = new JComboBox(opciones);
+            comb_metodos_pago.setEnabled(false);
+            btn_buscar = new JButton("Buscar");
+            btn_cancelar = new JButton("Cancelar");
+            btn_confirmar = new JButton("Enviar");
+            keylistener = new Keylistener();
+            actionlistener = new Actionlistener();
+            label_seleccion_operacion.setBounds(10, 50, 100, 35);
+            comb_seleccion_operacion.setBounds(125, 50, 300, 35);
+            label_buscar.setBounds(10, 90, 100, 35);
+            txt_buscar.setBounds(125, 90, 300, 35);
+            btn_buscar.setBounds(125, 130, 145, 35);
+            btn_cancelar.setBounds(280, 130, 145, 35);
+            label_alerta.setBounds(10, 170, 400, 32);
+            txt_buscar.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1));
             
-            comb_eventos_id.addItem("Seleccione");
-            comb_eventos_id.addItem("Todos");
+            btn_buscar.addActionListener(actionlistener);
+            btn_cancelar.addActionListener(actionlistener);
+            btn_confirmar.addActionListener(actionlistener);
+            txt_buscar.addKeyListener(keylistener);
+            comb_eventos_id.addActionListener(actionlistener);
+            comb_metodos_pago.addActionListener(actionlistener);
+            comb_seleccion_operacion.addActionListener(actionlistener);
             
-            for(int i=0; i<eventos_id.length; i++){
-                comb_eventos_id.addItem(eventos_id[i]);
-            }
-            comb_eventos_id.setSelectedIndex(0);
+            add(label_buscar);
+            add(label_alerta);
+            add(label_metodos_pago);
+            add(label_valor);
+            add(btn_confirmar);
+            add(label_seleccion_operacion);
+            add(comb_seleccion_operacion);
+            add(txt_buscar);
+            add(txt_valor);
+            add(label_eventos_id);
+            add(comb_eventos_id);
+            add(comb_metodos_pago);
+            add(btn_buscar);
+            add(btn_cancelar);
+        }
+        
+        public void setComboBox(String opcion, String[] eventos_id_nombre){
+            if(opcion.equals("Listar Asistentes") || opcion.equals("Asistente a Evento")){
+                ControladorEvento controladorEvento = new ControladorEvento();
+                eventos_id_nombre = controladorEvento.listarIdNombreEventos(); 
+                comb_eventos_id.addItem("Seleccione");
+                for(int i=0; i<eventos_id_nombre.length; i++){
+                    comb_eventos_id.addItem(eventos_id_nombre[i]);
+                }
+                comb_eventos_id.setSelectedIndex(0);
+            }else if(opcion.equals("Pagos")){
+                comb_eventos_id.addItem("Seleccione");
+                costos = new String[eventos_id_nombre.length];
+                for(int i=0; i<eventos_id_nombre.length; i++){
+                    String[] temp = eventos_id_nombre[i].split(" - ");
+                    comb_eventos_id.addItem(temp[0]+" - "+temp[1]);
+                    costos[i] = temp[2];
+                }
+                comb_eventos_id.setSelectedIndex(0);
+            }else if(opcion.equals("Pagos Inicial")){
+                comb_seleccion_operacion.addItem("Seleccione");
+                comb_seleccion_operacion.addItem("Registrar pago a evento");
+                comb_seleccion_operacion.addItem("Estados de pago de asistente");
+            }     
         }
         
         public void buscarAsistente(String id_asistente){
@@ -684,10 +768,16 @@ public class InterfazOperador extends JFrame implements ActionListener{
             }else if(accion.equals("Asistente a Evento")){
                 ControladorAsistente controladorAsistente = new ControladorAsistente();
                 if(controladorAsistente.consultarAsistente(id_asistente)){
-                    //removerPaneles();
-                    //String[] datos_asistente = controladorAsistente.extraerAsistente(id_asistente);
-                    //mostrarPanelAsistente(accion, datos_asistente,true);
-                    //this.repaint();
+                    modificarPanelRegistro();
+                }else{
+                    txt_buscar.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+                    label_alerta.setText("<html><font color='red' size='4'>!!! No Existe el asistente con esa identificación!!!</font></html>");
+                    txt_buscar.requestFocus();
+                }
+            }else if(accion.equals("Pagos")){
+                ControladorAsistente controladorAsistente = new ControladorAsistente();
+                if(controladorAsistente.consultarAsistente(id_asistente)){
+                    modificarPanelPago();
                 }else{
                     txt_buscar.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
                     label_alerta.setText("<html><font color='red' size='4'>!!! No Existe el asistente con esa identificación!!!</font></html>");
@@ -718,7 +808,21 @@ public class InterfazOperador extends JFrame implements ActionListener{
                     txt_buscar.requestFocus();
                     return false;
                 }else{
-                    buscarAsistente(id_asistente);
+                    return true;
+                }
+            }else if(accion.equals("Pagos")){
+                id_asistente = txt_buscar.getText();
+                if(comb_seleccion_operacion.getSelectedIndex()==0){
+                    comb_seleccion_operacion.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+                    label_alerta.setText("<html><font color='red' size='4'>!!! Seleccione una operación de la lista !!!</font></html>");
+                    comb_seleccion_operacion.requestFocus();
+                    return false;
+                }else if(id_asistente.equals("") || !Pattern.matches("[0-9]+", id_asistente)){
+                    txt_buscar.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+                    label_alerta.setText("<html><font color='red' size='4'>!!! Ingrese un número de identificación Correcto !!!</font></html>");
+                    txt_buscar.requestFocus();
+                    return false;
+                }else{
                     return true;
                 }
             }else if(accion.equals("Modificar Asistente")){
@@ -729,7 +833,6 @@ public class InterfazOperador extends JFrame implements ActionListener{
                     txt_buscar.requestFocus();
                     return false;
                 }else{
-                    buscarAsistente(id_asistente);
                     return true;
                 }
             }
@@ -737,6 +840,39 @@ public class InterfazOperador extends JFrame implements ActionListener{
         }
         
         public void modificarPanelRegistro(){
+            txt_buscar.setEnabled(false);
+            label_eventos_id.setBounds(10, 90, 100, 35);
+            comb_eventos_id.setBounds(125, 90, 300, 35);
+            remove(btn_buscar);
+            btn_confirmar.setBounds(125, 130, 145, 35);
+            btn_cancelar.setBounds(280, 130, 145, 35);
+            label_alerta.setBounds(10, 170, 400, 25);
+            comb_eventos_id.removeAllItems();
+            setComboBox("Asistente a Evento", null);
+        }
+        
+        public void modificarPanelPago(){
+            ControladorEvento controladorEvento = new ControladorEvento();
+            String[] eventos_id = controladorEvento.listarIdNombreEventosAsistente(txt_buscar.getText());
+            if(eventos_id.length > 0){
+                txt_buscar.setEnabled(false);
+                label_eventos_id.setBounds(10, 130, 100, 35);
+                comb_eventos_id.setBounds(125, 130, 300, 35);
+                label_metodos_pago.setBounds(10, 170, 100, 35);
+                comb_metodos_pago.setBounds(125, 170, 300, 35);
+                label_valor.setBounds(10, 210, 100, 35);
+                txt_valor.setBounds(125, 210, 300, 35);
+                remove(btn_buscar);
+                btn_confirmar.setBounds(125, 250, 145, 35);
+                btn_cancelar.setBounds(280, 250, 145, 35);
+                label_alerta.setBounds(10, 290, 400, 25);
+                comb_eventos_id.removeAllItems();
+                setComboBox("Pagos", eventos_id);
+            }else{
+                txt_buscar.setBorder(BorderFactory.createLineBorder(Color.GREEN, 2));
+                label_alerta.setText("<html><font color='green' size='4'>!!! No Existe el asistente no tiene pagos pendientes!!!</font></html>");
+                txt_buscar.requestFocus();
+            }
             
         }
         
@@ -748,6 +884,9 @@ public class InterfazOperador extends JFrame implements ActionListener{
                 if(e.getSource().equals(txt_buscar)){
                     label_alerta.setText("");
                     txt_buscar.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 2));
+                    if(accion.equals("Pagos")){
+                        comb_seleccion_operacion.setBorder(null);
+                    }
                 }
             }
 
@@ -766,25 +905,101 @@ public class InterfazOperador extends JFrame implements ActionListener{
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(e.getSource().equals(btn_buscar)){
-                    if(buscarFiltrarAsistentes()){
-                        if(accion.equals("Modificar Asistente") || accion.equals("Asistente a Evento")){
-                            buscarAsistente(txt_buscar.getText());
-                        }else if(accion.equals("Listar Asistentes")){
+                    if(buscarFiltrarAsistentes()){ //Verificar campos y procesar operacion
+                        if(accion.equals("Listar Asistentes")){
                             removerPaneles();
-                            if(comb_eventos_id.getSelectedIndex() == 1){
-                                mostrarPanelListar(0); //Para indicar todos los eventos
+                            mostrarPanelListar(accion, Integer.parseInt(comb_eventos_id.getSelectedItem().toString().split(" - ")[0]), null);                                                   
+                        }else {
+                            if(accion.equals("Pagos")){
+                                if(comb_seleccion_operacion.getSelectedIndex() == 1){
+                                    buscarAsistente(id_asistente); //buscar asistente para realizar pago
+                                }else if(comb_seleccion_operacion.getSelectedIndex() == 2){
+                                    removerPaneles();
+                                    mostrarPanelListar("Estado de pagos del asistente",0, id_asistente);
+                                }
                             }else{
-                                mostrarPanelListar(Integer.parseInt(comb_eventos_id.getSelectedItem().toString().split(" - ")[0]));                                                  
+                                buscarAsistente(id_asistente); 
                             }
+                        }
+                    }
+                }else if(e.getSource().equals(btn_confirmar)){
+                    if(accion.equals("Asistente a Evento")){
+                        if(comb_eventos_id.getSelectedIndex()>0){
+                            String asistente_id = txt_buscar.getText();
+                            int evento_id = Integer.parseInt(comb_eventos_id.getSelectedItem().toString().split(" - ")[0]);
+                            ControladorEvento controladorEvento = new ControladorEvento();
+                            int filas_gurdadas = controladorEvento.inscribirAsistenteEvento(empleado_id, evento_id, asistente_id);
+                            if(filas_gurdadas != -1){
+                                String msg_confirmacion = "Comfirmar inscripción a evento!";
+                                int res = JOptionPane.showOptionDialog(null, msg_confirmacion, "Test", JOptionPane.DEFAULT_OPTION,
+                                          JOptionPane.INFORMATION_MESSAGE, null, null, null);
+                                if(res != -1){
+                                    setVisible(false);
+                                    removerPaneles();
+                                    mostrarPanelBuscarFiltarPagarInscribir(accion, true);
+                                    if(accion.equals("Listar Asistentes")){
+                                        panelBuscarFiltrarPagarRegistrar.setComboBox(accion, null);
+                                    }
+                                }
+                            }else{
+                                label_alerta.setText("<html><font color='red' size='4'>!!! El usurio ya está registrado a este evento !!!</font></html>");                                    
+                            }
+                        }else{
+                            label_alerta.setText("<html><font color='red' size='4'>!!! Seleccione un evento de la lista !!!</font></html>");
+                        }
+                    }else if(accion.equals("Pagos")){
+                        if(comb_eventos_id.getSelectedIndex()>0 && comb_metodos_pago.getSelectedIndex()>0){
+                            int evento_id = Integer.parseInt(comb_eventos_id.getSelectedItem().toString().split(" - ")[0]);
+                            String asistente_id = txt_buscar.getText();
+                            String metodo_pago = comb_metodos_pago.getSelectedItem().toString();
+                            ControladorEvento controladorEvento = new ControladorEvento();
+                            int filas_actualizadas = controladorEvento.registrarPagoEvento(evento_id, asistente_id, metodo_pago, empleado_id);
+                            if(filas_actualizadas != -1){
+                                String msg_confirmacion = "Comfirmar pago a evento!";
+                                int res = JOptionPane.showOptionDialog(null, msg_confirmacion, "Test", JOptionPane.DEFAULT_OPTION,
+                                          JOptionPane.INFORMATION_MESSAGE, null, null, null);
+                                if(res != -1){
+                                    setVisible(false);
+                                    removerPaneles();
+                                    mostrarPanelBuscarFiltarPagarInscribir(accion, true);
+                                    panelBuscarFiltrarPagarRegistrar.setComboBox("Pagos Inicial", null);
+                                }
+                            }else{
+                                label_alerta.setText("<html><font color='red' size='4'>!!! El usurio ya está registrado a este evento !!!</font></html>");                                    
+                            }
+                        }else{
+                            if(comb_eventos_id.getSelectedIndex()<=0)
+                                label_alerta.setText("<html><font color='red' size='4'>!!! Seleccione un evento de la lista !!!</font></html>");
+                            else
+                                label_alerta.setText("<html><font color='red' size='4'>!!! Seleccione un metodo de pago de la lista !!!</font></html>");                             
                         }
                     }
                 }else if(e.getSource().equals(btn_cancelar)){
                     setVisible(false);
                     removerPaneles();
-                    configurarPanelBienvenida();
+                    mostrarPanelBuscarFiltarPagarInscribir(accion, true);
+                    if(accion.equals("Listar Asistentes")){
+                        panelBuscarFiltrarPagarRegistrar.setComboBox(accion, null);
+                    }else if(accion.equals("Pagos")){
+                        panelBuscarFiltrarPagarRegistrar.setComboBox("Pagos Inicial", null);
+                    }
                 }else if(e.getSource().equals(comb_eventos_id)){
+                    if(accion.equals("Pagos")){
+                        if(comb_eventos_id.getSelectedIndex()>0){
+                            txt_valor.setText(costos[comb_eventos_id.getSelectedIndex()-1]);
+                        }
+                        comb_metodos_pago.setEnabled(true);
+                        comb_metodos_pago.setSelectedIndex(0);
+                    }
                     label_alerta.setText("");
                     comb_eventos_id.setBorder(null);
+                }else if(e.getSource().equals(comb_metodos_pago)){
+                    label_alerta.setText("");
+                    comb_eventos_id.setBorder(null);
+                }else if(e.getSource().equals(comb_seleccion_operacion)){
+                    label_alerta.setText("");
+                    comb_seleccion_operacion.setBorder(null);
+                    txt_buscar.setBorder(null);
                 }
             }
         
@@ -804,21 +1019,26 @@ public class InterfazOperador extends JFrame implements ActionListener{
         public PanelListarAsistentes(){
             
         }
-        public PanelListarAsistentes(int evento_id){
-            setTitle("Listar Asistentes");                        // colocamos titulo a la ventana
+        public PanelListarAsistentes(String operacion, int evento_id, String asistente_id){
+            setTitle(operacion);                        // colocamos titulo a la ventana
             setSize(420, 550);                                 // colocamos tamanio a la ventana (ancho, alto)
             setLocationRelativeTo(null);                       // centramos la ventana en la pantalla
             setLayout(null);                                   // no usamos ningun layout, solo asi podremos dar posiciones a los componentes
             setResizable(false);                               // hacemos que la ventana no sea redimiensionable
             Border lowerEtched = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
-            TitledBorder title = BorderFactory.createTitledBorder(lowerEtched, "Lista de Asistentes");
+            TitledBorder title = BorderFactory.createTitledBorder(lowerEtched, operacion);
             Font titleFont = UIManager.getFont("TitledBorder.font");
             title.setTitleFont( titleFont.deriveFont(Font.ITALIC + Font.BOLD, 20) );
-            setBorder(title); 
-            configurarLLenarTabla(evento_id);
+            setBorder(title);
+            if(asistente_id != null){
+                configurarLLenarTablaEstadoPago(asistente_id);
+            }
+            if(evento_id > 0){
+                configurarLLenarTablaAsistentesPorEvento(evento_id);
+            }
         }
         
-        public void configurarLLenarTabla(int evento_id){
+        public void configurarLLenarTablaAsistentesPorEvento(int evento_id){
             String[] titulo = new String[]{"Id", "Nombre", "telefono", "correo", "Evento"};
             controladorEvento = new ControladorEvento();
             String[] ids = controladorEvento.listarIdsEvento(evento_id);
@@ -829,6 +1049,26 @@ public class InterfazOperador extends JFrame implements ActionListener{
             for(int i=0; i<asistentes.length; i++){
                 String[] fila = asistentes[i].split(";;;");
                 String[] temp = {fila[0], fila[1]+" "+fila[2]+" "+fila[3]+" "+fila[4], fila[6], fila[7], String.valueOf(evento_id)};
+                dtm.addRow(temp);
+            }
+             
+            tabla = new JTable(dtm);
+            sp_tabla = new JScrollPane(tabla);
+            
+            
+            sp_tabla.setBounds(10, 30, 540, 510);
+            
+            add(sp_tabla);
+        }
+        public void configurarLLenarTablaEstadoPago(String asistente_id){
+            String[] titulo = new String[]{"id_asistente", "id_evento", "n_evento", "estado"};
+            controladorEvento = new ControladorEvento();
+            String[] estados_pago = controladorEvento.estadosPagoEventos(asistente_id);
+            dtm = new DefaultTableModel();
+            dtm.setColumnIdentifiers(titulo);
+            for(int i=0; i<estados_pago.length; i++){
+                String[] fila = estados_pago[i].split(" - ");
+                String[] temp = {fila[0], fila[1], fila[2], fila[3]};
                 dtm.addRow(temp);
             }
              

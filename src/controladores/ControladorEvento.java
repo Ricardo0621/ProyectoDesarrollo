@@ -6,6 +6,7 @@
 package controladores;
 
 import accesoDatos.DaoEvento;
+import java.util.Arrays;
 import logica.Evento;
 
 /**
@@ -44,8 +45,30 @@ public class ControladorEvento {
         return nombres_ids_eventos;
     }
     
+    public String[] listarIdNombreEventosAsistente(String asistente_id){
+        String[] nombres_ids_eventos;
+        Evento[] eventos = daoEvento.listarEventosAsistente(asistente_id);
+        nombres_ids_eventos = new String[eventos.length];
+        for(int i=0; i<eventos.length; i++){
+            nombres_ids_eventos[i] = eventos[i].getIdentificacion()+" - "+eventos[i].getNombre()+" - "+eventos[i].getValor();
+        }
+        return nombres_ids_eventos;
+    }
+    
     public String[] listarIdsEvento(int evento_id){
         return daoEvento.listarIdsEvento(evento_id);
+    }
+    
+    public int inscribirAsistenteEvento(String empleado_id,int evento_id, String asistente_id){
+        return daoEvento.inscribirAsistenteEvento(empleado_id, evento_id, asistente_id);
+    }
+    
+    public int registrarPagoEvento(int evento_id, String asistente_id, String metodo_pago, String empleado_id_pago){
+        return daoEvento.registrarPagoEvento(evento_id, asistente_id, metodo_pago, empleado_id_pago);
+    }
+    
+    public String[] estadosPagoEventos(String asistente_id){
+        return daoEvento.estadosPagoEventos(asistente_id);
     }
 
     public void listarEventos(){}

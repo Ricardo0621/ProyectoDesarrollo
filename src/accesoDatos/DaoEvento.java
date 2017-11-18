@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import logica.Evento;
 
 /**
@@ -38,6 +39,7 @@ public class DaoEvento {
         Evento evento;
         String sql_count = "SELECT COUNT(*) AS filas FROM eventos";
         String sql = "SELECT * FROM eventos";
+        
         int filas = 0;
         int contador = 0;
         try {
@@ -79,23 +81,113 @@ public class DaoEvento {
         
         eventos = null; //Asumiendo que no hayan sedes
         return eventos;
+    }//Fin listarEventos()
+    
+    public Evento[] listarEventosAsistente(String asistente_id){
+        Evento[] eventos;
+        Evento evento;
+        String sql_count = "SELECT COUNT(*) AS filas FROM pagos WHERE id_asistente='"+asistente_id+"' AND estado='Pendiente'";
+        String sql = "SELECT id_evento FROM pagos WHERE id_asistente='"+asistente_id+"' AND estado='Pendiente'";
+        int filas = 0;
+        int contador = 0;
+        try {
+            Connection conn = fachada.getConnetion();
+            Statement sentencia = conn.createStatement();
+            ResultSet tabla = sentencia.executeQuery(sql_count);
+            tabla.next();
+            filas = tabla.getInt("filas");
+            eventos = new Evento[filas];
+            tabla = sentencia.executeQuery(sql);
+            while(tabla.next()){
+                sql = "SELECT * FROM eventos WHERE id="+tabla.getInt(1);
+                try{
+                    Statement sentencia1 = conn.createStatement();
+                    ResultSet tabla1 = sentencia1.executeQuery(sql);
+                    while(tabla1.next()){
+                        evento = new Evento();
+                        evento.setIdentificacion(tabla1.getString(1));
+                        evento.setIdEmpleado(tabla1.getString(2));
+                        evento.setNombre(tabla1.getString(3));
+                        evento.setDescipcion(tabla1.getString(4));
+                        evento.setFechaCreacion(tabla1.getString(5));
+                        evento.setFechaInicio(tabla1.getString(6));
+                        evento.setFechaFin(tabla1.getString(7));
+                        evento.setHorario(tabla1.getString(8));
+                        evento.setHoras(Integer.parseInt(tabla1.getString(9)));
+                        evento.setValor(Integer.parseInt(tabla1.getString(10)));
+                        evento.setLugar(tabla1.getString(11));
+                        evento.setCupos(Integer.parseInt(tabla1.getString(12)));
+                        evento.setEstado(tabla1.getString(13));
+                        eventos[contador] = evento;
+                        contador ++;
+                    }
+                }catch (SQLException ex){
+                    System.out.println(ex);
+                }catch(Exception ex){
+                    System.out.println(ex);
+                }
+            }
+            return eventos;
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        } catch(Exception ex){ 
+            System.out.println(ex);
+        }
+        return null;
     }
     
     /**
+     * Método para retornar arreglo de eventos a partir de un arreglo de eventos_id
+     */
+    public Evento[] listarEventosPorIds(int[] ids_eventos){
+        Evento[] eventos = new Evento[ids_eventos.length];
+        Evento evento;
+        try {
+            Connection conn = fachada.getConnetion();
+            Statement sentencia = conn.createStatement();
+            for(int i=0; i<ids_eventos.length; i++){
+                String sql = "SELECT * FROM eventos WHERE id="+ids_eventos[i];
+                ResultSet tabla = sentencia.executeQuery(sql);
+                while(tabla.next()){
+                    evento = new Evento();
+                    evento.setIdentificacion(tabla.getString(1));
+                    evento.setIdEmpleado(tabla.getString(2));
+                    evento.setNombre(tabla.getString(3));
+                    evento.setDescipcion(tabla.getString(4));
+                    evento.setFechaCreacion(tabla.getString(5));
+                    evento.setFechaInicio(tabla.getString(6));
+                    evento.setFechaFin(tabla.getString(7));
+                    evento.setHorario(tabla.getString(8));
+                    evento.setHoras(Integer.parseInt(tabla.getString(9)));
+                    evento.setValor(Integer.parseInt(tabla.getString(10)));
+                    evento.setLugar(tabla.getString(11));
+                    evento.setCupos(Integer.parseInt(tabla.getString(12)));
+                    evento.setEstado(tabla.getString(13));
+                    eventos[i] = evento;
+                }  
+            }
+            return eventos;
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        } catch(Exception ex){ 
+            System.out.println(ex);
+        }
+        return null; //Asumiendo que no hayan sedes
+    }//Fin listarEventosPorIds()
+    
+    
+    
+    /**
+     * Método para manejar los datos en la relación pagos, retorna arreglo de cadenas
      * Listar las identificaciones de los asistentes a un evento en específico o a todos los eventos
      */
     public String[] listarIdsEvento(int evento_id){
         String sql_count = "";
         String sql = "";
-        if(evento_id == 0){
-            sql_count = "SELECT COUNT(*) AS filas FROM (SELECT DISTINCT asistente_id FROM eventos_asistentes) AS c1";
-            sql = "SELECT DISTINCT asistente_id FROM eventos_asistentes";
-        }else{
-            sql_count = "SELECT COUNT(*) AS filas FROM (SELECT DISTINCT asistente_id FROM eventos_asistentes WHERE evento_id = "+evento_id+") AS c1";
-            sql = "SELECT DISTINCT asistente_id FROM eventos_asistentes WHERE evento_id = "+evento_id;
-        }
-        
+        sql_count = "SELECT COUNT(*) AS filas FROM (SELECT DISTINCT id_asistente FROM pagos WHERE id_evento = "+evento_id+") AS c1";
+        sql = "SELECT DISTINCT id_asistente FROM pagos WHERE id_evento = "+evento_id;
         int filas = 0;
+        int contador = 0;
         String[] ids;
         try {
             Connection conn = fachada.getConnetion();
@@ -104,10 +196,10 @@ public class DaoEvento {
             tabla.next();
             filas = tabla.getInt("filas");
             ids = new String[filas];
-            for(int i=0; i<filas; i++){
-                tabla = sentencia.executeQuery(sql);
-                tabla.next();
-                ids[i] = tabla.getString(1);
+            tabla = sentencia.executeQuery(sql);
+            while(tabla.next()){
+                ids[contador] = tabla.getString(1);
+                contador ++;
             }
             return ids;
         } catch (SQLException ex) {
@@ -118,6 +210,179 @@ public class DaoEvento {
         ids = null; //Asumiendo que no hayan sedes
         return ids;
     }//Fin listarIdsEvento
+    
+    /*
+    Método para manejar datos de relación pagos. Retorna arreglo de enteros correspondientes a los ids de evento
+    */
+    public int[] listarIdsEventos(String id_empleado, String id_asistente, String metodo_pago, String fecha_inicial, String fecha_final, String estado, String id_empleado_pago, String fecha_pago_inicial, String fecha_pago_final){
+        String sql_count = "SELECT COUNT(*) AS filas FROM (SELECT DISTINCT id_evento FROM pagos";
+        String sql = "SELECT id_evento FROM (SELECT DISTINCT id_evento FROM pagos";
+        boolean flag_and = false;
+        if(id_empleado != null){
+            if(flag_and){
+                sql_count = sql_count+" AND id_empleado='"+id_empleado+"'";
+                sql = sql+" AND id_empleado='"+id_empleado+"'";
+                flag_and = true;
+            }else{
+                sql_count = sql_count+" WHERE id_empleado='"+id_empleado+"'";
+                sql = sql+" WHERE id_empleado='"+id_empleado+"'";
+                flag_and = true;
+            }  
+        }
+        if(id_asistente != null){
+            if(flag_and){
+                sql_count = sql_count+" AND id_asistente='"+id_asistente+"'";
+                sql = sql+" AND id_asistente='"+id_asistente+"'";
+                flag_and = true;
+            }else{
+                sql_count = sql_count+" WHERE id_asistente='"+id_asistente+"'";
+                sql = sql+" WHERE id_asistente='"+id_asistente+"'";
+                flag_and = true;
+            } 
+        }
+        if(metodo_pago != null){
+            if(flag_and){
+                sql_count = sql_count+" AND metodo_pago='"+metodo_pago+"'";
+                sql = sql+" AND metodo_pago='"+metodo_pago+"'";
+                flag_and = true;
+            }else{
+                sql_count = sql_count+" WHERE metodo_pago='"+metodo_pago+"'";
+                sql = sql+" WHERE metodo_pago='"+metodo_pago+"'";
+                flag_and = true;
+            }
+        }
+        if(fecha_inicial != null && fecha_final != null){
+            //CONFIGURAR CONSULTA PARA SACAR RESULTADOS POR RANGO DE FECHAS
+        }
+        if(estado != null){
+            if(flag_and){
+                sql_count = sql_count+" AND estado='"+estado+"'";
+                sql = sql+" AND estado='"+estado+"'";
+                flag_and = true;
+            }else{
+                sql_count = sql_count+" WHERE estado='"+estado+"'";
+                sql = sql+" WHERE estado='"+estado+"'";
+                flag_and = true;
+            }
+        }
+        if(id_empleado_pago != null){
+            if(flag_and){
+                sql_count = sql_count+" AND id_empleado_pago='"+id_empleado_pago+"'";
+                sql = sql+" AND id_empleado_pago='"+id_empleado_pago+"'";
+                flag_and = true;
+            }else{
+                sql_count = sql_count+" WHERE id_empleado_pago='"+id_empleado_pago+"'";
+                sql = sql+" WHERE id_empleado_pago='"+id_empleado_pago+"'";
+                flag_and = true;
+            }
+        }
+        if(fecha_pago_inicial != null && fecha_pago_final != null){
+            //CONFIGURAR CONSULTA PARA SACAR RESULTADOS POR RANGO DE FECHAS
+        }
+        sql_count = sql_count + ") AS c1";
+        sql = sql + ") AS c1";
+        int filas = 0;
+        int contador = 0;
+        int[] eventos_id;
+        try {
+            Connection conn = fachada.getConnetion();
+            Statement sentencia = conn.createStatement();
+            ResultSet tabla = sentencia.executeQuery(sql_count);
+            tabla.next();
+            filas = tabla.getInt("filas");
+            eventos_id = new int[filas];
+            tabla = sentencia.executeQuery(sql);
+            while(tabla.next()){
+                eventos_id[contador] = tabla.getInt(1);
+                contador ++;
+            }
+            return eventos_id;
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        } catch(Exception ex){ 
+            System.out.println(ex);
+        }
+        eventos_id = null; //Asumiendo que no hayan sedes
+        return eventos_id;
+    }
+    
+    public String[] estadosPagoEventos(String asistente_id){
+        String sql_count = "SELECT COUNT(*) AS filas FROM (SELECT id_evento FROM pagos WHERE id_asistente='"+asistente_id+"') AS c1";
+        String sql = "SELECT p1.id_asistente, e1.id, e1.nombre, p1.estado "+
+                     "FROM pagos p1, eventos e1 "+
+                     "WHERE p1.id_asistente='"+asistente_id+"' AND p1.id_evento=e1.id"; 
+        int filas = 0;
+        int contador = 0;
+        String[] estados_pagos_eventos;
+        try {
+            Connection conn = fachada.getConnetion();
+            Statement sentencia = conn.createStatement();
+            ResultSet tabla = sentencia.executeQuery(sql_count);
+            tabla.next();
+            filas = tabla.getInt("filas");
+            estados_pagos_eventos = new String[filas];
+            tabla = sentencia.executeQuery(sql);
+            while(tabla.next()){
+                estados_pagos_eventos[contador] = tabla.getString(1)+" - "+tabla.getString(2)+" - "+tabla.getString(3)+" - "+tabla.getString(4);
+                contador ++;
+            }
+            return estados_pagos_eventos;
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        } catch(Exception ex){ 
+            System.out.println(ex);
+        }
+        return null; //Asumiendo que no hayan sedes
+    }
+    
+    
+    
+    public int inscribirAsistenteEvento(String empleado_id, int evento_id, String asistente_id){
+        int filasGuardadas = 0;
+        String metodo_pago = "None";
+        String estado = "Pendiente";
+        String id_empleado_pago = null;
+        String fecha_pago = null;
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        String sql = "INSERT INTO pagos "+
+              "(id_empleado, id_evento, id_asistente, metodo_pago,fecha, estado, id_empleado_pago, fecha_pago)"+
+              " VALUES "+
+              "('"+empleado_id+"',"+evento_id+",'"+asistente_id+"','"+metodo_pago+"','"+timestamp+"','"+estado+"',"+id_empleado_pago+","+fecha_pago+")";
+        try {
+            Connection conn= fachada.getConnetion();
+            Statement sentencia = conn.createStatement();
+            filasGuardadas = sentencia.executeUpdate(sql);            
+            System.out.println("up " + filasGuardadas);
+            return filasGuardadas;
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        } catch(Exception ex){ 
+            System.out.println(ex);
+        }
+        return -1;
+    }
+    
+    public int registrarPagoEvento(int evento_id, String asistente_id, String metodo_pago, String empleado_id_pago){
+        int filasGuardadas = 0;
+        String estado = "Pagado";
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        String sql = "UPDATE pagos "+
+              "SET metodo_pago='"+metodo_pago+"', estado='"+estado+"', id_empleado_pago='"+empleado_id_pago+"', fecha_pago='"+timestamp+"'"+
+              "WHERE id_evento="+evento_id+" AND id_asistente='"+asistente_id+"'";
+
+        try {
+            Connection conn= fachada.getConnetion();
+            Statement sentencia = conn.createStatement();
+            filasGuardadas = sentencia.executeUpdate(sql);            
+            System.out.println("up " + filasGuardadas);
+            return filasGuardadas;
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        } catch(Exception ex){ 
+            System.out.println(ex);
+        }
+        return -1;
+    }
     
     public void borrarEvento(String identificacion){}
     public void cerrarConexionBD(){
