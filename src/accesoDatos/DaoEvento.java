@@ -34,12 +34,21 @@ public class DaoEvento {
     /**
      * Listar nombres eventos
      */
-    public Evento[] listarEventos(){
+    public Evento[] listarEventos(String campo, String contenido, String fecha1, String fecha2){
         Evento[] eventos;
         Evento evento;
-        String sql_count = "SELECT COUNT(*) AS filas FROM eventos";
-        String sql = "SELECT * FROM eventos";
-        
+        String sql_count="";
+        String sql="";
+        if(campo.equals("estado")){
+            sql_count = "SELECT COUNT(*) AS filas FROM eventos WHERE estado='"+contenido+"' AND fecha_inicio BETWEEN '"+fecha1+"' AND '"+fecha2+"'";
+            sql = "SELECT * FROM eventos WHERE estado='"+contenido+"' AND fecha_inicio BETWEEN '"+fecha1+"' AND '"+fecha2+"'";
+        }else if(campo.equals("cupos")){
+            sql_count = "SELECT COUNT(*) AS filas FROM eventos WHERE estado='Activo' AND fecha_inicio BETWEEN '"+fecha1+"' AND '"+fecha2+"'";
+            sql = "SELECT * FROM eventos WHERE estado='Activo' AND fecha_inicio BETWEEN '"+fecha1+"' AND '"+fecha2+"'";
+        }else if(campo.equals("")){
+            sql_count = "SELECT COUNT(*) AS filas FROM eventos";
+            sql = "SELECT * FROM eventos";
+        }
         int filas = 0;
         int contador = 0;
         try {
@@ -210,101 +219,6 @@ public class DaoEvento {
         ids = null; //Asumiendo que no hayan sedes
         return ids;
     }//Fin listarIdsEvento
-    
-    /*
-    Método para manejar datos de relación pagos. Retorna arreglo de enteros correspondientes a los ids de evento
-    */
-    public int[] listarIdsEventos(String id_empleado, String id_asistente, String metodo_pago, String fecha_inicial, String fecha_final, String estado, String id_empleado_pago, String fecha_pago_inicial, String fecha_pago_final){
-        String sql_count = "SELECT COUNT(*) AS filas FROM (SELECT DISTINCT id_evento FROM pagos";
-        String sql = "SELECT id_evento FROM (SELECT DISTINCT id_evento FROM pagos";
-        boolean flag_and = false;
-        if(id_empleado != null){
-            if(flag_and){
-                sql_count = sql_count+" AND id_empleado='"+id_empleado+"'";
-                sql = sql+" AND id_empleado='"+id_empleado+"'";
-                flag_and = true;
-            }else{
-                sql_count = sql_count+" WHERE id_empleado='"+id_empleado+"'";
-                sql = sql+" WHERE id_empleado='"+id_empleado+"'";
-                flag_and = true;
-            }  
-        }
-        if(id_asistente != null){
-            if(flag_and){
-                sql_count = sql_count+" AND id_asistente='"+id_asistente+"'";
-                sql = sql+" AND id_asistente='"+id_asistente+"'";
-                flag_and = true;
-            }else{
-                sql_count = sql_count+" WHERE id_asistente='"+id_asistente+"'";
-                sql = sql+" WHERE id_asistente='"+id_asistente+"'";
-                flag_and = true;
-            } 
-        }
-        if(metodo_pago != null){
-            if(flag_and){
-                sql_count = sql_count+" AND metodo_pago='"+metodo_pago+"'";
-                sql = sql+" AND metodo_pago='"+metodo_pago+"'";
-                flag_and = true;
-            }else{
-                sql_count = sql_count+" WHERE metodo_pago='"+metodo_pago+"'";
-                sql = sql+" WHERE metodo_pago='"+metodo_pago+"'";
-                flag_and = true;
-            }
-        }
-        if(fecha_inicial != null && fecha_final != null){
-            //CONFIGURAR CONSULTA PARA SACAR RESULTADOS POR RANGO DE FECHAS
-        }
-        if(estado != null){
-            if(flag_and){
-                sql_count = sql_count+" AND estado='"+estado+"'";
-                sql = sql+" AND estado='"+estado+"'";
-                flag_and = true;
-            }else{
-                sql_count = sql_count+" WHERE estado='"+estado+"'";
-                sql = sql+" WHERE estado='"+estado+"'";
-                flag_and = true;
-            }
-        }
-        if(id_empleado_pago != null){
-            if(flag_and){
-                sql_count = sql_count+" AND id_empleado_pago='"+id_empleado_pago+"'";
-                sql = sql+" AND id_empleado_pago='"+id_empleado_pago+"'";
-                flag_and = true;
-            }else{
-                sql_count = sql_count+" WHERE id_empleado_pago='"+id_empleado_pago+"'";
-                sql = sql+" WHERE id_empleado_pago='"+id_empleado_pago+"'";
-                flag_and = true;
-            }
-        }
-        if(fecha_pago_inicial != null && fecha_pago_final != null){
-            //CONFIGURAR CONSULTA PARA SACAR RESULTADOS POR RANGO DE FECHAS
-        }
-        sql_count = sql_count + ") AS c1";
-        sql = sql + ") AS c1";
-        int filas = 0;
-        int contador = 0;
-        int[] eventos_id;
-        try {
-            Connection conn = fachada.getConnetion();
-            Statement sentencia = conn.createStatement();
-            ResultSet tabla = sentencia.executeQuery(sql_count);
-            tabla.next();
-            filas = tabla.getInt("filas");
-            eventos_id = new int[filas];
-            tabla = sentencia.executeQuery(sql);
-            while(tabla.next()){
-                eventos_id[contador] = tabla.getInt(1);
-                contador ++;
-            }
-            return eventos_id;
-        } catch (SQLException ex) {
-            System.out.println(ex);
-        } catch(Exception ex){ 
-            System.out.println(ex);
-        }
-        eventos_id = null; //Asumiendo que no hayan sedes
-        return eventos_id;
-    }
     
     public String[] estadosPagoEventos(String asistente_id){
         String sql_count = "SELECT COUNT(*) AS filas FROM (SELECT id_evento FROM pagos WHERE id_asistente='"+asistente_id+"') AS c1";

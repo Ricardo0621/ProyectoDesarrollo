@@ -37,10 +37,24 @@ public class ControladorEvento {
     
     public String[] listarIdNombreEventos(){
         String[] nombres_ids_eventos;
-        Evento[] eventos = daoEvento.listarEventos();
+        Evento[] eventos = daoEvento.listarEventos("", "", "", "");
         nombres_ids_eventos = new String[eventos.length];
         for(int i=0; i<eventos.length; i++){
             nombres_ids_eventos[i] = eventos[i].getIdentificacion()+" - "+eventos[i].getNombre();
+        }
+        return nombres_ids_eventos;
+    }
+    
+    public String[] listarEventosPorCampo(String campo, String contenido, String fecha1, String fecha2){
+        String[] nombres_ids_eventos;
+        Evento[] eventos = daoEvento.listarEventos(campo, contenido, fecha1, fecha2);
+        nombres_ids_eventos = new String[eventos.length];
+        for(int i=0; i<eventos.length; i++){
+            if(campo.equals("estado")){
+                nombres_ids_eventos[i] = eventos[i].getIdentificacion()+" - "+eventos[i].getNombre()+" - "+eventos[i].getEstado()+" - "+eventos[i].getFechaInicio();
+            }else if(campo.equals("cupos")){
+                nombres_ids_eventos[i] = eventos[i].getIdentificacion()+" - "+eventos[i].getNombre()+" - "+eventos[i].getCupos()+" - "+eventos[i].getFechaInicio();
+            }
         }
         return nombres_ids_eventos;
     }
