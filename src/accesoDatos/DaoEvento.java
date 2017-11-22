@@ -298,6 +298,43 @@ public class DaoEvento {
         return -1;
     }
     
+    public int getCuposEvento(int evento_id){
+        String sql = "SELECT cupos AS cupos "+
+                     "FROM eventos "+
+                     "WHERE id="+evento_id;
+        try {
+            Connection conn= fachada.getConnetion();
+            Statement sentencia = conn.createStatement();
+            ResultSet tabla = sentencia.executeQuery(sql);
+            tabla.next();
+            int filas_guardadas = tabla.getInt("cupos");
+            return filas_guardadas;
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        } catch(Exception ex){ 
+            System.out.println(ex);
+        }
+        return -1;
+    }
+    
+    public int descontarCupoEvento(int evento_id){
+        String sql = "UPDATE eventos "+
+                     "SET cupos = cupos - 1 "+
+                     "WHERE id="+evento_id;
+        int filasGuardadas = 0;
+        try {
+            Connection conn= fachada.getConnetion();
+            Statement sentencia = conn.createStatement();
+            filasGuardadas = sentencia.executeUpdate(sql);
+            return filasGuardadas;
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        } catch(Exception ex){ 
+            System.out.println(ex);
+        }
+        return -1;
+    }
+    
     public void borrarEvento(String identificacion){}
     public void cerrarConexionBD(){
        fachada.closeConection(fachada.getConnetion());

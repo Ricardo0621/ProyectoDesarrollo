@@ -8,6 +8,7 @@ package proyectodesarrollo;
 import gui.InterfazAdministrador;
 import gui.RegistrarSedes;
 import gui.InterfazOperador;
+import gui.Login_front;
 
 /**
  *
@@ -23,7 +24,7 @@ public class ProyectoDesarrollo {
     }//Fin de testCreaUsuario()
     
     public void testCrearAsistente(){
-        InterfazOperador interfazOperador = new InterfazOperador();
+        InterfazOperador interfazOperador = new InterfazOperador("diego", "1130589899");
         interfazOperador.setVisible(true);
     }//Fin de testCrearAsistente()
     

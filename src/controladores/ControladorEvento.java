@@ -84,6 +84,13 @@ public class ControladorEvento {
     public String[] estadosPagoEventos(String asistente_id){
         return daoEvento.estadosPagoEventos(asistente_id);
     }
+    
+    public int descontarCupoEvento(int evento_id){
+        return daoEvento.descontarCupoEvento(evento_id);
+    }
+    public int getCuposEvento(int evento_id){
+        return daoEvento.getCuposEvento(evento_id);
+    }
 
     public void listarEventos(){}
     

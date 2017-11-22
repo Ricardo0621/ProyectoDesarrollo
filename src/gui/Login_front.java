@@ -128,12 +128,24 @@ public class Login_front extends javax.swing.JFrame {
                     {   
 			String[] data = controladorEmpleado.extraerEmpleado(cedula);
                         String pass = data[10];
-                        
+                        String identificacion = data[0];
+                        String nombre = data[3]+" "+data[4]+" "+" "+data[5]+" "+data[6];
+                        String cargo = data[2];
                         if(pass.equals(String.valueOf(password))){
-                            InterfazAdministrador interfazAdministrador = new InterfazAdministrador("1130589899");
-                            interfazAdministrador.setVisible(true);
-                            this.setVisible(false);
-                            System.out.print("binevenido");
+                            if(cargo.equals("Administrador")){
+                                InterfazAdministrador interfazAdministrador = new InterfazAdministrador("1130589899");
+                                interfazAdministrador.setVisible(true);
+                                this.setVisible(false);
+                                System.out.print("binevenido");
+                            }else if(cargo.equals("Gerente")){
+                                
+                            }else if(cargo.equals("Operador")){
+                                InterfazOperador interfazOperador = new InterfazOperador(nombre, identificacion);
+                                interfazOperador.setVisible(true);
+                                this.setVisible(false);
+                                System.out.print("binevenido");
+                            }
+                            
                         
                         }
                         else{

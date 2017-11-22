@@ -5,7 +5,6 @@
  */
 package gui;
 
-import accesoDatos.DaoEvento;
 import com.toedter.calendar.JDateChooser;
 import controladores.ControladorAsistente;
 import controladores.ControladorEvento;
@@ -56,8 +55,12 @@ public class InterfazOperador extends JFrame implements ActionListener{
     JButton btn_registrar_pago;
     JButton btn_listar_eventos;
     JButton btn_salir;
+    String nombre_usuario;
+    String identificacion_usuario;
     
-    public InterfazOperador(){
+    public InterfazOperador(String nombre_usuario, String identificacion_usuario){
+        this.nombre_usuario = nombre_usuario;
+        this.identificacion_usuario = identificacion_usuario;
         panelCrearAsistente = new PanelCrearAsistente("none", null);
         panelListarAsistentes = new PanelListarAsistentes();
         panelBuscarFiltrarPagarRegistrar = new PanelBuscarFiltrarPagarRegistrar("");
@@ -195,13 +198,14 @@ public class InterfazOperador extends JFrame implements ActionListener{
      */
     private class PanelBienvenido extends JPanel{
         public PanelBienvenido(){
-            setTitle("Bienvenido");                        // colocamos titulo a la ventana
+            setTitle("Bienvenido");                            // colocamos titulo a la ventana
             setSize(420, 550);                                 // colocamos tamanio a la ventana (ancho, alto)
             setLocationRelativeTo(null);                       // centramos la ventana en la pantalla
             setLayout(null);                                   // no usamos ningun layout, solo asi podremos dar posiciones a los componentes
             setResizable(false);                               // hacemos que la ventana no sea redimiensionable
             Border lowerEtched = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
-            TitledBorder title = BorderFactory.createTitledBorder(lowerEtched, "Bienvenido");
+            System.out.println(nombre_usuario);
+            TitledBorder title = BorderFactory.createTitledBorder(lowerEtched, "Bienvenido, "+nombre_usuario);
             Font titleFont = UIManager.getFont("TitledBorder.font");
             title.setTitleFont( titleFont.deriveFont(Font.ITALIC + Font.BOLD, 20) );
             setBorder(title);
@@ -585,7 +589,7 @@ public class InterfazOperador extends JFrame implements ActionListener{
         JDateChooser fecha_final;
   
         public PanelBuscarFiltrarPagarRegistrar(String accion) {
-            setTitle(accion);                        // colocamos titulo a la ventana
+            setTitle(accion);                                  // colocamos titulo a la ventana
             setSize(420, 550);                                 // colocamos tamanio a la ventana (ancho, alto)
             setLocationRelativeTo(null);                       // centramos la ventana en la pantalla
             setLayout(null);                                   // no usamos ningun layout, solo asi podremos dar posiciones a los componentes
@@ -596,7 +600,7 @@ public class InterfazOperador extends JFrame implements ActionListener{
             title.setTitleFont( titleFont.deriveFont(Font.ITALIC + Font.BOLD, 20) );
             setBorder(title);
             this.accion = accion;
-            empleado_id = "123456781";
+            empleado_id = identificacion_usuario;
             if(accion.equals("Listar Asistentes")){
                 configurarComponentesFiltrar();
             }else if(accion.equals("Modificar Asistente")){
@@ -1072,21 +1076,27 @@ public class InterfazOperador extends JFrame implements ActionListener{
                             String asistente_id = txt_buscar.getText();
                             int evento_id = Integer.parseInt(comb_eventos_id.getSelectedItem().toString().split(" - ")[0]);
                             ControladorEvento controladorEvento = new ControladorEvento();
-                            int filas_gurdadas = controladorEvento.inscribirAsistenteEvento(empleado_id, evento_id, asistente_id);
-                            if(filas_gurdadas != -1){
-                                String msg_confirmacion = "Comfirmar inscripción a evento!";
-                                int res = JOptionPane.showOptionDialog(null, msg_confirmacion, "Test", JOptionPane.DEFAULT_OPTION,
-                                          JOptionPane.INFORMATION_MESSAGE, null, null, null);
-                                if(res != -1){
-                                    setVisible(false);
-                                    removerPaneles();
-                                    mostrarPanelBuscarFiltarPagarInscribir(accion, true);
-                                    if(accion.equals("Listar Asistentes")){
-                                        panelBuscarFiltrarPagarRegistrar.setComboBox(accion, null);
+                            if(controladorEvento.getCuposEvento(evento_id) >= 1){
+                                int filas_gurdadas = controladorEvento.inscribirAsistenteEvento(empleado_id, evento_id, asistente_id);
+                                if(filas_gurdadas != -1){
+                                    if(controladorEvento.descontarCupoEvento(evento_id) > 0){
+                                        String msg_confirmacion = "Comfirmar inscripción a evento!";
+                                        int res = JOptionPane.showOptionDialog(null, msg_confirmacion, "Test", JOptionPane.DEFAULT_OPTION,
+                                                  JOptionPane.INFORMATION_MESSAGE, null, null, null);
+                                        if(res != -1){
+                                            setVisible(false);
+                                            removerPaneles();
+                                            mostrarPanelBuscarFiltarPagarInscribir(accion, true);
+                                            if(accion.equals("Listar Asistentes")){
+                                                panelBuscarFiltrarPagarRegistrar.setComboBox(accion, null);
+                                            }
+                                        }
                                     }
+                                }else{
+                                    label_alerta.setText("<html><font color='red' size='4'>!!! El usurio ya está registrado a este evento !!!</font></html>");                                    
                                 }
                             }else{
-                                label_alerta.setText("<html><font color='red' size='4'>!!! El usurio ya está registrado a este evento !!!</font></html>");                                    
+                                label_alerta.setText("<html><font color='red' size='4'>!!! Cupos agotados en el evento !!!</font></html>");                                    
                             }
                         }else{
                             label_alerta.setText("<html><font color='red' size='4'>!!! Seleccione un evento de la lista !!!</font></html>");
