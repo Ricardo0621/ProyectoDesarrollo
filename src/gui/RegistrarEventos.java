@@ -459,7 +459,7 @@ public class RegistrarEventos extends JFrame {
             tomarCampos();
             int respuesta = validarCampos();
             mostrarMensajesValidaciones(respuesta);
-            ControladorEvento.registrarEvento(identificacion, nombre, descripcion, fecha_creacion, fecha_inicio, fecha_fin, horario, horas, valor, lugar, cupos, estado);
+            //ControladorEvento.registrarEvento(identificacion, nombre, descripcion, fecha_creacion, fecha_inicio, fecha_fin, horario, horas, valor, lugar, cupos, estado);
             limpiarCampos();
             habilitarBotones();
         }
@@ -467,7 +467,7 @@ public class RegistrarEventos extends JFrame {
             tomarCampos();
             int respuesta = validarCampos();
             mostrarMensajesValidaciones(respuesta);
-            ControladorEvento.editarEvento(identificacion, nombre, descripcion, fecha_creacion, fecha_inicio, fecha_fin, horario, horas, valor, lugar, cupos, estado);
+            //ControladorEvento.editarEvento(identificacion, nombre, descripcion, fecha_creacion, fecha_inicio, fecha_fin, horario, horas, valor, lugar, cupos, estado);
             limpiarCampos();
             habilitarBotones();
         }
@@ -514,7 +514,7 @@ public class RegistrarEventos extends JFrame {
         habilitarBotones();
     }//GEN-LAST:event_jButtonCancelActionPerformed
 
-    public void retornarDatosEventos() {
+    /*public void retornarDatosEventos() {
         String[] datos = ControladorEvento.extraerEvento(identificacion);
         jTextFieldIdentificacion.setText(datos[0]);
         jTextFieldIdEmpleado.setText(datos[1]);
@@ -529,18 +529,18 @@ public class RegistrarEventos extends JFrame {
         jTextFieldLugar.setText(datos[10]);
         jTextFieldCupos.setText(datos[11]);
         jTextFieldEstado.setText(datos[12]);
-    }
+    }*/
 
     private void jButtonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuscarActionPerformed
         // TODO add your handling code here:
-        identificacion = jTextFieldIdentificacion.getText();
+        /*identificacion = jTextFieldIdentificacion.getText();
         if (ControladorEvento.consultarEvento(identificacion)) {
             retornarDatosEventos();
             eventosBuscar();
 
         } else {
             JOptionPane.showMessageDialog(null, "No existe");
-        }
+        }*/
     }//GEN-LAST:event_jButtonBuscarActionPerformed
 
     private void jTextFieldHorasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldHorasActionPerformed

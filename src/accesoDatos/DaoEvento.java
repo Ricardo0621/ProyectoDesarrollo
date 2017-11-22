@@ -69,10 +69,10 @@ public class DaoEvento {
                 evento.setFechaInicio(tabla.getString(6));
                 evento.setFechaFin(tabla.getString(7));
                 evento.setHorario(tabla.getString(8));
-                evento.setHoras(Integer.parseInt(tabla.getString(9)));
-                evento.setValor(Integer.parseInt(tabla.getString(10)));
+                evento.setHoras(tabla.getString(9));
+                evento.setValor(tabla.getString(10));
                 evento.setLugar(tabla.getString(11));
-                evento.setCupos(Integer.parseInt(tabla.getString(12)));
+                evento.setCupos(tabla.getString(12));
                 evento.setEstado(tabla.getString(13));
                 eventos[contador] = evento;
                 contador++;
@@ -122,10 +122,10 @@ public class DaoEvento {
                         evento.setFechaInicio(tabla1.getString(6));
                         evento.setFechaFin(tabla1.getString(7));
                         evento.setHorario(tabla1.getString(8));
-                        evento.setHoras(Integer.parseInt(tabla1.getString(9)));
-                        evento.setValor(Integer.parseInt(tabla1.getString(10)));
+                        evento.setHoras(tabla1.getString(9));
+                        evento.setValor(tabla1.getString(10));
                         evento.setLugar(tabla1.getString(11));
-                        evento.setCupos(Integer.parseInt(tabla1.getString(12)));
+                        evento.setCupos(tabla1.getString(12));
                         evento.setEstado(tabla1.getString(13));
                         eventos[contador] = evento;
                         contador ++;
@@ -167,10 +167,10 @@ public class DaoEvento {
                     evento.setFechaInicio(tabla.getString(6));
                     evento.setFechaFin(tabla.getString(7));
                     evento.setHorario(tabla.getString(8));
-                    evento.setHoras(Integer.parseInt(tabla.getString(9)));
-                    evento.setValor(Integer.parseInt(tabla.getString(10)));
+                    evento.setHoras(tabla.getString(9));
+                    evento.setValor(tabla.getString(10));
                     evento.setLugar(tabla.getString(11));
-                    evento.setCupos(Integer.parseInt(tabla.getString(12)));
+                    evento.setCupos(tabla.getString(12));
                     evento.setEstado(tabla.getString(13));
                     eventos[i] = evento;
                 }  
