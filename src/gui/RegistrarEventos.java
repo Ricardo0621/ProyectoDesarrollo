@@ -6,7 +6,7 @@
 package gui;
 
 import com.toedter.calendar.JDateChooser;
-import controladores.ControladorSede;
+import controladores.ControladorEvento;
 import java.util.regex.Pattern;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -15,15 +15,22 @@ import javax.swing.JOptionPane;
  *
  * @author Ricardo
  */
-public class RegistrarSedes extends JFrame {
+public class RegistrarEventos extends JFrame {
 
     private String identificacion;
     private String id_empleado;
     private String nombre;
-    private String direccion;
-    private String telefono;
+    private String descripcion;
+    private String fecha_inicio;
     private String fecha_creacion;
-    ControladorSede ControladorSede = new ControladorSede();
+    private String fecha_fin;
+    private String horario;
+    private String horas;
+    private String valor;
+    private String lugar;
+    private String cupos;
+    private String estado;
+    ControladorEvento ControladorEvento = new ControladorEvento();
 
     @Override
     public void setDefaultCloseOperation(int i) {
@@ -33,7 +40,7 @@ public class RegistrarSedes extends JFrame {
     /**
      * Creates new form RegistrarSedes
      */
-    public RegistrarSedes() {
+    public RegistrarEventos() {
         initComponents();
         setResizable(false);
         iniciarComponentes();
@@ -60,18 +67,32 @@ public class RegistrarSedes extends JFrame {
         jTextFieldIdentificacion = new javax.swing.JTextField();
         jTextFieldIdEmpleado = new javax.swing.JTextField();
         jTextFieldNombre = new javax.swing.JTextField();
-        jTextFieldDireccion = new javax.swing.JTextField();
-        jTextFieldTelefono = new javax.swing.JTextField();
+        jTextFieldDescripcion = new javax.swing.JTextField();
+        jTextFieldFechaInicio = new javax.swing.JTextField();
         jTextFieldFechaCreacion = new javax.swing.JTextField();
         jButtonOk = new javax.swing.JButton();
         jRadioRegistrar = new javax.swing.JRadioButton();
         jRadioModificar = new javax.swing.JRadioButton();
         jButtonCancel = new javax.swing.JButton();
         jButtonBuscar = new javax.swing.JButton();
+        jLabel8 = new javax.swing.JLabel();
+        jTextFieldFechaFin = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jTextFieldHorario = new javax.swing.JTextField();
+        jTextFieldHoras = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        jTextFieldValor = new javax.swing.JTextField();
+        jTextFieldLugar = new javax.swing.JTextField();
+        jTextFieldCupos = new javax.swing.JTextField();
+        jTextFieldEstado = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("Registrar Sedes");
+        jLabel1.setText("Registrar Eventos");
 
         jLabel2.setText("Identificacion");
 
@@ -79,11 +100,11 @@ public class RegistrarSedes extends JFrame {
 
         jLabel4.setText("Nombre");
 
-        jLabel5.setText("Direccion");
+        jLabel5.setText("Descripcion");
 
-        jLabel6.setText("Telefono");
+        jLabel6.setText("Fecha Creacion");
 
-        jLabel7.setText("Fecha Creacion");
+        jLabel7.setText("Fecha Inicio");
 
         jButtonOk.setText("Ok");
         jButtonOk.addActionListener(new java.awt.event.ActionListener() {
@@ -120,44 +141,105 @@ public class RegistrarSedes extends JFrame {
             }
         });
 
+        jLabel8.setText("Fecha Fin");
+
+        jLabel9.setText("Horario");
+
+        jLabel10.setText("Horas");
+
+        jTextFieldHoras.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldHorasActionPerformed(evt);
+            }
+        });
+
+        jLabel11.setText("Valor");
+
+        jLabel12.setText("Lugar");
+
+        jLabel13.setText("Cupos");
+
+        jLabel14.setText("Estado");
+
+        jTextFieldLugar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldLugarActionPerformed(evt);
+            }
+        });
+
+        jTextFieldCupos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldCuposActionPerformed(evt);
+            }
+        });
+
+        jTextFieldEstado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldEstadoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(163, 163, 163)
                         .addComponent(jLabel1))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(32, 32, 32)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel5))
-                        .addGap(18, 18, 18)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jLabel6)
+                                .addGap(18, 18, 18))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(30, 30, 30)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel14)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel2)
+                                            .addComponent(jLabel3)
+                                            .addComponent(jLabel4)
+                                            .addComponent(jLabel7)
+                                            .addComponent(jLabel5)
+                                            .addComponent(jLabel8)
+                                            .addComponent(jLabel9)
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                .addComponent(jLabel10)
+                                                .addComponent(jLabel12)
+                                                .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.LEADING)))
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(jLabel13)
+                                            .addGap(36, 36, 36))))
+                                .addGap(28, 28, 28)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jTextFieldNombre)
                             .addComponent(jTextFieldIdEmpleado)
                             .addComponent(jTextFieldIdentificacion)
-                            .addComponent(jTextFieldDireccion)
-                            .addComponent(jTextFieldTelefono)
-                            .addComponent(jTextFieldFechaCreacion, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(122, 122, 122)
-                        .addComponent(jButtonOk)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButtonCancel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButtonBuscar)))
-                .addGap(10, 10, 10)
+                            .addComponent(jTextFieldDescripcion)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jButtonOk)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButtonCancel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButtonBuscar))
+                            .addComponent(jTextFieldFechaInicio)
+                            .addComponent(jTextFieldFechaCreacion)
+                            .addComponent(jTextFieldFechaFin)
+                            .addComponent(jTextFieldHorario, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jTextFieldValor)
+                            .addComponent(jTextFieldLugar)
+                            .addComponent(jTextFieldCupos)
+                            .addComponent(jTextFieldEstado, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jTextFieldHoras, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(8, 8, 8)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jRadioRegistrar)
                     .addComponent(jRadioModificar))
-                .addContainerGap(8, Short.MAX_VALUE))
+                .addContainerGap(51, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -181,15 +263,15 @@ public class RegistrarSedes extends JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel5)
-                            .addComponent(jTextFieldDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(jTextFieldDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel6)
-                            .addComponent(jTextFieldTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(jTextFieldFechaCreacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel7)
-                            .addComponent(jTextFieldFechaCreacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jTextFieldFechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel7)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(25, 25, 25)
                         .addComponent(jRadioRegistrar)
@@ -197,10 +279,38 @@ public class RegistrarSedes extends JFrame {
                         .addComponent(jRadioModificar)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextFieldFechaFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextFieldHorario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10)
+                    .addComponent(jTextFieldHoras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel11)
+                    .addComponent(jTextFieldValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel12)
+                    .addComponent(jTextFieldLugar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel13)
+                    .addComponent(jTextFieldCupos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel14)
+                    .addComponent(jTextFieldEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonOk)
                     .addComponent(jButtonCancel)
                     .addComponent(jButtonBuscar))
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         pack();
@@ -210,9 +320,16 @@ public class RegistrarSedes extends JFrame {
         identificacion = "";
         id_empleado = "";
         nombre = "";
-        direccion = "";
-        telefono = "";
+        descripcion = "";
+        fecha_inicio = "";
         fecha_creacion = "";
+        fecha_fin = "";
+        horario = "";
+        horas = "";
+        valor = "";
+        lugar = "";
+        cupos = "";
+        estado = "";
         jButtonBuscar.setEnabled(false);
     }
 
@@ -220,45 +337,66 @@ public class RegistrarSedes extends JFrame {
         jTextFieldIdentificacion.setText("");
         jTextFieldIdEmpleado.setText("");
         jTextFieldNombre.setText("");
-        jTextFieldDireccion.setText("");
-        jTextFieldTelefono.setText("");
+        jTextFieldDescripcion.setText("");
+        jTextFieldFechaInicio.setText("");
         jTextFieldFechaCreacion.setText("");
+        jTextFieldFechaFin.setText("");
+        jTextFieldHorario.setText("");
+        jTextFieldHoras.setText("");
+        jTextFieldValor.setText("");
+        jTextFieldLugar.setText("");
+        jTextFieldCupos.setText("");
+        jTextFieldEstado.setText("");
     }
 
     public void tomarCampos() {
         identificacion = jTextFieldIdentificacion.getText();
         id_empleado = jTextFieldIdEmpleado.getText();
         nombre = jTextFieldNombre.getText();
-        direccion = jTextFieldDireccion.getText();
-        telefono = jTextFieldTelefono.getText();
+        descripcion = jTextFieldDescripcion.getText();
+        fecha_inicio = jTextFieldFechaInicio.getText();
+        fecha_fin = jTextFieldFechaFin.getText();
         fecha_creacion = jTextFieldFechaCreacion.getText();
+        horario = jTextFieldHorario.getText();
+        horas = jTextFieldHoras.getText();
+        valor = jTextFieldValor.getText();
+        lugar = jTextFieldLugar.getText();
+        cupos = jTextFieldCupos.getText();
+        estado = jTextFieldEstado.getText();
     }
 
     public int validarCampos() {
         identificacion = jTextFieldIdentificacion.getText();
         id_empleado = jTextFieldIdEmpleado.getText();
         nombre = jTextFieldNombre.getText();
-        direccion = jTextFieldDireccion.getText();
-        telefono = jTextFieldTelefono.getText();
+        descripcion = jTextFieldDescripcion.getText();
+        fecha_inicio = jTextFieldFechaInicio.getText();
         fecha_creacion = jTextFieldFechaCreacion.getText();
+        fecha_fin = jTextFieldFechaFin.getText();
+        horario = jTextFieldHorario.getText();
+        horas = jTextFieldHoras.getText();
+        valor = jTextFieldValor.getText();
+        lugar = jTextFieldLugar.getText();
+        cupos = jTextFieldCupos.getText();
+        estado = jTextFieldEstado.getText();
         if (!Pattern.matches("[0-9]+", identificacion)) {
             return 1;
         } else if (!Pattern.matches("[0-9]+", id_empleado)) {
             return 2;
         } else if (!Pattern.matches("[a-zA-Z]+", nombre)) {
             return 3;
-        } else if (!direccion.contains("#")
-                || !direccion.contains("-")
-                || !direccion.contains("Cra")
-                || direccion.equals("")) {
+        } else if (!descripcion.contains("#")
+                || !descripcion.contains("-")
+                || !descripcion.contains("Cra")
+                || descripcion.equals("")) {
             return 4;
-        } else if (!Pattern.matches("[0-9]+", telefono)) {
+        } else if (!Pattern.matches("[0-9]+", fecha_inicio)) {
             return 5;
         } else if (!fecha_creacion.contains("-") || !fecha_creacion.contains(":")) {
             return 6;
         } else if (identificacion.equals("") || id_empleado.equals("")
-                || telefono.equals("") || fecha_creacion.equals("")
-                || direccion.equals("") || nombre.equals("")) {
+                || fecha_inicio.equals("") || fecha_creacion.equals("")
+                || descripcion.equals("") || nombre.equals("")) {
             return 7;
         }
         return 0;
@@ -270,12 +408,12 @@ public class RegistrarSedes extends JFrame {
         jButtonBuscar.setEnabled(true);
         jButtonCancel.setEnabled(true);
         jButtonOk.setEnabled(true);
-        jTextFieldDireccion.setEditable(true);
+        jTextFieldDescripcion.setEditable(true);
         jTextFieldFechaCreacion.setEditable(true);
         jTextFieldIdEmpleado.setEditable(true);
         jTextFieldIdentificacion.setEditable(true);
         jTextFieldNombre.setEditable(true);
-        jTextFieldTelefono.setEditable(true);
+        jTextFieldFechaInicio.setEditable(true);
         jRadioModificar.setSelected(false);
         jRadioRegistrar.setSelected(false);
     }
@@ -321,28 +459,24 @@ public class RegistrarSedes extends JFrame {
             tomarCampos();
             int respuesta = validarCampos();
             mostrarMensajesValidaciones(respuesta);
-            if (respuesta == 0) {
-                ControladorSede.registrarSede(identificacion, id_empleado, nombre, direccion, telefono, fecha_creacion);
-                limpiarCampos();
-                habilitarBotones();
-            }
+            ControladorEvento.registrarEvento(identificacion, nombre, descripcion, fecha_creacion, fecha_inicio, fecha_fin, horario, horas, valor, lugar, cupos, estado);
+            limpiarCampos();
+            habilitarBotones();
         }
         if (jRadioModificar.isSelected()) {
             tomarCampos();
             int respuesta = validarCampos();
             mostrarMensajesValidaciones(respuesta);
-            if (respuesta == 0) {
-                ControladorSede.editarSede(identificacion, id_empleado, nombre, direccion, telefono, fecha_creacion);
-                limpiarCampos();
-                habilitarBotones();
-            }
+            ControladorEvento.editarEvento(identificacion, nombre, descripcion, fecha_creacion, fecha_inicio, fecha_fin, horario, horas, valor, lugar, cupos, estado);
+            limpiarCampos();
+            habilitarBotones();
         }
     }//GEN-LAST:event_jButtonOkActionPerformed
 
     /*private void validarBeta()
     {
-        ControladorSede controlador = new ControladorSede() ;
-        controlador.validarDatosModif(identificacion, id_empleado, nombre, direccion, telefono, fecha_creacion);
+        ControladorEvento controlador = new ControladorEvento() ;
+        controlador.validarDatosModif(identificacion, id_empleado, nombre, descripcion, fecha_inicio, fecha_creacion);
     }*/
     private void eventosModificar() {
         jRadioRegistrar.setEnabled(false);
@@ -352,8 +486,8 @@ public class RegistrarSedes extends JFrame {
         jButtonBuscar.setEnabled(true);
         jTextFieldIdEmpleado.setEditable(false);
         jTextFieldNombre.setEditable(false);
-        jTextFieldDireccion.setEditable(false);
-        jTextFieldTelefono.setEditable(false);
+        jTextFieldDescripcion.setEditable(false);
+        jTextFieldFechaInicio.setEditable(false);
         jTextFieldFechaCreacion.setEditable(false);
     }
 
@@ -361,8 +495,8 @@ public class RegistrarSedes extends JFrame {
         jTextFieldIdentificacion.setEditable(false);
         jTextFieldIdEmpleado.setEditable(true);
         jTextFieldNombre.setEditable(true);
-        jTextFieldDireccion.setEditable(true);
-        jTextFieldTelefono.setEditable(true);
+        jTextFieldDescripcion.setEditable(true);
+        jTextFieldFechaInicio.setEditable(true);
         jTextFieldFechaCreacion.setEditable(true);
         jButtonBuscar.setEnabled(false);
         jButtonOk.setEnabled(true);
@@ -380,27 +514,50 @@ public class RegistrarSedes extends JFrame {
         habilitarBotones();
     }//GEN-LAST:event_jButtonCancelActionPerformed
 
-    public void retornarDatosSedes() {
-        String[] datos = ControladorSede.extraerSede(identificacion);
+    public void retornarDatosEventos() {
+        String[] datos = ControladorEvento.extraerEvento(identificacion);
         jTextFieldIdentificacion.setText(datos[0]);
         jTextFieldIdEmpleado.setText(datos[1]);
         jTextFieldNombre.setText(datos[2]);
-        jTextFieldDireccion.setText(datos[3]);
-        jTextFieldTelefono.setText(datos[4]);
-        jTextFieldFechaCreacion.setText(datos[5]);
+        jTextFieldDescripcion.setText(datos[3]);
+        jTextFieldFechaCreacion.setText(datos[4]);
+        jTextFieldFechaInicio.setText(datos[5]);
+        jTextFieldFechaFin.setText(datos[6]);
+        jTextFieldHorario.setText(datos[7]);
+        jTextFieldHoras.setText(datos[8]);
+        jTextFieldValor.setText(datos[9]);
+        jTextFieldLugar.setText(datos[10]);
+        jTextFieldCupos.setText(datos[11]);
+        jTextFieldEstado.setText(datos[12]);
     }
 
     private void jButtonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuscarActionPerformed
         // TODO add your handling code here:
         identificacion = jTextFieldIdentificacion.getText();
-        if (ControladorSede.consultarSede(identificacion)) {
-            retornarDatosSedes();
+        if (ControladorEvento.consultarEvento(identificacion)) {
+            retornarDatosEventos();
             eventosBuscar();
 
         } else {
             JOptionPane.showMessageDialog(null, "No existe");
         }
     }//GEN-LAST:event_jButtonBuscarActionPerformed
+
+    private void jTextFieldHorasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldHorasActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldHorasActionPerformed
+
+    private void jTextFieldLugarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldLugarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldLugarActionPerformed
+
+    private void jTextFieldCuposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldCuposActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldCuposActionPerformed
+
+    private void jTextFieldEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldEstadoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldEstadoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -419,20 +576,21 @@ public class RegistrarSedes extends JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(RegistrarSedes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RegistrarEventos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(RegistrarSedes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RegistrarEventos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(RegistrarSedes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RegistrarEventos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(RegistrarSedes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RegistrarEventos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new RegistrarSedes().setVisible(true);
+                new RegistrarEventos().setVisible(true);
             }
         });
     }
@@ -442,19 +600,33 @@ public class RegistrarSedes extends JFrame {
     private javax.swing.JButton jButtonCancel;
     private javax.swing.JButton jButtonOk;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JRadioButton jRadioModificar;
     private javax.swing.JRadioButton jRadioRegistrar;
-    private javax.swing.JTextField jTextFieldDireccion;
+    private javax.swing.JTextField jTextFieldCupos;
+    private javax.swing.JTextField jTextFieldDescripcion;
+    private javax.swing.JTextField jTextFieldEstado;
     private javax.swing.JTextField jTextFieldFechaCreacion;
+    private javax.swing.JTextField jTextFieldFechaFin;
+    private javax.swing.JTextField jTextFieldFechaInicio;
+    private javax.swing.JTextField jTextFieldHorario;
+    private javax.swing.JTextField jTextFieldHoras;
     private javax.swing.JTextField jTextFieldIdEmpleado;
     private javax.swing.JTextField jTextFieldIdentificacion;
+    private javax.swing.JTextField jTextFieldLugar;
     private javax.swing.JTextField jTextFieldNombre;
-    private javax.swing.JTextField jTextFieldTelefono;
+    private javax.swing.JTextField jTextFieldValor;
     // End of variables declaration//GEN-END:variables
 }
