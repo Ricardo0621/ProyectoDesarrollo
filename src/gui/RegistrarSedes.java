@@ -241,25 +241,34 @@ public class RegistrarSedes extends JFrame {
         direccion = jTextFieldDireccion.getText();
         telefono = jTextFieldTelefono.getText();
         fecha_creacion = jTextFieldFechaCreacion.getText();
-        if (!Pattern.matches("[0-9]+", identificacion)) {
+        if (identificacion.isEmpty()) {
+            return 7;
+        } else if (!Pattern.matches("[0-9]+", identificacion)) {
             return 1;
+        } else if (id_empleado.isEmpty()) {
+            return 7;
         } else if (!Pattern.matches("[0-9]+", id_empleado)) {
             return 2;
-        } else if (!Pattern.matches("[a-zA-Z]+", nombre)) {
+        } else if (nombre.isEmpty()) {
+            return 7;
+        } else if (!Pattern.matches("[a-zA-Z ]+", nombre)) {
             return 3;
+        } else if (direccion.isEmpty()) {
+            return 7;
         } else if (!direccion.contains("#")
                 || !direccion.contains("-")
                 || !direccion.contains("Cra")
+                || !direccion.contains("Calle")
                 || direccion.equals("")) {
             return 4;
+        } else if (telefono.isEmpty()) {
+            return 7;
         } else if (!Pattern.matches("[0-9]+", telefono)) {
             return 5;
+        } else if (fecha_creacion.isEmpty()) {
+            return 7;
         } else if (!fecha_creacion.contains("-") || !fecha_creacion.contains(":")) {
             return 6;
-        } else if (identificacion.equals("") || id_empleado.equals("")
-                || telefono.equals("") || fecha_creacion.equals("")
-                || direccion.equals("") || nombre.equals("")) {
-            return 7;
         }
         return 0;
     }
@@ -393,11 +402,10 @@ public class RegistrarSedes extends JFrame {
     private void jButtonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuscarActionPerformed
         // TODO add your handling code here:
         identificacion = jTextFieldIdentificacion.getText();
-        if (ControladorSede.consultarSede(identificacion)) {
+        if (ControladorSede.consultarSede(identificacion) && jRadioModificar.isSelected()) {
             retornarDatosSedes();
             eventosBuscar();
-
-        } else {
+        } else if (ControladorSede.consultarSede(identificacion) == false) {
             JOptionPane.showMessageDialog(null, "No existe");
         }
     }//GEN-LAST:event_jButtonBuscarActionPerformed
