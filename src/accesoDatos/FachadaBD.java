@@ -5,66 +5,67 @@ package accesoDatos;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author alejo
  */
-
-
 import java.sql.*;
+
 public class FachadaBD {
+
     String url, usuario, password;
-    Connection conexion =null;
+    Connection conexion = null;
     Statement instruccion;
     ResultSet tabla;
-    FachadaBD(){
-        url="jdbc:postgresql://localhost/db_desarrollo";
-        usuario="alejo";
-        password="laniakea";
+
+    FachadaBD() {
+        /*url="jdbc:postgresql://localhost/proyecto_desarrollo1";
+        usuario="postgres";
+        password="R1144089742D";*/
+        url = "jdbc:postgresql://proyectodesarrollo.cobjaigxunv6.us-east-2.rds.amazonaws.com/proyecto_desarrollo";
+        usuario = "root";
+        password = "Desarrollo12";
+
     }
 
-
-
-    public Connection conectar(){
+    public Connection conectar() {
         try {
-        // Se carga el driver
-        Class.forName("org.postgresql.Driver");
-        //System.out.println( "Driver Cargado" );
-        } catch( Exception e ) {
-            System.out.println( "No se pudo cargar el driver." );
+            // Se carga el driver
+            Class.forName("org.postgresql.Driver");
+            //System.out.println( "Driver Cargado" );
+        } catch (Exception e) {
+            System.out.println("No se pudo cargar el driver.");
         }
 
-        try{
-                 //Crear el objeto de conexion a la base de datos
-                 conexion = DriverManager.getConnection(url, usuario, password);
-                 System.out.println( "Conexion Abierta" );
-                 return conexion;
-              //Crear objeto Statement para realizar queries a la base de datos
-         } catch( Exception e ) {
-            System.out.println( "No se pudo abrir la bd." );
+        try {
+            //Crear el objeto de conexion a la base de datos
+            conexion = DriverManager.getConnection(url, usuario, password);
+            System.out.println("Conexion Abierta");
+            return conexion;
+            //Crear objeto Statement para realizar queries a la base de datos
+        } catch (Exception e) {
+            System.out.println("No se pudo abrir la bd.");
             return null;
-         }
+        }
 
     }//end connectar
 
-    public Connection getConnetion(){
+    public Connection getConnetion() {
         if (conexion == null) {
             return this.conectar();
+        } else {
+            return conexion;
         }
-        else{
-              return conexion;      
-        }
-        
+
     }
-    
-    public void closeConection(Connection c){
-        try{
-            if (conexion != null){
+
+    public void closeConection(Connection c) {
+        try {
+            if (conexion != null) {
                 c.close();
-            }   
-        } catch( Exception e ) {
-            System.out.println( "No se pudo cerrar." );
+            }
+        } catch (Exception e) {
+            System.out.println("No se pudo cerrar.");
         }
     }
 
