@@ -233,7 +233,9 @@ public class RegistrarEventos extends JFrame {
                             .addComponent(jTextFieldValor)
                             .addComponent(jTextFieldLugar)
                             .addComponent(jTextFieldCupos)
-                            .addComponent(jTextFieldEstado, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jTextFieldEstado)
+                                .addGap(81, 81, 81))
                             .addComponent(jTextFieldHoras, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(8, 8, 8)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -379,26 +381,56 @@ public class RegistrarEventos extends JFrame {
         lugar = jTextFieldLugar.getText();
         cupos = jTextFieldCupos.getText();
         estado = jTextFieldEstado.getText();
-        if (!Pattern.matches("[0-9]+", identificacion)) {
+        if (identificacion.isEmpty()) {
+            return 7;
+        } else if (!Pattern.matches("[0-9]+", identificacion)) {
             return 1;
+        } else if (id_empleado.isEmpty()) {
+            return 7;
         } else if (!Pattern.matches("[0-9]+", id_empleado)) {
             return 2;
-        } else if (!Pattern.matches("[a-zA-Z]+", nombre)) {
-            return 3;
-        } else if (!descripcion.contains("#")
-                || !descripcion.contains("-")
-                || !descripcion.contains("Cra")
-                || descripcion.equals("")) {
-            return 4;
-        } else if (!Pattern.matches("[0-9]+", fecha_inicio)) {
-            return 5;
-        } else if (!fecha_creacion.contains("-") || !fecha_creacion.contains(":")) {
-            return 6;
-        } else if (identificacion.equals("") || id_empleado.equals("")
-                || fecha_inicio.equals("") || fecha_creacion.equals("")
-                || descripcion.equals("") || nombre.equals("")) {
+        } else if (nombre.isEmpty()) {
             return 7;
+        } else if (!Pattern.matches("[a-zA-Z ]+", nombre)) {
+            return 3;
+        } else if (descripcion.isEmpty()) {
+            return 7;
+        } else if (!Pattern.matches("[a-zA-Z ]+", descripcion)) {
+            return 4;
+        } else if (fecha_creacion.isEmpty()) {
+            return 7;
+        } else if (!fecha_creacion.contains("-") || !fecha_creacion.contains(":")) {
+            return 5;
+        } else if (fecha_inicio.isEmpty()) {
+            return 7;
+        } else if (!fecha_inicio.contains("-") || !fecha_inicio.contains(":")) {
+            return 6;
+        } else if (fecha_fin.isEmpty()) {
+            return 7;
+        } else if (!fecha_fin.contains("-") || !fecha_fin.contains(":")) {
+            return 8;
+        } else if (horario.isEmpty()) {
+            return 7;
+        } else if (!horario.contains("-") || !horario.contains(":")) {
+            return 9;
+        } else if (horas.isEmpty()) {
+            return 7;
+        } else if (!Pattern.matches("[0-9]+", horas)) {
+            return 10;
+        } else if (valor.isEmpty()) {
+            return 7;
+        } else if (!Pattern.matches("[0-9]+", valor)) {
+            return 11;
+        } else if (lugar.isEmpty()) {
+            return 7;
+        } else if (!Pattern.matches("[a-zA-Z0-9 ]+", lugar)){
+            return 12;
+        } else if (cupos.isEmpty()) {
+            return 7;
+        } else if (!Pattern.matches("[0-9]+", cupos)) {
+            return 13;
         }
+
         return 0;
     }
 
@@ -434,17 +466,35 @@ public class RegistrarEventos extends JFrame {
                 JOptionPane.showMessageDialog(null, "El campo nombre sólo debe contener letras");
                 break;
             case 4:
-                JOptionPane.showMessageDialog(null, "La dirección no permite letras o caracteres especiales");
+                JOptionPane.showMessageDialog(null, "La descripcion no permite numeros o caracteres especiales");
                 break;
             case 5:
-                JOptionPane.showMessageDialog(null, "El campo telefono sólo debe contener números");
+                JOptionPane.showMessageDialog(null, "La fecha de creación no permite letras o caracteres especiales");
                 break;
             case 6:
-                JOptionPane.showMessageDialog(null, "La fecha de creación no permite letras o caracteres especiales");
+                JOptionPane.showMessageDialog(null, "La fecha de inicio no permite letras o caracteres especiales");
                 break;
             case 7:
                 JOptionPane.showMessageDialog(null, "Todos los campos son obligatorios");
                 break;
+            case 8:
+                JOptionPane.showMessageDialog(null, "La fecha de fin no permite letras o caracteres especiales");
+                break;
+            case 9:
+                JOptionPane.showMessageDialog(null, "El campo horario no permite letras o caracteres especiales");
+                break;
+            case 10:
+                JOptionPane.showMessageDialog(null, "El campo horas sólo permite números");
+                break; 
+            case 11:
+                JOptionPane.showMessageDialog(null, "El campo valor sólo permite números");
+                break;      
+            case 12:
+                JOptionPane.showMessageDialog(null, "El campo lugar no permite caracteres especiales");
+                break;
+            case 13:
+                JOptionPane.showMessageDialog(null, "El campo cupos sólo permite números");
+                break;      
             case 0:
                 JOptionPane.showMessageDialog(null, "Éxito");
                 limpiarCampos();
@@ -459,17 +509,21 @@ public class RegistrarEventos extends JFrame {
             tomarCampos();
             int respuesta = validarCampos();
             mostrarMensajesValidaciones(respuesta);
-            //ControladorEvento.registrarEvento(identificacion, nombre, descripcion, fecha_creacion, fecha_inicio, fecha_fin, horario, horas, valor, lugar, cupos, estado);
-            limpiarCampos();
-            habilitarBotones();
+            if (respuesta == 0) {
+                ControladorEvento.registrarEvento(id_empleado, identificacion, nombre, descripcion, fecha_creacion, fecha_inicio, fecha_fin, horario, horas, valor, lugar, cupos, estado);
+                limpiarCampos();
+                habilitarBotones();
+            }
         }
         if (jRadioModificar.isSelected()) {
             tomarCampos();
             int respuesta = validarCampos();
             mostrarMensajesValidaciones(respuesta);
-            //ControladorEvento.editarEvento(identificacion, nombre, descripcion, fecha_creacion, fecha_inicio, fecha_fin, horario, horas, valor, lugar, cupos, estado);
-            limpiarCampos();
-            habilitarBotones();
+            if (respuesta == 0) {
+                ControladorEvento.editarEvento(id_empleado, identificacion, nombre, descripcion, fecha_creacion, fecha_inicio, fecha_fin, horario, horas, valor, lugar, cupos, estado);
+                limpiarCampos();
+                habilitarBotones();
+            }
         }
     }//GEN-LAST:event_jButtonOkActionPerformed
 
@@ -514,7 +568,7 @@ public class RegistrarEventos extends JFrame {
         habilitarBotones();
     }//GEN-LAST:event_jButtonCancelActionPerformed
 
-    /*public void retornarDatosEventos() {
+    public void retornarDatosEventos() {
         String[] datos = ControladorEvento.extraerEvento(identificacion);
         jTextFieldIdentificacion.setText(datos[0]);
         jTextFieldIdEmpleado.setText(datos[1]);
@@ -529,18 +583,18 @@ public class RegistrarEventos extends JFrame {
         jTextFieldLugar.setText(datos[10]);
         jTextFieldCupos.setText(datos[11]);
         jTextFieldEstado.setText(datos[12]);
-    }*/
+    }
 
     private void jButtonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuscarActionPerformed
         // TODO add your handling code here:
-        /*identificacion = jTextFieldIdentificacion.getText();
+        identificacion = jTextFieldIdentificacion.getText();
         if (ControladorEvento.consultarEvento(identificacion)) {
             retornarDatosEventos();
             eventosBuscar();
 
         } else {
             JOptionPane.showMessageDialog(null, "No existe");
-        }*/
+        }
     }//GEN-LAST:event_jButtonBuscarActionPerformed
 
     private void jTextFieldHorasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldHorasActionPerformed

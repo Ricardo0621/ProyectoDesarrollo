@@ -19,10 +19,10 @@ public class Evento {
     String fecha_inicio;
     String fecha_fin;
     String horario;
-    String horas; //Duración del evento, ejemplo: 30 horas
-    String valor;
+    int horas; //Duración del evento, ejemplo: 30 horas
+    int valor;
     String lugar;
-    String cupos;
+    int cupos;
     String estado;
     
 
@@ -36,10 +36,10 @@ public class Evento {
         fecha_inicio = "";
         fecha_fin = "";
         horario = "";
-        horas = "";
-        valor = "";
+        horas = 0;
+        valor = 0;
         lugar = "";
-        cupos = "";
+        cupos = 0;
         estado = "";
     }
     /***** Fin Constructor ****/
@@ -69,16 +69,16 @@ public class Evento {
     public String getHorario(){
         return horario;
     }
-    public String getHoras(){
+    public int getHoras(){
         return horas;
     }
-    public String getValor(){
+    public int getValor(){
         return valor;
     }
     public String getLugar(){
         return lugar;
     }
-    public String getCupos(){
+    public int getCupos(){
         return cupos;
     }
     public String getEstado(){
@@ -111,16 +111,16 @@ public class Evento {
     public void setHorario(String horario){
         this.horario=horario;
     }
-    public void setHoras(String horas){
+    public void setHoras(int horas){
         this.horas=horas;
     }
-    public void setValor(String valor){
+    public void setValor(int valor){
         this.valor=valor;
     }
     public void setLugar(String lugar){
         this.lugar=lugar;
     }
-    public void setCupos(String cupos){
+    public void setCupos(int cupos){
         this.cupos=cupos;
     }
     public void setEstado(String estado){

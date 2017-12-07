@@ -1141,12 +1141,8 @@ public class InterfazOperador extends JFrame implements ActionListener {
                     if (buscarFiltrarAsistentes()) { //Verificar campos y procesar operacion
                         if (accion.equals("Listar Asistentes")) {
                             removerPaneles();
-                            mostrarPanelListar(accion, Integer.parseInt(comb_eventos_id.getSelectedItem().toString().split(" - ")[0]), null);
-                        } else if (accion.equals("Imprimir Diplomas")) {
-
-                            buscarAsistente(id_asistente);
-
-                        } else if (accion.equals("Eventos")) {
+                            mostrarPanelListar(accion, Integer.parseInt(comb_eventos_id.getSelectedItem().toString().split(";;;")[0]), null);                                                   
+                        }else if(accion.equals("Eventos")){
                             removerPaneles();
                             String fecha1 = new SimpleDateFormat("yyyy-MM-dd").format(fecha_inicial.getDate());
                             String fecha2 = new SimpleDateFormat("yyyy-MM-dd").format(fecha_final.getDate());

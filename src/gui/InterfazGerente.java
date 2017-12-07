@@ -33,10 +33,11 @@ public class InterfazGerente extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jButtonGestionSedes = new javax.swing.JButton();
         jButtonListarSedes = new javax.swing.JButton();
+        jButtonGestionEventos = new javax.swing.JButton();
+        jButtonListarEventos = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel1.setText("Bienvenido, Gerente");
 
         jButtonGestionSedes.setText("Sedes");
@@ -53,24 +54,44 @@ public class InterfazGerente extends javax.swing.JFrame {
             }
         });
 
+        jButtonGestionEventos.setText("Eventos");
+        jButtonGestionEventos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonGestionEventosActionPerformed(evt);
+            }
+        });
+
+        jButtonListarEventos.setText("Listar Eventos");
+        jButtonListarEventos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonListarEventosActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(109, Short.MAX_VALUE)
-                .addComponent(jButtonGestionSedes, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButtonListarSedes, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(91, 91, 91))
+                .addComponent(jButtonGestionSedes)
+                .addGap(18, 18, 18)
+                .addComponent(jButtonGestionEventos)
+                .addGap(18, 18, 18)
+                .addComponent(jButtonListarSedes, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButtonListarEventos, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButtonListarSedes, javax.swing.GroupLayout.DEFAULT_SIZE, 51, Short.MAX_VALUE)
-                    .addComponent(jButtonGestionSedes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonGestionSedes)
+                    .addComponent(jButtonGestionEventos)
+                    .addComponent(jButtonListarSedes)
+                    .addComponent(jButtonListarEventos))
                 .addContainerGap(66, Short.MAX_VALUE))
         );
 
@@ -79,19 +100,19 @@ public class InterfazGerente extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(97, 97, 97))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(154, 154, 154)
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(28, 28, 28)
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(112, Short.MAX_VALUE))
+                .addContainerGap(140, Short.MAX_VALUE))
         );
 
         pack();
@@ -110,6 +131,21 @@ public class InterfazGerente extends javax.swing.JFrame {
         listarSedes.show();
         this.setVisible(false);
     }//GEN-LAST:event_jButtonListarSedesActionPerformed
+
+    private void jButtonGestionEventosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGestionEventosActionPerformed
+        // TODO add your handling code here:
+        RegistrarEventos registrarEventos = new RegistrarEventos();
+        registrarEventos.show();
+        this.setVisible(false);
+    }//GEN-LAST:event_jButtonGestionEventosActionPerformed
+
+    private void jButtonListarEventosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonListarEventosActionPerformed
+        // TODO add your handling code here:
+        ListarEventos listarEventos = new ListarEventos();
+        //Comentario
+        listarEventos.show();
+        this.setVisible(false);
+    }//GEN-LAST:event_jButtonListarEventosActionPerformed
 
     /**
      * @param args the command line arguments
@@ -147,7 +183,9 @@ public class InterfazGerente extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonGestionEventos;
     private javax.swing.JButton jButtonGestionSedes;
+    private javax.swing.JButton jButtonListarEventos;
     private javax.swing.JButton jButtonListarSedes;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
