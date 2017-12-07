@@ -52,7 +52,7 @@ public class InterfazAdministrador extends JFrame implements ActionListener{
      * 
      * @param id_empleado 
      */
-    public InterfazAdministrador(String id_empleado){
+    public InterfazAdministrador(){
         panelBuscarFiltrar = new PanelBuscarFiltrar("Buscar Usuario");
         panelListarUsuarios = new PanelListarUsuarios();
         controladorSede = new ControladorSede();

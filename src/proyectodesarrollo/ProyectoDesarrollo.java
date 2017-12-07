@@ -19,12 +19,12 @@ public class ProyectoDesarrollo {
      * @param args the command line arguments
      */
     public void testCrearUsuario(){
-        InterfazAdministrador interfazAdministrador = new InterfazAdministrador("1130589899");
+        InterfazAdministrador interfazAdministrador = new InterfazAdministrador();
         interfazAdministrador.setVisible(true);
     }//Fin de testCreaUsuario()
     
     public void testCrearAsistente(){
-        InterfazOperador interfazOperador = new InterfazOperador("diego", "1130589899");
+        InterfazOperador interfazOperador = new InterfazOperador();
         interfazOperador.setVisible(true);
     }//Fin de testCrearAsistente()
     
