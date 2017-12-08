@@ -5,8 +5,14 @@
  */
 package gui;
 
-import com.toedter.calendar.JDateChooser;
 import controladores.ControladorEvento;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -32,11 +38,6 @@ public class RegistrarEventos extends JFrame {
     private String estado;
     ControladorEvento ControladorEvento = new ControladorEvento();
 
-    @Override
-    public void setDefaultCloseOperation(int i) {
-        super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //To change body of generated methods, choose Tools | Templates.
-    }
-
     /**
      * Creates new form RegistrarSedes
      */
@@ -44,8 +45,27 @@ public class RegistrarEventos extends JFrame {
         initComponents();
         setResizable(false);
         iniciarComponentes();
+        iniciarFecha();
         limpiarCampos();
         this.setLocationRelativeTo(null);
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        cerrar();
+    }
+
+    public final void cerrar() {
+        this.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                JFrame frame = (JFrame) e.getSource();
+                int opcion = JOptionPane.showConfirmDialog(frame, "¿Desea volver al paner del Gerente'?", "Salir", JOptionPane.YES_NO_OPTION);
+                if (opcion == JOptionPane.YES_NO_OPTION) {
+                    InterfazGerente io = new InterfazGerente();
+                    io.setVisible(true);
+                    frame.dispose();
+                } else if (opcion == JOptionPane.NO_OPTION) {
+                    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                }
+            }
+        });
     }
 
     /**
@@ -68,7 +88,6 @@ public class RegistrarEventos extends JFrame {
         jTextFieldIdEmpleado = new javax.swing.JTextField();
         jTextFieldNombre = new javax.swing.JTextField();
         jTextFieldDescripcion = new javax.swing.JTextField();
-        jTextFieldFechaInicio = new javax.swing.JTextField();
         jTextFieldFechaCreacion = new javax.swing.JTextField();
         jButtonOk = new javax.swing.JButton();
         jRadioRegistrar = new javax.swing.JRadioButton();
@@ -76,7 +95,6 @@ public class RegistrarEventos extends JFrame {
         jButtonCancel = new javax.swing.JButton();
         jButtonBuscar = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
-        jTextFieldFechaFin = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jTextFieldHorario = new javax.swing.JTextField();
@@ -88,7 +106,9 @@ public class RegistrarEventos extends JFrame {
         jTextFieldValor = new javax.swing.JTextField();
         jTextFieldLugar = new javax.swing.JTextField();
         jTextFieldCupos = new javax.swing.JTextField();
-        jTextFieldEstado = new javax.swing.JTextField();
+        jDateFechaInicio = new com.toedter.calendar.JDateChooser();
+        jDateFechaFin = new com.toedter.calendar.JDateChooser();
+        jComboBoxEstado = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -173,9 +193,10 @@ public class RegistrarEventos extends JFrame {
             }
         });
 
-        jTextFieldEstado.addActionListener(new java.awt.event.ActionListener() {
+        jComboBoxEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Activo", "Inactivo", "Ocupado" }));
+        jComboBoxEstado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldEstadoActionPerformed(evt);
+                jComboBoxEstadoActionPerformed(evt);
             }
         });
 
@@ -198,7 +219,8 @@ public class RegistrarEventos extends JFrame {
                                 .addGap(30, 30, 30)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel14)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(2, 2, 2)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(jLabel2)
                                             .addComponent(jLabel3)
@@ -209,11 +231,9 @@ public class RegistrarEventos extends JFrame {
                                             .addComponent(jLabel9)
                                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                                 .addComponent(jLabel10)
-                                                .addComponent(jLabel12)
-                                                .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.LEADING)))
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addComponent(jLabel13)
-                                            .addGap(36, 36, 36))))
+                                                .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.LEADING))))
+                                    .addComponent(jLabel13))
                                 .addGap(28, 28, 28)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jTextFieldNombre)
@@ -226,22 +246,20 @@ public class RegistrarEventos extends JFrame {
                                 .addComponent(jButtonCancel)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jButtonBuscar))
-                            .addComponent(jTextFieldFechaInicio)
                             .addComponent(jTextFieldFechaCreacion)
-                            .addComponent(jTextFieldFechaFin)
                             .addComponent(jTextFieldHorario, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jTextFieldValor)
                             .addComponent(jTextFieldLugar)
                             .addComponent(jTextFieldCupos)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jTextFieldEstado)
-                                .addGap(81, 81, 81))
-                            .addComponent(jTextFieldHoras, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jTextFieldHoras)
+                            .addComponent(jDateFechaInicio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jDateFechaFin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jComboBoxEstado, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(8, 8, 8)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jRadioRegistrar)
                     .addComponent(jRadioModificar))
-                .addContainerGap(51, Short.MAX_VALUE))
+                .addContainerGap(76, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -249,6 +267,11 @@ public class RegistrarEventos extends JFrame {
                 .addGap(53, 53, 53)
                 .addComponent(jLabel1)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addComponent(jRadioRegistrar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jRadioModificar))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(24, 24, 24)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -271,19 +294,14 @@ public class RegistrarEventos extends JFrame {
                             .addComponent(jTextFieldFechaCreacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel6))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextFieldFechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel7)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(25, 25, 25)
-                        .addComponent(jRadioRegistrar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jRadioModificar)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextFieldFechaFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel7)
+                            .addComponent(jDateFechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel8)
+                    .addComponent(jDateFechaFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextFieldHorario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9))
@@ -306,13 +324,13 @@ public class RegistrarEventos extends JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel14)
-                    .addComponent(jTextFieldEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jComboBoxEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonOk)
                     .addComponent(jButtonCancel)
                     .addComponent(jButtonBuscar))
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addContainerGap(34, Short.MAX_VALUE))
         );
 
         pack();
@@ -324,7 +342,7 @@ public class RegistrarEventos extends JFrame {
         nombre = "";
         descripcion = "";
         fecha_inicio = "";
-        fecha_creacion = "";
+        fecha_creacion = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
         fecha_fin = "";
         horario = "";
         horas = "";
@@ -333,6 +351,12 @@ public class RegistrarEventos extends JFrame {
         cupos = "";
         estado = "";
         jButtonBuscar.setEnabled(false);
+        jTextFieldFechaCreacion.setEnabled(false);
+    }
+
+    public final void iniciarFecha() {
+        jDateFechaInicio.setDateFormatString("yyyy-MM-dd");
+        jDateFechaFin.setDateFormatString("yyyy-MM-dd");
     }
 
     public final void limpiarCampos() {
@@ -340,15 +364,15 @@ public class RegistrarEventos extends JFrame {
         jTextFieldIdEmpleado.setText("");
         jTextFieldNombre.setText("");
         jTextFieldDescripcion.setText("");
-        jTextFieldFechaInicio.setText("");
-        jTextFieldFechaCreacion.setText("");
-        jTextFieldFechaFin.setText("");
+        jTextFieldFechaCreacion.setText(fecha_creacion);
         jTextFieldHorario.setText("");
         jTextFieldHoras.setText("");
         jTextFieldValor.setText("");
         jTextFieldLugar.setText("");
         jTextFieldCupos.setText("");
-        jTextFieldEstado.setText("");
+        jDateFechaInicio.setDate(null);
+        jDateFechaFin.setDate(null);
+        jComboBoxEstado.setSelectedItem(null);
     }
 
     public void tomarCampos() {
@@ -356,15 +380,15 @@ public class RegistrarEventos extends JFrame {
         id_empleado = jTextFieldIdEmpleado.getText();
         nombre = jTextFieldNombre.getText();
         descripcion = jTextFieldDescripcion.getText();
-        fecha_inicio = jTextFieldFechaInicio.getText();
-        fecha_fin = jTextFieldFechaFin.getText();
+        fecha_inicio = new SimpleDateFormat("yyyy-MM-dd").format(jDateFechaInicio.getDate());
+        fecha_fin = new SimpleDateFormat("yyyy-MM-dd").format(jDateFechaFin.getDate());
         fecha_creacion = jTextFieldFechaCreacion.getText();
         horario = jTextFieldHorario.getText();
         horas = jTextFieldHoras.getText();
         valor = jTextFieldValor.getText();
         lugar = jTextFieldLugar.getText();
         cupos = jTextFieldCupos.getText();
-        estado = jTextFieldEstado.getText();
+        estado = getEstado();
     }
 
     public int validarCampos() {
@@ -372,15 +396,14 @@ public class RegistrarEventos extends JFrame {
         id_empleado = jTextFieldIdEmpleado.getText();
         nombre = jTextFieldNombre.getText();
         descripcion = jTextFieldDescripcion.getText();
-        fecha_inicio = jTextFieldFechaInicio.getText();
         fecha_creacion = jTextFieldFechaCreacion.getText();
-        fecha_fin = jTextFieldFechaFin.getText();
+        fecha_inicio = new SimpleDateFormat("yyyy-MM-dd").format(jDateFechaInicio.getDate());
+        fecha_fin = new SimpleDateFormat("yyyy-MM-dd").format(jDateFechaFin.getDate());
         horario = jTextFieldHorario.getText();
         horas = jTextFieldHoras.getText();
         valor = jTextFieldValor.getText();
         lugar = jTextFieldLugar.getText();
         cupos = jTextFieldCupos.getText();
-        estado = jTextFieldEstado.getText();
         if (identificacion.isEmpty()) {
             return 7;
         } else if (!Pattern.matches("[0-9]+", identificacion)) {
@@ -399,15 +422,15 @@ public class RegistrarEventos extends JFrame {
             return 4;
         } else if (fecha_creacion.isEmpty()) {
             return 7;
-        } else if (!fecha_creacion.contains("-") || !fecha_creacion.contains(":")) {
+        } else if (!fecha_creacion.contains("-")) {
             return 5;
         } else if (fecha_inicio.isEmpty()) {
             return 7;
-        } else if (!fecha_inicio.contains("-") || !fecha_inicio.contains(":")) {
+        } else if (!fecha_inicio.contains("-")) {
             return 6;
         } else if (fecha_fin.isEmpty()) {
             return 7;
-        } else if (!fecha_fin.contains("-") || !fecha_fin.contains(":")) {
+        } else if (!fecha_fin.contains("-")) {
             return 8;
         } else if (horario.isEmpty()) {
             return 7;
@@ -423,7 +446,7 @@ public class RegistrarEventos extends JFrame {
             return 11;
         } else if (lugar.isEmpty()) {
             return 7;
-        } else if (!Pattern.matches("[a-zA-Z0-9 ]+", lugar)){
+        } else if (!Pattern.matches("[a-zA-Z0-9 ]+", lugar)) {
             return 12;
         } else if (cupos.isEmpty()) {
             return 7;
@@ -445,9 +468,11 @@ public class RegistrarEventos extends JFrame {
         jTextFieldIdEmpleado.setEditable(true);
         jTextFieldIdentificacion.setEditable(true);
         jTextFieldNombre.setEditable(true);
-        jTextFieldFechaInicio.setEditable(true);
         jRadioModificar.setSelected(false);
         jRadioRegistrar.setSelected(false);
+        jDateFechaFin.setEnabled(true);
+        jDateFechaInicio.setEnabled(true);
+        jComboBoxEstado.setEnabled(true);
     }
     private void jRadioRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioRegistrarActionPerformed
         // TODO add your handling code here:
@@ -485,16 +510,16 @@ public class RegistrarEventos extends JFrame {
                 break;
             case 10:
                 JOptionPane.showMessageDialog(null, "El campo horas sólo permite números");
-                break; 
+                break;
             case 11:
                 JOptionPane.showMessageDialog(null, "El campo valor sólo permite números");
-                break;      
+                break;
             case 12:
                 JOptionPane.showMessageDialog(null, "El campo lugar no permite caracteres especiales");
                 break;
             case 13:
                 JOptionPane.showMessageDialog(null, "El campo cupos sólo permite números");
-                break;      
+                break;
             case 0:
                 JOptionPane.showMessageDialog(null, "Éxito");
                 limpiarCampos();
@@ -541,8 +566,15 @@ public class RegistrarEventos extends JFrame {
         jTextFieldIdEmpleado.setEditable(false);
         jTextFieldNombre.setEditable(false);
         jTextFieldDescripcion.setEditable(false);
-        jTextFieldFechaInicio.setEditable(false);
         jTextFieldFechaCreacion.setEditable(false);
+        jDateFechaInicio.setEnabled(false);
+        jDateFechaFin.setEnabled(false);
+        jTextFieldHorario.setEditable(false);
+        jTextFieldHoras.setEditable(false);
+        jTextFieldValor.setEditable(false);
+        jTextFieldLugar.setEditable(false);
+        jTextFieldCupos.setEditable(false);
+        jComboBoxEstado.setEnabled(false);
     }
 
     private void eventosBuscar() {
@@ -550,10 +582,17 @@ public class RegistrarEventos extends JFrame {
         jTextFieldIdEmpleado.setEditable(true);
         jTextFieldNombre.setEditable(true);
         jTextFieldDescripcion.setEditable(true);
-        jTextFieldFechaInicio.setEditable(true);
-        jTextFieldFechaCreacion.setEditable(true);
+        jDateFechaInicio.setEnabled(true);
+        jDateFechaFin.setEnabled(true);
         jButtonBuscar.setEnabled(false);
         jButtonOk.setEnabled(true);
+        jTextFieldFechaCreacion.setEditable(true);
+        jComboBoxEstado.setEnabled(true);
+        jTextFieldHorario.setEditable(true);
+        jTextFieldHoras.setEditable(true);
+        jTextFieldValor.setEditable(true);
+        jTextFieldLugar.setEditable(true);
+        jTextFieldCupos.setEditable(true);
     }
 
     private void jRadioModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioModificarActionPerformed
@@ -575,14 +614,22 @@ public class RegistrarEventos extends JFrame {
         jTextFieldNombre.setText(datos[2]);
         jTextFieldDescripcion.setText(datos[3]);
         jTextFieldFechaCreacion.setText(datos[4]);
-        jTextFieldFechaInicio.setText(datos[5]);
-        jTextFieldFechaFin.setText(datos[6]);
+        java.util.Date date1 = null;
+        java.util.Date date2 = null;
+        try {
+            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(datos[5]);
+            date2 = new SimpleDateFormat("yyyy-MM-dd").parse(datos[6]);
+        } catch (ParseException ex) {
+            Logger.getLogger(RegistrarEventos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        jDateFechaInicio.setDate(date1);
+        jDateFechaFin.setDate(date2);
         jTextFieldHorario.setText(datos[7]);
         jTextFieldHoras.setText(datos[8]);
         jTextFieldValor.setText(datos[9]);
         jTextFieldLugar.setText(datos[10]);
         jTextFieldCupos.setText(datos[11]);
-        jTextFieldEstado.setText(datos[12]);
+        jComboBoxEstado.setSelectedItem(datos[12]);
     }
 
     private void jButtonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuscarActionPerformed
@@ -597,6 +644,22 @@ public class RegistrarEventos extends JFrame {
         }
     }//GEN-LAST:event_jButtonBuscarActionPerformed
 
+    private String getEstado() {
+        String temp = "";
+        switch (jComboBoxEstado.getSelectedIndex()) {
+            case 0:
+                temp = "Activo";
+                break;
+            case 1:
+                temp = "Inactivo";
+                break;
+            default:
+                temp = "Ocupado";
+                break;
+        }
+        return temp;
+    }
+
     private void jTextFieldHorasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldHorasActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldHorasActionPerformed
@@ -609,9 +672,10 @@ public class RegistrarEventos extends JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldCuposActionPerformed
 
-    private void jTextFieldEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldEstadoActionPerformed
+    private void jComboBoxEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxEstadoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldEstadoActionPerformed
+        getEstado();
+    }//GEN-LAST:event_jComboBoxEstadoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -653,6 +717,9 @@ public class RegistrarEventos extends JFrame {
     private javax.swing.JButton jButtonBuscar;
     private javax.swing.JButton jButtonCancel;
     private javax.swing.JButton jButtonOk;
+    private javax.swing.JComboBox<String> jComboBoxEstado;
+    private com.toedter.calendar.JDateChooser jDateFechaFin;
+    private com.toedter.calendar.JDateChooser jDateFechaInicio;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -671,10 +738,7 @@ public class RegistrarEventos extends JFrame {
     private javax.swing.JRadioButton jRadioRegistrar;
     private javax.swing.JTextField jTextFieldCupos;
     private javax.swing.JTextField jTextFieldDescripcion;
-    private javax.swing.JTextField jTextFieldEstado;
     private javax.swing.JTextField jTextFieldFechaCreacion;
-    private javax.swing.JTextField jTextFieldFechaFin;
-    private javax.swing.JTextField jTextFieldFechaInicio;
     private javax.swing.JTextField jTextFieldHorario;
     private javax.swing.JTextField jTextFieldHoras;
     private javax.swing.JTextField jTextFieldIdEmpleado;

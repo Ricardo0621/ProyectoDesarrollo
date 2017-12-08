@@ -122,29 +122,28 @@ public class InterfazGerente extends javax.swing.JFrame {
         // TODO add your handling code here:
         RegistrarSedes registrarSedes = new RegistrarSedes();
         registrarSedes.show();
-        this.setVisible(false);
+        dispose();
     }//GEN-LAST:event_jButtonGestionSedesActionPerformed
 
     private void jButtonListarSedesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonListarSedesActionPerformed
         // TODO add your handling code here:
         ListarSedes listarSedes = new ListarSedes();
         listarSedes.show();
-        this.setVisible(false);
+        dispose();
     }//GEN-LAST:event_jButtonListarSedesActionPerformed
 
     private void jButtonGestionEventosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGestionEventosActionPerformed
         // TODO add your handling code here:
         RegistrarEventos registrarEventos = new RegistrarEventos();
         registrarEventos.show();
-        this.setVisible(false);
+        dispose();
     }//GEN-LAST:event_jButtonGestionEventosActionPerformed
 
     private void jButtonListarEventosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonListarEventosActionPerformed
         // TODO add your handling code here:
         ListarEventos listarEventos = new ListarEventos();
-        //Comentario
         listarEventos.show();
-        this.setVisible(false);
+        dispose();
     }//GEN-LAST:event_jButtonListarEventosActionPerformed
 
     /**

@@ -6,7 +6,12 @@
 package gui;
 
 import controladores.ControladorEvento;
+import java.awt.AWTEvent;
+import java.awt.Toolkit;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -23,8 +28,24 @@ public class ListarEventos extends JFrame {
         this.setLocationRelativeTo(null);                       // centramos la ventana en la pantalla
         this.setLayout(null);                                   // no usamos ningun layout, solo asi podremos dar posiciones a los componentes
         this.setResizable(false);                               // hacemos que la ventana no sea redimiensionable
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         tablasEventos();
+        cerrar();
+    }
+
+    public final void cerrar() {
+        this.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                JFrame frame = (JFrame) e.getSource();
+                int opcion = JOptionPane.showConfirmDialog(frame, "¿Desea volver al paner del Gerente'?", "Salir", JOptionPane.YES_NO_OPTION);
+                if (opcion == JOptionPane.YES_NO_OPTION) {
+                    InterfazGerente io = new InterfazGerente();
+                    io.setVisible(true);
+                    frame.dispose();
+                } else if (opcion == JOptionPane.NO_OPTION) {
+                    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                }
+            }
+        });
     }
 
     public void tablasEventos() {

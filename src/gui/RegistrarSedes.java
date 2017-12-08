@@ -5,8 +5,11 @@
  */
 package gui;
 
-import com.toedter.calendar.JDateChooser;
 import controladores.ControladorSede;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.regex.Pattern;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -25,20 +28,14 @@ public class RegistrarSedes extends JFrame {
     private String fecha_creacion;
     ControladorSede ControladorSede = new ControladorSede();
 
-    @Override
-    public void setDefaultCloseOperation(int i) {
-        super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    /**
-     * Creates new form RegistrarSedes
-     */
     public RegistrarSedes() {
         initComponents();
         setResizable(false);
         iniciarComponentes();
         limpiarCampos();
         this.setLocationRelativeTo(null);
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        cerrar();
     }
 
     /**
@@ -157,7 +154,7 @@ public class RegistrarSedes extends JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jRadioRegistrar)
                     .addComponent(jRadioModificar))
-                .addContainerGap(8, Short.MAX_VALUE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -185,16 +182,16 @@ public class RegistrarSedes extends JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
-                            .addComponent(jTextFieldTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel7)
-                            .addComponent(jTextFieldFechaCreacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jTextFieldTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(25, 25, 25)
                         .addComponent(jRadioRegistrar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jRadioModificar)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(jTextFieldFechaCreacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonOk)
@@ -212,17 +209,34 @@ public class RegistrarSedes extends JFrame {
         nombre = "";
         direccion = "";
         telefono = "";
-        fecha_creacion = "";
+        fecha_creacion = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
         jButtonBuscar.setEnabled(false);
+        jTextFieldFechaCreacion.setEnabled(false);
     }
 
+    public final void cerrar()
+    {
+        this.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                JFrame frame = (JFrame) e.getSource();
+                int opcion = JOptionPane.showConfirmDialog(frame, "¿Desea volver al paner del Gerente'?", "Salir", JOptionPane.YES_NO_OPTION);
+                if (opcion == JOptionPane.YES_NO_OPTION) {
+                    InterfazGerente io = new InterfazGerente();
+                    io.setVisible(true);
+                    frame.dispose();
+                } else if (opcion == JOptionPane.NO_OPTION) {
+                    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                }
+            }
+        });
+    }
     public final void limpiarCampos() {
         jTextFieldIdentificacion.setText("");
         jTextFieldIdEmpleado.setText("");
         jTextFieldNombre.setText("");
         jTextFieldDireccion.setText("");
         jTextFieldTelefono.setText("");
-        jTextFieldFechaCreacion.setText("");
+        jTextFieldFechaCreacion.setText(fecha_creacion);
     }
 
     public void tomarCampos() {
@@ -232,6 +246,7 @@ public class RegistrarSedes extends JFrame {
         direccion = jTextFieldDireccion.getText();
         telefono = jTextFieldTelefono.getText();
         fecha_creacion = jTextFieldFechaCreacion.getText();
+        //fecha_creacion1 = jDateFecha.getDate();
     }
 
     public int validarCampos() {
@@ -255,11 +270,10 @@ public class RegistrarSedes extends JFrame {
             return 3;
         } else if (direccion.isEmpty()) {
             return 7;
-        } else if (!direccion.contains("#")
-                || !direccion.contains("-")
-                || !direccion.contains("Cra")
-                || !direccion.contains("Calle")
-                || direccion.equals("")) {
+        } else if (direccion.equals("")|| direccion.contains("*") 
+                || direccion.contains("=") || direccion.toUpperCase().contains("SELECT") 
+                || direccion.toUpperCase().contains("INSERT") || direccion.toUpperCase().contains("DROP") 
+                || direccion.toUpperCase().contains("DELETE")) {
             return 4;
         } else if (telefono.isEmpty()) {
             return 7;
@@ -267,7 +281,7 @@ public class RegistrarSedes extends JFrame {
             return 5;
         } else if (fecha_creacion.isEmpty()) {
             return 7;
-        } else if (!fecha_creacion.contains("-") || !fecha_creacion.contains(":")) {
+        } else if (!fecha_creacion.contains("-")) {
             return 6;
         }
         return 0;
@@ -305,7 +319,7 @@ public class RegistrarSedes extends JFrame {
                 JOptionPane.showMessageDialog(null, "El campo nombre sólo debe contener letras");
                 break;
             case 4:
-                JOptionPane.showMessageDialog(null, "La dirección no permite letras o caracteres especiales");
+                JOptionPane.showMessageDialog(null, "La dirección no permite inyecciones de codigo");
                 break;
             case 5:
                 JOptionPane.showMessageDialog(null, "El campo telefono sólo debe contener números");
