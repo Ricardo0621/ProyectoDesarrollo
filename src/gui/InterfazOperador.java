@@ -908,7 +908,8 @@ public class InterfazOperador extends JFrame implements ActionListener {
                 eventos_id_nombre = controladorEvento.listarIdNombreEventos();
                 comb_eventos_id.addItem("Seleccione");
                 for (int i = 0; i < eventos_id_nombre.length; i++) {
-                    comb_eventos_id.addItem(eventos_id_nombre[i]);
+                    
+                    comb_eventos_id.addItem(eventos_id_nombre[i].split(";;;")[0]+" - "+eventos_id_nombre[i].split(";;;")[1]);
                 }
                 comb_eventos_id.setSelectedIndex(0);
             } else if (opcion.equals("Pagos")) {
@@ -1141,7 +1142,7 @@ public class InterfazOperador extends JFrame implements ActionListener {
                     if (buscarFiltrarAsistentes()) { //Verificar campos y procesar operacion
                         if (accion.equals("Listar Asistentes")) {
                             removerPaneles();
-                            mostrarPanelListar(accion, Integer.parseInt(comb_eventos_id.getSelectedItem().toString().split(";;;")[0]), null);                                                   
+                            mostrarPanelListar(accion, Integer.parseInt(comb_eventos_id.getSelectedItem().toString().split(" - ")[0]), null);                                                   
                         }else if(accion.equals("Eventos")){
                             removerPaneles();
                             String fecha1 = new SimpleDateFormat("yyyy-MM-dd").format(fecha_inicial.getDate());

@@ -283,7 +283,7 @@ public class InterfazAdministrador extends JFrame implements ActionListener{
             comb_sedes_id.addItem("Seleccione");
             comb_sedes_id.addItem("Todos");
             for(int i=0; i<sedes_id.length; i++){
-                comb_sedes_id.addItem(sedes_id[i]);
+                comb_sedes_id.addItem(sedes_id[i].split(";;;")[0]+" - "+sedes_id[i].split(";;;")[1]);
             }
             for(int i=0; i<roles.length; i++){
                 comb_rol.addItem(roles[i]);
@@ -562,7 +562,7 @@ public class InterfazAdministrador extends JFrame implements ActionListener{
                 sedes_id[0] = "Seleccionar";
                 sedes_idonly[0] = "xyzxyzxyzxyzxyz";
                 for(int i=0; i<sedes_id_temp.length;i++){
-                    sedes_id[i+1] = sedes_id_temp[i];
+                    sedes_id[i+1] = sedes_id_temp[i].split(";;;")[0]+" - "+sedes_id_temp[i].split(";;;")[1];
                     sedes_idonly[i+1] = sedes_id_temp[i].split(" - ")[0];
                 }
 
