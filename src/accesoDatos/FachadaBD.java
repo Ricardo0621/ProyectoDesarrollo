@@ -22,7 +22,7 @@ public class FachadaBD {
         /*url="jdbc:postgresql://localhost/proyecto_desarrollo1";
         usuario="postgres";
         password="R1144089742D";*/
-        url = "jdbc:postgresql://proyectodesarrollo.cobjaigxunv6.us-east-2.rds.amazonaws.com/proyecto_desarrollo";
+        url = "jdbc:postgresql://localhost/db_desarrollo";
         usuario = "root";
         password = "Desarrollo12";
 
