@@ -238,7 +238,7 @@ public class DaoEvento {
         String sql_count = "";
         String sql = "";
         sql_count = "SELECT COUNT(*) AS filas FROM (SELECT DISTINCT id_asistente FROM pagos WHERE id_evento = " + evento_id + ") AS c1";
-        sql = "SELECT DISTINCT id_asistente FROM pagos WHERE id_evento = " + evento_id;
+        sql = "SELECT DISTINCT id_asistente, estado FROM pagos WHERE id_evento = " + evento_id;
         int filas = 0;
         int contador = 0;
         String[] ids;
@@ -251,7 +251,7 @@ public class DaoEvento {
             ids = new String[filas];
             tabla = sentencia.executeQuery(sql);
             while (tabla.next()) {
-                ids[contador] = tabla.getString(1);
+                ids[contador] = tabla.getString(1)+ " - " + tabla.getString(2);
                 contador++;
             }
             return ids;

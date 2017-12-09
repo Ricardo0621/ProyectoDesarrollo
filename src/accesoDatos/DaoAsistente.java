@@ -127,7 +127,7 @@ public class DaoAsistente {
             asistentes = new Asistente[num_asistentes];
             for(int i=0; i<num_asistentes; i++){
                 asistente = new Asistente();
-                String sql = "SELECT * FROM asistentes WHERE id='"+ids[i]+"'";
+                String sql = "SELECT * FROM asistentes WHERE id='"+ids[i].split(" - ")[0]+"'";
                 ResultSet tabla = tabla = sentencia.executeQuery(sql);
                 while(tabla.next()){
                     asistente.setIdentificacion(tabla.getString(1));

@@ -1316,7 +1316,7 @@ public class InterfazOperador extends JFrame implements ActionListener {
         }
 
         public void configurarLLenarTablaAsistentesPorEvento(int evento_id) {
-            String[] titulo = new String[]{"Id", "Nombre", "telefono", "correo", "Evento"};
+            String[] titulo = new String[]{"Id", "Nombre", "telefono", "pago", "Evento"};
             controladorEvento = new ControladorEvento();
             String[] ids = controladorEvento.listarIdsEvento(evento_id);
             controladorAsistente = new ControladorAsistente();
@@ -1325,7 +1325,7 @@ public class InterfazOperador extends JFrame implements ActionListener {
             dtm.setColumnIdentifiers(titulo);
             for (int i = 0; i < asistentes.length; i++) {
                 String[] fila = asistentes[i].split(";;;");
-                String[] temp = {fila[0], fila[1] + " " + fila[2] + " " + fila[3] + " " + fila[4], fila[6], fila[7], String.valueOf(evento_id)};
+                String[] temp = {fila[0], fila[1] + " " + fila[2] + " " + fila[3] + " " + fila[4], fila[6], ids[i].split(" - ")[1], String.valueOf(evento_id)};
                 dtm.addRow(temp);
             }
 
