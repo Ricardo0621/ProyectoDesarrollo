@@ -174,9 +174,11 @@ public class DaoSede {
         sedes = null; //Asumiendo que no hayan sedes
         return sedes;
     }
-
-    public void borrarSede(String identificacion) {
-    }
+    
+    /*public String[] getVentasSedes(){
+        String[] ventas_sedes;
+        String sql_count = "SELECT SUM() AS filas FROM sedes";
+    }*/
 
     public void cerrarConexionBD() {
         fachada.closeConection(fachada.getConnetion());

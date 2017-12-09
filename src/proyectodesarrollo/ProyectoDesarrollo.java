@@ -24,8 +24,8 @@ public class ProyectoDesarrollo {
     }//Fin de testCreaUsuario()
     
     public void testCrearAsistente(){
-        InterfazOperador interfazOperador = new InterfazOperador();
-        interfazOperador.setVisible(true);
+        //InterfazOperador interfazOperador = new InterfazOperador("");
+        //interfazOperador.setVisible(true);
     }//Fin de testCrearAsistente()
     
     public void testCrearSede()
@@ -40,7 +40,13 @@ public class ProyectoDesarrollo {
                 ProyectoDesarrollo proyectoDesarrollo = new ProyectoDesarrollo();
                 //proyectoDesarrollo.testCrearSede(); 
                 //proyectoDesarrollo.testCrearUsuario();
-                proyectoDesarrollo.testCrearAsistente();
+                //proyectoDesarrollo.testCrearAsistente();
+                 /* Create and display the form */
+                java.awt.EventQueue.invokeLater(new Runnable() {
+                    public void run() {
+                        new Login_front().setVisible(true);
+                    }
+                });
             }
         });
     } 

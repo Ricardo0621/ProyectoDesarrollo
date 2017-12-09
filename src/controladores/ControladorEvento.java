@@ -78,8 +78,8 @@ public class ControladorEvento {
         return daoEvento.listarIdsEvento(evento_id);
     }
 
-    public int inscribirAsistenteEvento(String empleado_id, int evento_id, String asistente_id) {
-        return daoEvento.inscribirAsistenteEvento(empleado_id, evento_id, asistente_id);
+    public int inscribirAsistenteEvento(String empleado_id, int evento_id, String asistente_id, String sede_id) {
+        return daoEvento.inscribirAsistenteEvento(empleado_id, evento_id, asistente_id, sede_id);
     }
 
     public int registrarPagoEvento(int evento_id, String asistente_id, String metodo_pago, String empleado_id_pago) {
@@ -161,5 +161,9 @@ public class ControladorEvento {
         datos_evento[11] = String.valueOf(evento.getCupos());
         datos_evento[12] = evento.getEstado();
         return datos_evento;
+    }
+    
+    public String[] ventasPorSede(){
+        return daoEvento.ventasPorSede();
     }
 }

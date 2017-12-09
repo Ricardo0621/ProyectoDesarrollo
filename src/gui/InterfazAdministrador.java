@@ -562,10 +562,10 @@ public class InterfazAdministrador extends JFrame implements ActionListener{
                 sedes_id[0] = "Seleccionar";
                 sedes_idonly[0] = "xyzxyzxyzxyzxyz";
                 for(int i=0; i<sedes_id_temp.length;i++){
-                    sedes_id[i+1] = sedes_id_temp[i].split(";;;")[0]+" - "+sedes_id_temp[i].split(";;;")[1];
-                    sedes_idonly[i+1] = sedes_id_temp[i].split(" - ")[0];
+                    sedes_id[i+1] = sedes_id_temp[i].split(";;;")[0]+" - "+sedes_id_temp[i].split(";;;")[2];
+                    
+                    sedes_idonly[i+1] = sedes_id_temp[i].split(";;;")[0];                 
                 }
-
             }
             String[] roles = {"Seleccione","Administrador", "Gerente", "Operador"};
             String[] estados = {"Seleccione", "Activo", "Inactivo"};

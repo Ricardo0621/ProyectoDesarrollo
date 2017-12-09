@@ -293,7 +293,7 @@ public class DaoEvento {
         return null; //Asumiendo que no hayan sedes
     }
 
-    public int inscribirAsistenteEvento(String empleado_id, int evento_id, String asistente_id) {
+    public int inscribirAsistenteEvento(String empleado_id, int evento_id, String asistente_id, String sede_id) {
         int filasGuardadas = 0;
         String metodo_pago = "None";
         String estado = "Pendiente";
@@ -301,9 +301,9 @@ public class DaoEvento {
         String fecha_pago = null;
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         String sql = "INSERT INTO pagos "
-                + "(id_empleado, id_evento, id_asistente, metodo_pago,fecha, estado, id_empleado_pago, fecha_pago)"
+                + "(id_empleado, id_evento, id_asistente, metodo_pago,fecha, estado, id_empleado_pago, fecha_pago, sede_id)"
                 + " VALUES "
-                + "('" + empleado_id + "'," + evento_id + ",'" + asistente_id + "','" + metodo_pago + "','" + timestamp + "','" + estado + "'," + id_empleado_pago + "," + fecha_pago + ")";
+                + "('" + empleado_id + "'," + evento_id + ",'" + asistente_id + "','" + metodo_pago + "','" + timestamp + "','" + estado + "'," + id_empleado_pago + "," + fecha_pago + "," + sede_id + ")";
         try {
             Connection conn = fachada.getConnetion();
             Statement sentencia = conn.createStatement();
@@ -323,7 +323,7 @@ public class DaoEvento {
         String estado = "Pagado";
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         String sql = "UPDATE pagos "
-                + "SET metodo_pago='" + metodo_pago + "', estado='" + estado + "', id_empleado_pago='" + empleado_id_pago + "', fecha_pago='" + timestamp + "'"
+                + "SET metodo_pago='" + metodo_pago + "', estado='" + estado + "', id_empleado_pago='" + empleado_id_pago + "', fecha_pago='" + timestamp + "'" 
                 + "WHERE id_evento=" + evento_id + " AND id_asistente='" + asistente_id + "'";
 
         try {
@@ -376,10 +376,7 @@ public class DaoEvento {
         }
         return -1;
     }
-
-    public void borrarEvento(String identificacion) {
-    }
-
+    
     public void cerrarConexionBD() {
         fachada.closeConection(fachada.getConnetion());
     }
@@ -451,6 +448,39 @@ public class DaoEvento {
             System.out.println(e);
         }
         return evento;
+    }
+    
+    public String[] ventasPorSede(){
+        String[] ventas_sede;
+        int contador=0;
+        String sql_count = "SELECT COUNT(*) AS filas "+
+                           "FROM (SELECT s1.nombre, SUM(e1.valor) "+
+                                 "FROM sedes s1, pagos p1, eventos e1 "+
+                                 "WHERE s1.id = p1.sede_id AND e1.id=p1.id_evento AND p1.estado='Pagado'"+
+                                 "GROUP BY s1.id) AS x";    
+        String sql = "SELECT s1.nombre, SUM(e1.valor) "+
+                     "FROM sedes s1, pagos p1, eventos e1 "+
+                     "WHERE s1.id = p1.sede_id AND e1.id=p1.id_evento AND p1.estado='Pagado'"+
+                     "GROUP BY s1.id";
+        try {
+            Connection conn = fachada.getConnetion();
+            Statement sentencia = conn.createStatement();
+            ResultSet tabla = sentencia.executeQuery(sql_count);
+            tabla.next();
+            int filas = tabla.getInt("filas");
+            ventas_sede = new String[filas];
+            tabla = sentencia.executeQuery(sql);
+            while (tabla.next()) {
+                ventas_sede[contador] = tabla.getString(1)+" - "+tabla.getString(2);
+                contador++;
+            }
+            return ventas_sede;
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        return null;
     }
 
 }
