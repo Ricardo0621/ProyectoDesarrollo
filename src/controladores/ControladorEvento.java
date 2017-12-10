@@ -163,7 +163,27 @@ public class ControladorEvento {
         return datos_evento;
     }
     
-    public String[] ventasPorSede(){
-        return daoEvento.ventasPorSede();
+    public String[] ventasPorSede(String fecha_inicial, String fecha_final){
+        return daoEvento.ventasPorSede(fecha_inicial, fecha_final);
+    }
+    
+    public String[] cuposVendidosPorSede(String fecha_inicial, String fecha_final){
+        return daoEvento.cuposVendidosPorSede(fecha_inicial, fecha_final);
+    }
+    
+    public String[] ventasPorEmpleado(String fecha_inicial, String fecha_final){
+        return daoEvento.ventasPorEmpleado(fecha_inicial, fecha_final);
+    }
+    
+    public String[] cuposVendidosPorEmpleado(String fecha_inicial, String fecha_final){
+        return daoEvento.cuposVendidosPorEmpleado(fecha_inicial, fecha_final);
+    }
+    
+    public String[] ventasEvento(String fecha_inicial, String fecha_final){
+        return daoEvento.ventasPorEvento(fecha_inicial, fecha_final);
+    }
+    
+    public String[] cuposVendidosPorEvento(String fecha_inicial, String fecha_final){
+        return daoEvento.cuposVendidosPorEvento(fecha_inicial, fecha_final);
     }
 }

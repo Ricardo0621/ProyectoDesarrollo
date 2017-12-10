@@ -450,17 +450,17 @@ public class DaoEvento {
         return evento;
     }
     
-    public String[] ventasPorSede(){
+    public String[] ventasPorSede(String fecha_inicial, String fecha_final){
         String[] ventas_sede;
         int contador=0;
         String sql_count = "SELECT COUNT(*) AS filas "+
                            "FROM (SELECT s1.nombre, SUM(e1.valor) "+
                                  "FROM sedes s1, pagos p1, eventos e1 "+
-                                 "WHERE s1.id = p1.sede_id AND e1.id=p1.id_evento AND p1.estado='Pagado'"+
+                                 "WHERE s1.id = p1.sede_id AND e1.id=p1.id_evento AND p1.estado='Pagado' AND fecha BETWEEN '"+fecha_inicial+"' AND '"+fecha_final+"' "+
                                  "GROUP BY s1.id) AS x";    
         String sql = "SELECT s1.nombre, SUM(e1.valor) "+
                      "FROM sedes s1, pagos p1, eventos e1 "+
-                     "WHERE s1.id = p1.sede_id AND e1.id=p1.id_evento AND p1.estado='Pagado'"+
+                     "WHERE s1.id = p1.sede_id AND e1.id=p1.id_evento AND p1.estado='Pagado' AND fecha BETWEEN '"+fecha_inicial+"' AND '"+fecha_final+"' "+
                      "GROUP BY s1.id";
         try {
             Connection conn = fachada.getConnetion();
@@ -475,6 +475,171 @@ public class DaoEvento {
                 contador++;
             }
             return ventas_sede;
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        return null;
+    }
+    
+    public String[] cuposVendidosPorSede(String fecha_inicial, String fecha_final){
+        String[] cupos_sede;
+        int contador=0;
+        String sql_count = "SELECT COUNT(*) AS filas "+
+                           "FROM (SELECT s1.nombre, COUNT(*) "+
+                                 "FROM sedes s1, pagos p1 "+
+                                 "WHERE s1.id = p1.sede_id AND p1.estado='Pagado' AND fecha BETWEEN '"+fecha_inicial+"' AND '"+fecha_final+"' "+
+                                 "GROUP BY s1.id) AS x";    
+        String sql = "SELECT s1.nombre, COUNT(*) "+
+                     "FROM sedes s1, pagos p1 "+
+                     "WHERE s1.id = p1.sede_id AND p1.estado='Pagado' AND fecha BETWEEN '"+fecha_inicial+"' AND '"+fecha_final+"' "+
+                     "GROUP BY s1.id";
+        try {
+            Connection conn = fachada.getConnetion();
+            Statement sentencia = conn.createStatement();
+            ResultSet tabla = sentencia.executeQuery(sql_count);
+            tabla.next();
+            int filas = tabla.getInt("filas");
+            cupos_sede = new String[filas];
+            tabla = sentencia.executeQuery(sql);
+            while (tabla.next()) {
+                cupos_sede[contador] = tabla.getString(1)+" - "+tabla.getString(2);
+                contador++;
+            }
+            return cupos_sede;
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        return null;
+    }
+    
+    public String[] ventasPorEmpleado(String fecha_inicial, String fecha_final){
+        String[] ventas_empleado;
+        int contador=0;
+        String sql_count = "SELECT COUNT(*) AS filas "+
+                           "FROM (SELECT em1.id, em1.primer_nombre, SUM(e1.valor) "+
+                                 "FROM empleados em1, pagos p1, eventos e1 "+
+                                 "WHERE em1.id = p1.id_empleado AND e1.id=p1.id_evento AND p1.estado='Pagado' AND fecha BETWEEN '"+fecha_inicial+"' AND '"+fecha_final+"' "+
+                                 "GROUP BY em1.id) AS x";    
+        String sql = "SELECT em1.id, em1.primer_nombre, SUM(e1.valor) "+
+                     "FROM empleados em1, pagos p1, eventos e1 "+
+                     "WHERE em1.id = p1.id_empleado AND e1.id=p1.id_evento AND p1.estado='Pagado' AND fecha BETWEEN '"+fecha_inicial+"' AND '"+fecha_final+"' "+
+                     "GROUP BY em1.id";
+        try {
+            Connection conn = fachada.getConnetion();
+            Statement sentencia = conn.createStatement();
+            ResultSet tabla = sentencia.executeQuery(sql_count);
+            tabla.next();
+            int filas = tabla.getInt("filas");
+            ventas_empleado = new String[filas];
+            tabla = sentencia.executeQuery(sql);
+            while (tabla.next()) {
+                ventas_empleado[contador] = tabla.getString(1)+"-"+tabla.getString(2)+" - "+tabla.getString(3);
+                contador++;
+            }
+            return ventas_empleado;
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        return null;
+    }
+    
+    public String[] cuposVendidosPorEmpleado(String fecha_inicial, String fecha_final){
+        String[] cupos_empleado;
+        int contador=0;
+        String sql_count = "SELECT COUNT(*) AS filas "+
+                           "FROM (SELECT em1.id, em1.primer_nombre, COUNT(*) "+
+                                 "FROM empleados em1, pagos p1 "+
+                                 "WHERE em1.id = p1.id_empleado AND p1.estado='Pagado' AND fecha BETWEEN '"+fecha_inicial+"' AND '"+fecha_final+"' "+
+                                 "GROUP BY em1.id) AS x";    
+        String sql = "SELECT em1.id, em1.primer_nombre, COUNT(*) "+
+                     "FROM empleados em1, pagos p1 "+
+                     "WHERE em1.id = p1.id_empleado AND p1.estado='Pagado' AND fecha BETWEEN '"+fecha_inicial+"' AND '"+fecha_final+"' "+
+                     "GROUP BY em1.id";
+        try {
+            Connection conn = fachada.getConnetion();
+            Statement sentencia = conn.createStatement();
+            ResultSet tabla = sentencia.executeQuery(sql_count);
+            tabla.next();
+            int filas = tabla.getInt("filas");
+            cupos_empleado = new String[filas];
+            tabla = sentencia.executeQuery(sql);
+            while (tabla.next()) {
+                cupos_empleado[contador] = tabla.getString(1)+"-"+tabla.getString(2)+" - "+tabla.getString(3);
+                contador++;
+            }
+            return cupos_empleado;
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        return null;
+    }
+    
+    public String[] ventasPorEvento(String fecha_inicial, String fecha_final){
+        String[] ventas_evento;
+        int contador=0;
+        String sql_count = "SELECT COUNT(*) AS filas "+
+                           "FROM (SELECT e1.id, e1.nombre, SUM(e1.valor) "+
+                                 "FROM pagos p1, eventos e1 "+
+                                 "WHERE e1.id=p1.id_evento AND p1.estado='Pagado' AND fecha BETWEEN '"+fecha_inicial+"' AND '"+fecha_final+"' "+
+                                 "GROUP BY e1.id) AS x";    
+        String sql = "SELECT e1.id, e1.nombre, SUM(e1.valor) "+
+                     "FROM pagos p1, eventos e1 "+
+                     "WHERE e1.id=p1.id_evento AND p1.estado='Pagado' AND fecha BETWEEN '"+fecha_inicial+"' AND '"+fecha_final+"' "+
+                     "GROUP BY e1.id";
+        try {
+            Connection conn = fachada.getConnetion();
+            Statement sentencia = conn.createStatement();
+            ResultSet tabla = sentencia.executeQuery(sql_count);
+            tabla.next();
+            int filas = tabla.getInt("filas");
+            ventas_evento = new String[filas];
+            tabla = sentencia.executeQuery(sql);
+            while (tabla.next()) {
+                ventas_evento[contador] = tabla.getString(1)+"-"+tabla.getString(2)+" - "+tabla.getString(3);
+                contador++;
+            }
+            return ventas_evento;
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        return null;
+    }
+    
+    public String[] cuposVendidosPorEvento(String fecha_inicial, String fecha_final){
+        String[] cupos_evento;
+        int contador=0;
+        String sql_count = "SELECT COUNT(*) AS filas "+
+                           "FROM (SELECT e1.id, e1.nombre, COUNT(*) "+
+                                 "FROM eventos e1, pagos p1 "+
+                                 "WHERE e1.id = p1.id_evento AND p1.estado='Pagado' AND fecha BETWEEN '"+fecha_inicial+"' AND '"+fecha_final+"' "+
+                                 "GROUP BY e1.id) AS x";    
+        String sql = "SELECT e1.id, e1.nombre, COUNT(*) "+
+                     "FROM eventos e1, pagos p1 "+
+                     "WHERE e1.id = p1.id_evento AND p1.estado='Pagado' AND fecha BETWEEN '"+fecha_inicial+"' AND '"+fecha_final+"' "+
+                     "GROUP BY e1.id";
+        try {
+            Connection conn = fachada.getConnetion();
+            Statement sentencia = conn.createStatement();
+            ResultSet tabla = sentencia.executeQuery(sql_count);
+            tabla.next();
+            int filas = tabla.getInt("filas");
+            cupos_evento = new String[filas];
+            tabla = sentencia.executeQuery(sql);
+            while (tabla.next()) {
+                cupos_evento[contador] = tabla.getString(1)+"-"+tabla.getString(2)+" - "+tabla.getString(3);
+                contador++;
+            }
+            return cupos_evento;
         } catch (SQLException ex) {
             System.out.println(ex);
         } catch (Exception ex) {
