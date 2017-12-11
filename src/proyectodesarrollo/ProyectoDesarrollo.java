@@ -8,6 +8,7 @@ package proyectodesarrollo;
 import gui.InterfazAdministrador;
 import gui.RegistrarSedes;
 import gui.InterfazOperador;
+import gui.Login_Front1;
 import gui.Login_front;
 
 /**
@@ -44,7 +45,7 @@ public class ProyectoDesarrollo {
                  /* Create and display the form */
                 java.awt.EventQueue.invokeLater(new Runnable() {
                     public void run() {
-                        new Login_front().setVisible(true);
+                        new Login_Front1().setVisible(true);
                     }
                 });
             }

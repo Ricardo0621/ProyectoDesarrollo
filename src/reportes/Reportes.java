@@ -289,7 +289,8 @@ public class Reportes extends JFrame implements ActionListener{
                 interfazAdministrador.setVisible(true);
                 this.dispose();
             }else if(datos_usuario[2].equals("Gerente")){
-                //interfazGerente = new InterfazGerente();
+                interfazGerente = new InterfazGerente();
+                interfazGerente.setVisible(true);
                 this.dispose();
             }else if(datos_usuario[2].equals("Operador")){
                 interfazOperador = new InterfazOperador(datos_usuario);

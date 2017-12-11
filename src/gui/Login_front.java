@@ -1,15 +1,14 @@
 package gui;
 
-/** To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates and open the template
+ * in the editor.
  */
-
 /**
  *
  * @author alejo
  */
-
 import controladores.ControladorEmpleado;
 import static java.awt.PageAttributes.MediaType.C;
 import javax.swing.JOptionPane;
@@ -21,7 +20,9 @@ public class Login_front extends javax.swing.JFrame {
      */
     public Login_front() {
         initComponents();
-      
+        this.setLocationRelativeTo(null);                       // centramos la ventana en la pantalla
+        this.setResizable(false);
+
     }
 
     /**
@@ -100,123 +101,107 @@ public class Login_front extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    
-    
-    public boolean validarCampos(){
-            boolean result = false;
-            if(jTextField1.getText().length() != 0 && jPasswordField1.getPassword().length != 0){
-                    result = true;
-            }
-            return result;
+    public boolean validarCampos() {
+        boolean result = false;
+        if (jTextField1.getText().length() != 0 && jPasswordField1.getPassword().length != 0) {
+            result = true;
+        }
+        return result;
     }
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-            
-       ControladorEmpleado controladorEmpleado;
-        controladorEmpleado= new ControladorEmpleado();
-	boolean result = false;
-            
 
-            if(validarCampos()){
-						
-                    String cedula = jTextField1.getText();
-                    char [] password = jPasswordField1.getPassword();
-                    result = controladorEmpleado.consultarEmpleado(cedula);
-                    if(result == false){
-                            System.out.print("el nombre o la contraseñae están errados");
+        ControladorEmpleado controladorEmpleado;
+        controladorEmpleado = new ControladorEmpleado();
+        boolean result = false;
+
+        if (validarCampos()) {
+
+            String cedula = jTextField1.getText();
+            char[] password = jPasswordField1.getPassword();
+            result = controladorEmpleado.consultarEmpleado(cedula);
+            if (result == false) {
+                System.out.print("el nombre o la contraseñae están errados");
+            } else {
+                String[] data = controladorEmpleado.extraerEmpleado(cedula);
+                String pass = data[10];
+                String identificacion = data[0];
+                String nombre = data[3] + " " + data[4] + " " + " " + data[5] + " " + data[6];
+                String cargo = data[2];
+                if (pass.equals(String.valueOf(password))) {
+                    if (cargo.equals("Administrador")) {
+                        InterfazAdministrador interfazAdministrador = new InterfazAdministrador(data);
+                        interfazAdministrador.setVisible(true);
+                        this.setVisible(false);
+                        System.out.print("binevenido");
+                    } else if (cargo.equals("Gerente")) {
+                        InterfazGerente interfazGerente = new InterfazGerente();
+                        interfazGerente.setVisible(true);
+                        this.setVisible(false);
+
+                    } else if (cargo.equals("Operador")) {
+                        InterfazOperador interfazOperador = new InterfazOperador(data);
+                        interfazOperador.setVisible(true);
+                        this.setVisible(false);
+                        System.out.print("binevenido");
                     }
-                    else 
-                    {   
-			String[] data = controladorEmpleado.extraerEmpleado(cedula);
-                        String pass = data[10];
-                        String identificacion = data[0];
-                        String nombre = data[3]+" "+data[4]+" "+" "+data[5]+" "+data[6];
-                        String cargo = data[2];
-                        if(pass.equals(String.valueOf(password))){
-                            if(cargo.equals("Administrador")){
-                                InterfazAdministrador interfazAdministrador = new InterfazAdministrador(data);
-                                interfazAdministrador.setVisible(true);
-                                this.setVisible(false);
-                                System.out.print("binevenido");
-                            }else if(cargo.equals("Gerente")){
-                                InterfazGerente interfazGerente = new InterfazGerente();
-                                interfazGerente.setVisible(true);
-                                this.setVisible(false);
-                                
-                            }else if(cargo.equals("Operador")){
-                                InterfazOperador interfazOperador = new InterfazOperador(data);
-                                interfazOperador.setVisible(true);
-                                this.setVisible(false);
-                                System.out.print("binevenido");
-                            }
-                            
-                        
-                        }
-                        else{
-                            
-                             JOptionPane.showMessageDialog(this, "password o usuario incorrectos");
-                        
-                        }
-                    
-                    }
-                    
+
+                } else {
+
+                    JOptionPane.showMessageDialog(this, "password o usuario incorrectos");
+
+                }
+
             }
-          
-            
-            
-            
-            else{
-            
-                JOptionPane.showMessageDialog(this, "los campos no pueden estar vacíos");
-            
-            }
+
+        } else {
+
+            JOptionPane.showMessageDialog(this, "los campos no pueden estar vacíos");
+
+        }
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTextField1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyTyped
         // TODO add your handling code here:
         char c = evt.getKeyChar();
-       if(Character.isLetter(c))
-     {
-         getToolkit().beep();
-         evt.consume();
-         JOptionPane.showMessageDialog(this, "Ingrese solo numeros");
-         jTextField1.setCursor(null);
-     }
-       else if((int)evt.getKeyChar()>32 && (int)evt.getKeyChar()<=47
-             ||(int)evt.getKeyChar()>=58 && (int)evt.getKeyChar()<=64
-             || (int)evt.getKeyChar()>=91 && (int)evt.getKeyChar()<=96
-             || (int)evt.getKeyChar()>=123 && (int)evt.getKeyChar()<=255)
-    {
-         getToolkit().beep();
-         evt.consume();
-         JOptionPane.showMessageDialog(this, "Ingrese solo letras");
-         jTextField1.setCursor(null);
-     }
-        
-        
+        if (Character.isLetter(c)) {
+            getToolkit().beep();
+            evt.consume();
+            JOptionPane.showMessageDialog(this, "Ingrese solo numeros");
+            jTextField1.setCursor(null);
+        } else if ((int) evt.getKeyChar() > 32 && (int) evt.getKeyChar() <= 47
+                || (int) evt.getKeyChar() >= 58 && (int) evt.getKeyChar() <= 64
+                || (int) evt.getKeyChar() >= 91 && (int) evt.getKeyChar() <= 96
+                || (int) evt.getKeyChar() >= 123 && (int) evt.getKeyChar() <= 255) {
+            getToolkit().beep();
+            evt.consume();
+            JOptionPane.showMessageDialog(this, "Ingrese solo letras");
+            jTextField1.setCursor(null);
+        }
+
+
     }//GEN-LAST:event_jTextField1KeyTyped
 
     private void jPasswordField1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPasswordField1KeyTyped
         // TODO add your handling code here:
-        if((int)evt.getKeyChar()>=32 && (int)evt.getKeyChar()<=47
-             ||(int)evt.getKeyChar()>=58 && (int)evt.getKeyChar()<=64
-             || (int)evt.getKeyChar()>=91 && (int)evt.getKeyChar()<=96
-             || (int)evt.getKeyChar()>=123 && (int)evt.getKeyChar()<=255)
-    {
-         getToolkit().beep();
-         evt.consume();
-         JOptionPane.showMessageDialog(this, "Ingrese solo letras");
-         jTextField1.setCursor(null);
-     }
-        
-        
+        if ((int) evt.getKeyChar() >= 32 && (int) evt.getKeyChar() <= 47
+                || (int) evt.getKeyChar() >= 58 && (int) evt.getKeyChar() <= 64
+                || (int) evt.getKeyChar() >= 91 && (int) evt.getKeyChar() <= 96
+                || (int) evt.getKeyChar() >= 123 && (int) evt.getKeyChar() <= 255) {
+            getToolkit().beep();
+            evt.consume();
+            JOptionPane.showMessageDialog(this, "Ingrese solo letras");
+            jTextField1.setCursor(null);
+        }
+
+
     }//GEN-LAST:event_jPasswordField1KeyTyped
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-    /* Create and display the form */
+        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Login_front().setVisible(true);
