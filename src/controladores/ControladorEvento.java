@@ -6,7 +6,7 @@
 package controladores;
 
 import accesoDatos.DaoEvento;
-import java.util.Arrays;
+import java.sql.Connection;
 import logica.Evento;
 
 /**
@@ -16,11 +16,14 @@ import logica.Evento;
 public class ControladorEvento {
 
     DaoEvento daoEvento;
-
     public ControladorEvento() {
         daoEvento = new DaoEvento();
     }
-
+    
+    public Connection getConnection(){
+        return daoEvento.getConnection();
+    }
+    
     public int insertarEvento(String identificacion, String nombre, String descripcion, String lugar, String fecha_creacion, String fecha_inicio, String fecha_fin, int valor) {
         int result = 0;
         return result;

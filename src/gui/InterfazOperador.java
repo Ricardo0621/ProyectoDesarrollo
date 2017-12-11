@@ -40,6 +40,7 @@ import javax.swing.table.DefaultTableModel;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfWriter;
 import java.io.FileOutputStream;
+import reportes.Reportes;
 
 /**
  *
@@ -50,6 +51,7 @@ public class InterfazOperador extends JFrame implements ActionListener {
     PanelBienvenido panelBienvenido;
     PanelCrearAsistente panelCrearAsistente;
     PanelListarAsistentes panelListarAsistentes;
+    Reportes reportes;
     PanelBuscarFiltrarPagarRegistrar panelBuscarFiltrarPagarRegistrar;
     JButton btn_crear_asistente;
     JButton btn_modificar_asistente;
@@ -58,6 +60,7 @@ public class InterfazOperador extends JFrame implements ActionListener {
     JButton btn_registrar_pago;
     JButton btn_listar_eventos;
     JButton btn_generar_certificados;
+    JButton btn_reportes;
     JButton btn_salir;
     String[] datos_empleado;
 
@@ -88,16 +91,18 @@ public class InterfazOperador extends JFrame implements ActionListener {
         btn_registrar_pago = new JButton("Pagos");
         btn_listar_eventos = new JButton("Eventos");
         btn_generar_certificados = new JButton("Certificados");
+        btn_reportes = new JButton("Reportes");
         btn_salir = new JButton("Salir");
 
-        btn_crear_asistente.setBounds(25, 20, 150, 60);
-        btn_modificar_asistente.setBounds(25, 85, 150, 60);
-        btn_listar_asistentes.setBounds(25, 150, 150, 60);
-        btn_registrar_asistente_evento.setBounds(25, 215, 150, 60);
-        btn_registrar_pago.setBounds(25, 280, 150, 60);
-        btn_listar_eventos.setBounds(25, 345, 150, 60);
-        btn_generar_certificados.setBounds(25, 410, 150, 60);
-        btn_salir.setBounds(25, 475, 150, 60);
+        btn_crear_asistente.setBounds(25, 20, 150, 50);
+        btn_modificar_asistente.setBounds(25, 75, 150, 50);
+        btn_listar_asistentes.setBounds(25, 130, 150, 50);
+        btn_registrar_asistente_evento.setBounds(25, 185, 150, 50);
+        btn_registrar_pago.setBounds(25, 240, 150, 50);
+        btn_listar_eventos.setBounds(25, 295, 150, 50);
+        btn_generar_certificados.setBounds(25, 350, 150, 50);
+        btn_reportes.setBounds(25, 405, 150, 50);
+        btn_salir.setBounds(25, 460, 150, 50);
 
         btn_crear_asistente.addActionListener(this);
         btn_listar_asistentes.addActionListener(this);
@@ -106,6 +111,7 @@ public class InterfazOperador extends JFrame implements ActionListener {
         btn_registrar_pago.addActionListener(this);
         btn_listar_eventos.addActionListener(this);
         btn_generar_certificados.addActionListener(this);
+        btn_reportes.addActionListener(this);
         btn_salir.addActionListener(this);
 
         this.add(btn_crear_asistente);
@@ -115,6 +121,7 @@ public class InterfazOperador extends JFrame implements ActionListener {
         this.add(btn_registrar_pago);
         this.add(btn_listar_eventos);
         this.add(btn_generar_certificados);
+        this.add(btn_reportes);
         this.add(btn_salir);
     }
 
@@ -205,6 +212,11 @@ public class InterfazOperador extends JFrame implements ActionListener {
             mostrarPanelBuscarFiltarPagarInscribir("Eventos", true);
             panelBuscarFiltrarPagarRegistrar.setComboBox("Eventos", null);
             this.repaint();
+        }else if(e.getSource().equals(btn_reportes)){
+            reportes = new Reportes(datos_empleado);
+            this.dispose();
+        }else if(e.getSource().equals(btn_salir)){
+            System.exit(1);
         }
     }
 

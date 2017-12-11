@@ -28,6 +28,10 @@ public class DaoEvento {
         int filasGuardadas = 0;
         return filasGuardadas;
     }
+    
+    public Connection getConnection(){
+        return fachada.getConnetion();
+    }
 
     public boolean consultarEvento(String identificacion) {
         String sql = "SELECT id FROM eventos WHERE id='" + identificacion + "'";

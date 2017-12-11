@@ -19,8 +19,8 @@ public class ProyectoDesarrollo {
      * @param args the command line arguments
      */
     public void testCrearUsuario(){
-        InterfazAdministrador interfazAdministrador = new InterfazAdministrador();
-        interfazAdministrador.setVisible(true);
+        //InterfazAdministrador interfazAdministrador = new InterfazAdministrador();
+        //interfazAdministrador.setVisible(true);
     }//Fin de testCreaUsuario()
     
     public void testCrearAsistente(){

@@ -133,7 +133,7 @@ public class Login_front extends javax.swing.JFrame {
                         String cargo = data[2];
                         if(pass.equals(String.valueOf(password))){
                             if(cargo.equals("Administrador")){
-                                InterfazAdministrador interfazAdministrador = new InterfazAdministrador();
+                                InterfazAdministrador interfazAdministrador = new InterfazAdministrador(data);
                                 interfazAdministrador.setVisible(true);
                                 this.setVisible(false);
                                 System.out.print("binevenido");

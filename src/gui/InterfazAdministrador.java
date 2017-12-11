@@ -5,6 +5,7 @@
  */
 package gui;
 
+import reportes.Reportes;
 import controladores.ControladorEmpleado;
 import controladores.ControladorSede;
 import java.awt.Color;
@@ -46,13 +47,16 @@ public class InterfazAdministrador extends JFrame implements ActionListener{
     JButton btn_crear_usuario;
     JButton btn_modificar_usuario;
     JButton btn_listar_usuarios;
+    JButton btn_reportes;
     JButton btn_salir;
-    ControladorSede controladorSede;    
+    ControladorSede controladorSede;  
+    String[] datos_empleado;
     /**
      * 
      * @param id_empleado 
      */
-    public InterfazAdministrador(){
+    public InterfazAdministrador(String[] datos_empleado){
+        this.datos_empleado = datos_empleado;
         panelBuscarFiltrar = new PanelBuscarFiltrar("Buscar Usuario");
         panelListarUsuarios = new PanelListarUsuarios();
         controladorSede = new ControladorSede();
@@ -80,21 +84,25 @@ public class InterfazAdministrador extends JFrame implements ActionListener{
         btn_crear_usuario = new JButton("Crear Usuario");
         btn_modificar_usuario = new JButton("Modificar Usuario");
         btn_listar_usuarios = new JButton("Listar Usuarios");
+        btn_reportes = new JButton("Reportes");
         btn_salir = new JButton("Salir");
         
         btn_crear_usuario.setBounds(25, 20, 150, 60);
         btn_modificar_usuario.setBounds(25, 90, 150, 60);
         btn_listar_usuarios.setBounds(25, 160, 150, 60);
-        btn_salir.setBounds(25, 230, 150, 60);
+        btn_reportes.setBounds(25, 230, 150, 60);
+        btn_salir.setBounds(25, 300, 150, 60);
         
         btn_crear_usuario.addActionListener(this);
         btn_listar_usuarios.addActionListener(this);
         btn_modificar_usuario.addActionListener(this);
+        btn_reportes.addActionListener(this);
         btn_salir.addActionListener(this);
         
         this.add(btn_crear_usuario);
         this.add(btn_modificar_usuario);
         this.add(btn_listar_usuarios);
+        this.add(btn_reportes);
         this.add(btn_salir);
     }
     public void mostrarPanelEmpleado(String accion, String[] datos_empleado, boolean visible){
@@ -151,9 +159,13 @@ public class InterfazAdministrador extends JFrame implements ActionListener{
             removerPaneles();
             mostrarPanelBuscarListar("Listar Usuarios", true);
             panelBuscarFiltrar.setComboBox();
+        }else if(e.getSource().equals(btn_reportes)){
+            reportes = new Reportes(datos_empleado);
+            this.dispose();
         }else if(e.getSource().equals(btn_salir)){
             removerPaneles();
             configurarPanelBienvenida();
+            System.exit(0);
         }
     }
     
