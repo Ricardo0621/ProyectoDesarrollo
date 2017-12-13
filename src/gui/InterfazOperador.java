@@ -1743,7 +1743,7 @@ public class InterfazOperador extends JFrame implements ActionListener {
             Paragraph p = new Paragraph();
             Chunk c = new Chunk();
             p.setAlignment(Element.ALIGN_CENTER);
-            p.setSpacingAfter(190);
+            p.setSpacingAfter(290);
             c.append(texto);
             c.setFont(fuente);
             p.add(c);
@@ -1755,7 +1755,7 @@ public class InterfazOperador extends JFrame implements ActionListener {
             Paragraph p = new Paragraph();
             Chunk c = new Chunk();
             p.setAlignment(Element.ALIGN_CENTER);
-            p.setSpacingAfter(600);
+            p.setSpacingAfter(900);
             c.append(texto);
             c.setFont(fuente);
             p.add(c);
