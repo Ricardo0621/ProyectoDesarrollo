@@ -79,6 +79,37 @@ public class InterfazOperador extends JFrame implements ActionListener {
         
       
     }
+    
+        public class PanelLateral extends JPanel{
+        public PanelLateral(){
+            configurarBotones();
+            this.setLayout(null);
+        }
+        
+        public void configurarBotones(){  
+            btn_crear_asistente.setBounds(20,10,150,50);
+            btn_modificar_asistente.setBounds(20,65,150,50);
+            btn_listar_asistentes.setBounds(20,120,150,50);
+            btn_registrar_asistente_evento.setBounds(20,175,150,50);
+            btn_registrar_pago.setBounds(20,230,150,50);
+            btn_listar_eventos.setBounds(20,285,150,50);
+            btn_generar_certificados.setBounds(20,340,150,50);
+            btn_reportes.setBounds(20,395,150,50);
+            btn_salir.setBounds(20,450,150,50);
+            
+            add(btn_crear_asistente);
+            add(btn_modificar_asistente);
+            add(btn_listar_asistentes);
+            this.add(btn_registrar_asistente_evento);
+            this.add(btn_registrar_pago);
+            this.add(btn_listar_eventos);
+            this.add(btn_generar_certificados);
+            this.add(btn_reportes);
+            this.add(btn_salir);
+ 
+        }
+        
+    }
 
     private void configurarUserPanel() {
         this.setTitle("Panel de usuario");                      // colocamos titulo a la ventana
@@ -90,13 +121,13 @@ public class InterfazOperador extends JFrame implements ActionListener {
         
         
         //PANEL AZUL CLARO
-        javax.swing.JPanel  jPanelAzulClaro = new javax.swing.JPanel();
-        jPanelAzulClaro.setBounds(0,0,240,800) ;
+        PanelLateral  jPanelAzulClaro = new PanelLateral();
+        jPanelAzulClaro.setBounds(0,0,240,600) ;
         jPanelAzulClaro.setBackground(new java.awt.Color(97, 212, 195));
         //jPanelAzulClaro.add(jLabelABC); 
        
        
-        btn_crear_asistente.setBounds(20,50,70,60);
+        /*btn_crear_asistente.setBounds(20,50,70,60);
         btn_modificar_asistente.setBounds(20,120,70,60);
         btn_listar_asistentes.setBounds(20,190,70,60);
         btn_registrar_asistente_evento.setBounds(20,260,70,60);
@@ -104,7 +135,7 @@ public class InterfazOperador extends JFrame implements ActionListener {
         btn_listar_eventos.setBounds(20,400,70,60);
         btn_generar_certificados.setBounds(20,470,70,60);
         btn_reportes.setBounds(20,540,70,60);
-        btn_salir.setBounds(20,610,70,60);
+        btn_salir.setBounds(20,610,70,60);*/
         
         jPanelAzulClaro.add(btn_crear_asistente);
         jPanelAzulClaro.add(btn_modificar_asistente);

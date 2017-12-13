@@ -79,23 +79,39 @@ public class InterfazAdministrador extends JFrame implements ActionListener{
         this.setLocationRelativeTo(null);                       // centramos la ventana en la pantalla
         this.setLayout(null);                                   // no usamos ningun layout, solo asi podremos dar posiciones a los componentes
         this.setResizable(false);                               // hacemos que la ventana no sea redimiensionable
-        this.getContentPane().setBackground(new java.awt.Color (35,47,65));
+        //this.getContentPane().setBackground(new java.awt.Color (35,47,65));
          
         
         
-          //PANEL AZUL CLARO
-        javax.swing.JPanel  jPanelAzulClaro = new javax.swing.JPanel();
+        //PANEL AZUL CLARO
+        PanelLateral  jPanelAzulClaro = new PanelLateral();
         jPanelAzulClaro.setBounds(0,0,240,800) ;
         jPanelAzulClaro.setBackground(new java.awt.Color(97, 212, 195));
         this.getContentPane().add(jPanelAzulClaro); 
         
-        jPanelAzulClaro.add(btn_crear_usuario);
-        jPanelAzulClaro.add(btn_modificar_usuario);
-        jPanelAzulClaro.add(btn_listar_usuarios);
-        jPanelAzulClaro.add(btn_reportes);
-        jPanelAzulClaro.add(btn_salir);
-        
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);    // hacemos que cuando se cierre la ventana termina todo proceso
+    }
+    
+    public class PanelLateral extends JPanel{
+        public PanelLateral(){
+            configurarBotones();
+            this.setLayout(null);
+        }
+        
+        public void configurarBotones(){  
+            btn_crear_usuario.setBounds(25, 20, 150, 60);
+            btn_modificar_usuario.setBounds(25, 90, 150, 60);
+            btn_listar_usuarios.setBounds(25, 160, 150, 60);
+            btn_reportes.setBounds(25, 230, 150, 60);
+            btn_salir.setBounds(25, 300, 150, 60);
+            
+            this.add(btn_crear_usuario);
+            this.add(btn_modificar_usuario);
+            this.add(btn_listar_usuarios);
+            this.add(btn_reportes);
+            this.add(btn_salir);
+        }
+        
     }
     
     public void configurarBotones(){
@@ -106,11 +122,11 @@ public class InterfazAdministrador extends JFrame implements ActionListener{
         btn_salir = new JButton("Salir");
         
       
-        btn_crear_usuario.setBounds(25, 20, 150, 60);
+        /*btn_crear_usuario.setBounds(25, 20, 150, 60);
         btn_modificar_usuario.setBounds(25, 90, 150, 60);
         btn_listar_usuarios.setBounds(25, 160, 150, 60);
         btn_reportes.setBounds(25, 230, 150, 60);
-        btn_salir.setBounds(25, 300, 150, 60);
+        btn_salir.setBounds(25, 300, 150, 60);*/
         
         btn_crear_usuario.addActionListener(this);
         btn_listar_usuarios.addActionListener(this);
