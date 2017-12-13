@@ -6,6 +6,7 @@
 package gui;
 
 import controladores.ControladorEvento;
+import java.awt.Font;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.text.ParseException;
@@ -43,7 +44,119 @@ public class RegistrarEventos extends JFrame {
      */
     public RegistrarEventos() {
         initComponents();
+        this.setTitle("Registrar Evento");                      // colocamos titulo a la ventana
+        this.setSize(800, 600);                                 // colocamos tamanio a la ventana (ancho, alto)
+        this.setLocationRelativeTo(null);                       // centramos la ventana en la pantalla
+        this.setLayout(null);             
         setResizable(false);
+       this.getContentPane().setBackground(new java.awt.Color (35,47,65));
+        
+       //Label Titulo
+        jLabel1.setBounds (240,0, 236,20);
+        jLabel1.setFont(new java.awt.Font("Arial 18 Plain",Font.PLAIN, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(254, 254, 254));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        
+        
+        jLabel2.setBounds (240,85,130,20);
+        jLabel2.setFont(new java.awt.Font("Arial 18 Plain", Font.PLAIN, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(254, 254, 254));
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        
+        jLabel3.setBounds (240,110,115,20);
+        jLabel3.setFont(new java.awt.Font("Arial 18 Plain", Font.PLAIN, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(254, 254, 254));
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        
+        jLabel4.setBounds (240,135 ,115,20);
+        jLabel4.setFont(new java.awt.Font("Arial 18 Plain", Font.PLAIN, 18)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(254, 254, 254));
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        
+        jLabel5.setBounds (240,160,115,20);
+        jLabel5.setFont(new java.awt.Font("Arial 18 Plain",Font.PLAIN, 18)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(254, 254, 254));
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        
+        jLabel6.setBounds(240,185,140,20);
+        jLabel6.setFont(new java.awt.Font("Arial 18 Plain", Font.PLAIN, 18)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(254, 254, 254));
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        
+        jLabel7.setBounds (240,210,140,20);
+        jLabel7.setFont(new java.awt.Font("Arial 18 Plain", Font.PLAIN, 18)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(254, 254, 254));
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        
+        jLabel8.setBounds (240,235,115,20);
+        jLabel8.setFont(new java.awt.Font("Arial 18 Plain",Font.PLAIN, 18)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(254, 254, 254));
+        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        
+         jLabel9.setBounds (240,260,115,20);;
+        jLabel9.setFont(new java.awt.Font("Arial 18 Plain", Font.PLAIN, 18)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(254, 254, 254));
+        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        
+         jLabel10.setBounds (240,285,115,20);
+        jLabel10.setFont(new java.awt.Font("Arial 18 Plain", Font.PLAIN, 18)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(254, 254, 254));
+        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        
+        jLabel11.setBounds (240,310,115,20);
+        jLabel11.setFont(new java.awt.Font("Arial 18 Plain", Font.PLAIN, 18)); // NOI18N
+        jLabel11.setForeground(new java.awt.Color(254, 254, 254));
+        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        
+        jLabel12.setBounds (240,335,115,20);
+        jLabel12.setFont(new java.awt.Font("Arial 18 Plain", Font.PLAIN, 18)); // NOI18N
+        jLabel12.setForeground(new java.awt.Color(254, 254, 254));
+        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        
+       jLabel13.setBounds (240,360,115,20);
+        jLabel13.setFont(new java.awt.Font("Arial 18 Plain",Font.PLAIN, 18)); // NOI18N
+        jLabel13.setForeground(new java.awt.Color(254, 254, 254));
+        jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        
+        jLabel14.setBounds (240,385,115,20);;
+        jLabel14.setFont(new java.awt.Font("Arial 18 Plain", Font.PLAIN, 18)); // NOI18N
+        jLabel14.setForeground(new java.awt.Color(254, 254, 254));
+        jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        //LABEL ABC 
+        javax.swing.JLabel jLabelABC = new javax.swing.JLabel();
+        jLabelABC.setBounds (20,0, 236,99);
+        jLabelABC.setFont(new java.awt.Font("Purisa", 1, 50)); // NOI18N
+        jLabelABC.setForeground(new java.awt.Color(254, 254, 254));
+        jLabelABC.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabelABC.setText("A.B.C.");
+        
+        //PANEL AZUL CLARO
+        javax.swing.JPanel  jPanelAzulClaro = new javax.swing.JPanel();
+        jPanelAzulClaro.setBounds(0,0,240,800) ;
+        jPanelAzulClaro.setBackground(new java.awt.Color(97, 212, 195));
+        jPanelAzulClaro.add(jLabelABC); 
+        this.getContentPane().add(jPanelAzulClaro); 
+        
+     
+        jTextFieldIdentificacion.setBounds(450,85,115,20 );
+        jTextFieldIdEmpleado.setBounds(450,110, 115,20); 
+        jTextFieldNombre.setBounds(450,135,115,20);
+        jTextFieldDescripcion.setBounds(450,160,115,20);
+        jTextFieldFechaCreacion.setBounds(450,185,115,20);
+        jDateFechaInicio.setBounds(450,210,115,20); 
+        jDateFechaFin.setBounds(450,235, 115,20); 
+        jTextFieldHorario.setBounds(450,260,115,20); 
+        jTextFieldHoras.setBounds(450,285,115,20); 
+        jTextFieldValor.setBounds(450,310,115,20);
+        jTextFieldLugar.setBounds(450,335,115,20); 
+        jTextFieldCupos.setBounds(450,360,115,20);
+        jComboBoxEstado.setBounds(450,385,115,20);
+        jRadioRegistrar.setBounds(575,80,120,20);
+        jRadioModificar.setBounds(575,105,120,20); 
+         jButtonOk.setBounds(450, 410,100, 20);
+        jButtonCancel.setBounds(560, 410,100, 20);
+        jButtonBuscar.setBounds(670, 410,100, 20);
+       // jButtonCancel(450,);
         iniciarComponentes();
         iniciarFecha();
         limpiarCampos();

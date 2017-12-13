@@ -26,6 +26,39 @@ public class ListarSedes extends JFrame {
         this.setLocationRelativeTo(null);                       // centramos la ventana en la pantalla
         this.setLayout(null);                                   // no usamos ningun layout, solo asi podremos dar posiciones a los componentes
         this.setResizable(false);                               // hacemos que la ventana no sea redimiensionable
+        this.getContentPane().setBackground(new java.awt.Color (35,47,65));
+        
+        
+        //LABEL TÍTULO DE VENTANA 
+        javax.swing.JLabel jLabelTitle = new javax.swing.JLabel();
+        jLabelTitle.setBounds (240,0, 236,99); 
+        
+        jLabelTitle.setFont(new java.awt.Font("Arial 18 Plain", 1, 18)); // NOI18N
+        jLabelTitle.setForeground(new java.awt.Color(254, 254, 254));
+        jLabelTitle.setHorizontalAlignment(javax.swing.SwingConstants.LEADING);
+        jLabelTitle.setText("LISTADO DE SEDES");
+        this.getContentPane().add(jLabelTitle);
+        
+        
+       
+        
+        //LABEL ABC 
+        javax.swing.JLabel jLabelABC = new javax.swing.JLabel();
+        jLabelABC.setBounds (20,0, 236,99);
+        jLabelABC.setFont(new java.awt.Font("Purisa", 1, 50)); // NOI18N
+        jLabelABC.setForeground(new java.awt.Color(254, 254, 254));
+        jLabelABC.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabelABC.setText("A.B.C.");
+        //jPanelAzulClaro.add(jLabelABC); 
+        
+         //PANEL AZUL CLARO
+        javax.swing.JPanel  jPanelAzulClaro = new javax.swing.JPanel();
+        jPanelAzulClaro.setBounds(0,0,240,800) ;
+        jPanelAzulClaro.setBackground(new java.awt.Color(97, 212, 195));
+        jPanelAzulClaro.add(jLabelABC); 
+        this.getContentPane().add(jPanelAzulClaro); 
+        
+        
         tablasSedes();
         cerrar();
 
@@ -61,7 +94,7 @@ public class ListarSedes extends JFrame {
 
         JTable tabla = new JTable(dtm);
         JScrollPane sp_tabla = new JScrollPane(tabla);
-        sp_tabla.setBounds(10, 30, 540, 510);
+        sp_tabla.setBounds(240, 60, 540, 320);
         add(sp_tabla);
     }
 }
