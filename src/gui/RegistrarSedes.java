@@ -6,6 +6,7 @@
 package gui;
 
 import controladores.ControladorSede;
+import java.awt.Font;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.text.SimpleDateFormat;
@@ -30,7 +31,85 @@ public class RegistrarSedes extends JFrame {
 
     public RegistrarSedes() {
         initComponents();
+        this.setTitle("Registrar Sedes");                      // colocamos titulo a la ventana
+        this.setSize(800, 600);                                 // colocamos tamanio a la ventana (ancho, alto)
+        this.setLocationRelativeTo(null);                       // centramos la ventana en la pantalla
+        this.setLayout(null);
         setResizable(false);
+        this.getContentPane().setBackground(new java.awt.Color (35,47,65));
+        
+        
+         //LABEL ABC 
+        javax.swing.JLabel jLabelABC = new javax.swing.JLabel();
+        jLabelABC.setBounds (20,0, 236,99);
+        jLabelABC.setFont(new java.awt.Font("Purisa", 1, 50)); // NOI18N
+        jLabelABC.setForeground(new java.awt.Color(254, 254, 254));
+        jLabelABC.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabelABC.setText("A.B.C.");
+        
+        //PANEL AZUL CLARO
+        javax.swing.JPanel  jPanelAzulClaro = new javax.swing.JPanel();
+        jPanelAzulClaro.setBounds(0,0,240,800) ;
+        jPanelAzulClaro.setBackground(new java.awt.Color(97, 212, 195));
+        jPanelAzulClaro.add(jLabelABC); 
+        this.getContentPane().add(jPanelAzulClaro); 
+        
+     
+        //Label Titulo
+        jLabel1.setBounds (240,0, 236,20);
+        jLabel1.setFont(new java.awt.Font("Arial 18 Plain",Font.PLAIN, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(254, 254, 254));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        
+         
+        jLabel2.setBounds (240,85,130,20);
+        jLabel2.setFont(new java.awt.Font("Arial 18 Plain", Font.PLAIN, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(254, 254, 254));
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        
+        jLabel3.setBounds (240,110,115,20);
+        jLabel3.setFont(new java.awt.Font("Arial 18 Plain", Font.PLAIN, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(254, 254, 254));
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        
+        jLabel4.setBounds (240,135 ,115,20);
+        jLabel4.setFont(new java.awt.Font("Arial 18 Plain", Font.PLAIN, 18)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(254, 254, 254));
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        
+        jLabel5.setBounds (240,160,115,20);
+        jLabel5.setFont(new java.awt.Font("Arial 18 Plain",Font.PLAIN, 18)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(254, 254, 254));
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        
+        jLabel6.setBounds(240,185,140,20);
+        jLabel6.setFont(new java.awt.Font("Arial 18 Plain", Font.PLAIN, 18)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(254, 254, 254));
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        
+        jLabel7.setBounds (240,210,140,20);
+        jLabel7.setFont(new java.awt.Font("Arial 18 Plain", Font.PLAIN, 18)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(254, 254, 254));
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+    
+        
+        
+        jTextFieldIdentificacion.setBounds(450,85,115,20 );
+        jTextFieldIdEmpleado.setBounds(450,110, 115,20); 
+        jTextFieldNombre.setBounds(450,135,115,20);
+        jTextFieldDireccion.setBounds(450,160,115,20);
+        jTextFieldTelefono.setBounds(450,185,115,20);
+        jTextFieldFechaCreacion.setBounds(450,210,115,20); 
+               
+       
+        jRadioRegistrar.setBounds(575,80,120,20);
+        jRadioModificar.setBounds(575,105,120,20); 
+        jButtonOk.setBounds(240, 410,100, 20);
+        jButtonCancel.setBounds(350, 410,100, 20);
+        jButtonBuscar.setBounds(460, 410,100, 20);
+        
+        
+        
         iniciarComponentes();
         limpiarCampos();
         this.setLocationRelativeTo(null);

@@ -86,15 +86,34 @@ public class Reportes extends JFrame implements ActionListener{
         this.setResizable(false);                               // hacemos que la ventana no sea redimiensionable
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         //this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);    // hacemos que cuando se cierre la ventana termina todo proceso
+        this.getContentPane().setBackground(new java.awt.Color (35,47,65));
+        
+        
+        //LABEL ABC 
+        javax.swing.JLabel jLabelABC = new javax.swing.JLabel();
+        jLabelABC.setBounds (20,0, 236,99); 
+        jLabelABC.setBackground(new java.awt.Color(0, 254, 254));
+        jLabelABC.setFont(new java.awt.Font("Purisa", 1, 50)); // NOI18N
+        jLabelABC.setForeground(new java.awt.Color(254, 254, 254));
+        jLabelABC.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabelABC.setText("A.B.C.");
+        
+        //PANEL AZUL CLARO
+        javax.swing.JPanel  jPanelAzulClaro = new javax.swing.JPanel();
+        jPanelAzulClaro.setBounds(0,0,240,800) ;
+        jPanelAzulClaro.setBackground(new java.awt.Color(97, 212, 195));
+        jPanelAzulClaro.add(jLabelABC); 
+        this.getContentPane().add(jPanelAzulClaro);
         this.setVisible(true);
+        
     }
     
     public void configurarRadioButtons(){
         radio_reportes_graficos = new JRadioButton("Reportes estadísticos");
         radio_reportes_listados = new JRadioButton("Listados");
         
-        radio_reportes_graficos.setBounds(100, 20, 200, 20);
-        radio_reportes_listados.setBounds(310, 20, 200, 20);
+        radio_reportes_graficos.setBounds(260, 20, 200, 20);
+        radio_reportes_listados.setBounds(470, 20, 200, 20);
         
         radio_reportes_graficos.addActionListener(this);
         radio_reportes_listados.addActionListener(this);
@@ -102,7 +121,7 @@ public class Reportes extends JFrame implements ActionListener{
         this.add(radio_reportes_graficos);
         this.add(radio_reportes_listados);
     }
-    
+        
     public void configurarComponentesGraficos(){
         btn_mostrar = new JButton("Mostrar");
         label_combo_select = new JLabel("Seleccione");
@@ -118,16 +137,16 @@ public class Reportes extends JFrame implements ActionListener{
         label_alerta = new JLabel("");
         btn_salir = new JButton("Salir");
         
-        label_combo_select.setBounds(50, 45, 80, 25);
-        combo_opcion.setBounds(140, 45, 200, 25);
-        label_fecha_inicial.setBounds(50, 75, 80, 25);
-        label_fecha_final.setBounds(50, 105, 80, 25);
-        dateInicial.setBounds(140, 75, 200, 20);
-        dateFinal.setBounds(140, 105, 200, 20);
-        btn_mostrar.setBounds(350, 105, 100, 30);
-        label_alerta.setBounds(350, 75, 300, 30);
-        btn_salir.setBounds(600, 500, 150, 50);
-        
+        label_combo_select.setBounds(260, 60, 80, 25);
+        combo_opcion.setBounds(260, 60, 200, 25);
+        label_fecha_inicial.setBounds(260, 90, 80, 25);
+        label_fecha_final.setBounds(260, 120, 80, 25);
+        dateInicial.setBounds(260, 90, 200, 20);
+        dateFinal.setBounds(260, 120, 200, 20);
+        btn_mostrar.setBounds(600, 120, 100, 30);
+        label_alerta.setBounds(600, 90, 300, 30);
+        btn_salir.setBounds(600, 515, 150, 50);
+            
         dateInicial.getJCalendar().setPreferredSize(new Dimension(500, 200));
         dateInicial.setFont(new Font("Dialog", Font.PLAIN, 10));
         dateFinal.getJCalendar().setPreferredSize(new Dimension(500, 200));
@@ -208,13 +227,13 @@ public class Reportes extends JFrame implements ActionListener{
     public void mostrarPanelGraficoBarras(int opcion, String fecha_inicial, String fecha_final){
         controladorEvento = new ControladorEvento();
         panel_barras = new PanelGraficoBarras(opcion, fecha_inicial, fecha_final);
-        panel_barras.setBounds(10, 150, 380, 3200);
+        panel_barras.setBounds(10, 165, 380, 320);
         this.add(panel_barras);
     }
     
     public void mostrarPanelGraficoTorta(int opcion, String fecha_inicial, String fecha_final){
         panelGraficoTorta = new PanelGraficoTorta(opcion, fecha_inicial, fecha_final);
-        panelGraficoTorta.setBounds(400, 150, 380, 320);
+        panelGraficoTorta.setBounds(400, 165, 380, 320);
         this.add(panelGraficoTorta);
     }
     
