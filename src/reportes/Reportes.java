@@ -86,24 +86,24 @@ public class Reportes extends JFrame implements ActionListener{
         this.setResizable(false);                               // hacemos que la ventana no sea redimiensionable
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         //this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);    // hacemos que cuando se cierre la ventana termina todo proceso
-        this.getContentPane().setBackground(new java.awt.Color (35,47,65));
+        this.getContentPane().setBackground(new java.awt.Color (97, 212, 195));
         
         
         //LABEL ABC 
         javax.swing.JLabel jLabelABC = new javax.swing.JLabel();
         jLabelABC.setBounds (20,0, 236,99); 
-        jLabelABC.setBackground(new java.awt.Color(0, 254, 254));
+        jLabelABC.setBackground(new java.awt.Color(97, 212, 195));
         jLabelABC.setFont(new java.awt.Font("Purisa", 1, 50)); // NOI18N
-        jLabelABC.setForeground(new java.awt.Color(254, 254, 254));
+        jLabelABC.setForeground(new java.awt.Color(0, 0, 0));
         jLabelABC.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelABC.setText("A.B.C.");
         
-        //PANEL AZUL CLARO
+        /*//PANEL AZUL CLARO
         javax.swing.JPanel  jPanelAzulClaro = new javax.swing.JPanel();
         jPanelAzulClaro.setBounds(0,0,240,800) ;
         jPanelAzulClaro.setBackground(new java.awt.Color(97, 212, 195));
         jPanelAzulClaro.add(jLabelABC); 
-        this.getContentPane().add(jPanelAzulClaro);
+        this.getContentPane().add(jPanelAzulClaro);*/
         this.setVisible(true);
         
     }
@@ -137,10 +137,10 @@ public class Reportes extends JFrame implements ActionListener{
         label_alerta = new JLabel("");
         btn_salir = new JButton("Salir");
         
-        label_combo_select.setBounds(260, 60, 80, 25);
+        label_combo_select.setBounds(160, 60, 80, 25);
         combo_opcion.setBounds(260, 60, 200, 25);
-        label_fecha_inicial.setBounds(260, 90, 80, 25);
-        label_fecha_final.setBounds(260, 120, 80, 25);
+        label_fecha_inicial.setBounds(160, 90, 80, 25);
+        label_fecha_final.setBounds(160, 120, 80, 25);
         dateInicial.setBounds(260, 90, 200, 20);
         dateFinal.setBounds(260, 120, 200, 20);
         btn_mostrar.setBounds(600, 120, 100, 30);
