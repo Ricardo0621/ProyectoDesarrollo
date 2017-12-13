@@ -61,14 +61,16 @@ public class InterfazAdministrador extends JFrame implements ActionListener{
         panelListarUsuarios = new PanelListarUsuarios();
         controladorSede = new ControladorSede();
         configurarPanelBienvenida();
-        configurarUserPanel(); // configuramos la ventana
         configurarBotones();
+        configurarUserPanel(); // configuramos la ventana
+        
         mostrarPanelEmpleado("Crear Usuario", null,false);
         this.repaint();
     }
     private void configurarPanelBienvenida(){
         panelBienvenido = new PanelBienvenido();
-        panelBienvenido.setBounds(200, 10, 560, 550);
+        panelBienvenido.setBounds(240, 10, 560, 550);
+        panelBienvenido.setBackground(new java.awt.Color (35,47,65));
         this.add(panelBienvenido);
     }
     private void configurarUserPanel() {
@@ -77,6 +79,22 @@ public class InterfazAdministrador extends JFrame implements ActionListener{
         this.setLocationRelativeTo(null);                       // centramos la ventana en la pantalla
         this.setLayout(null);                                   // no usamos ningun layout, solo asi podremos dar posiciones a los componentes
         this.setResizable(false);                               // hacemos que la ventana no sea redimiensionable
+        this.getContentPane().setBackground(new java.awt.Color (35,47,65));
+         
+        
+        
+          //PANEL AZUL CLARO
+        javax.swing.JPanel  jPanelAzulClaro = new javax.swing.JPanel();
+        jPanelAzulClaro.setBounds(0,0,240,800) ;
+        jPanelAzulClaro.setBackground(new java.awt.Color(97, 212, 195));
+        this.getContentPane().add(jPanelAzulClaro); 
+        
+        jPanelAzulClaro.add(btn_crear_usuario);
+        jPanelAzulClaro.add(btn_modificar_usuario);
+        jPanelAzulClaro.add(btn_listar_usuarios);
+        jPanelAzulClaro.add(btn_reportes);
+        jPanelAzulClaro.add(btn_salir);
+        
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);    // hacemos que cuando se cierre la ventana termina todo proceso
     }
     
@@ -87,6 +105,7 @@ public class InterfazAdministrador extends JFrame implements ActionListener{
         btn_reportes = new JButton("Reportes");
         btn_salir = new JButton("Salir");
         
+      
         btn_crear_usuario.setBounds(25, 20, 150, 60);
         btn_modificar_usuario.setBounds(25, 90, 150, 60);
         btn_listar_usuarios.setBounds(25, 160, 150, 60);
@@ -99,29 +118,27 @@ public class InterfazAdministrador extends JFrame implements ActionListener{
         btn_reportes.addActionListener(this);
         btn_salir.addActionListener(this);
         
-        this.add(btn_crear_usuario);
-        this.add(btn_modificar_usuario);
-        this.add(btn_listar_usuarios);
-        this.add(btn_reportes);
-        this.add(btn_salir);
     }
     public void mostrarPanelEmpleado(String accion, String[] datos_empleado, boolean visible){
         panelCrearUsuario = new PanelCrearUsuario(accion, datos_empleado);
-        panelCrearUsuario.setBounds(200, 10, 560, 550);
+        panelCrearUsuario.setBounds(240, 10, 560, 550);
+        panelCrearUsuario.setBackground(new java.awt.Color (35,47,65));
         this.add(panelCrearUsuario);
         panelCrearUsuario.setVisible(visible);
     }
     
     public void mostrarPanelBuscarListar(String accion, boolean visible){
         panelBuscarFiltrar = new PanelBuscarFiltrar(accion);
-        panelBuscarFiltrar.setBounds(200, 10, 560, 550);
+        panelBuscarFiltrar.setBounds(240, 10, 560, 550);
+        panelBuscarFiltrar.setBackground(new java.awt.Color (35,47,65));
         this.add(panelBuscarFiltrar);
         panelBuscarFiltrar.setVisible(visible);
     }
     
     public void mostrarPanelListar(String id_sede, String rol, String estado){
         panelListarUsuarios = new PanelListarUsuarios(id_sede, rol, estado);
-        panelListarUsuarios.setBounds(200, 10, 560, 550);
+        panelListarUsuarios.setBounds(240, 10, 560, 550);
+        panelListarUsuarios.setBackground(new java.awt.Color (35,47,65));
         this.add(panelListarUsuarios);
         panelListarUsuarios.setVisible(true);
     }
@@ -193,16 +210,25 @@ public class InterfazAdministrador extends JFrame implements ActionListener{
         JComboBox comb_rol;
         JComboBox comb_estados;
         public PanelBuscarFiltrar(String accion) {
-            setTitle("Buscar Usuario");                        // colocamos titulo a la ventana
+            this.setBackground(new java.awt.Color(35,47,65));
+            this.setBounds(240,0,420,550);
+             javax.swing.JLabel titulo = new javax.swing.JLabel();
+            titulo.setText(accion); 
+            titulo.setBounds (0,0,200,50);
+            titulo.setFont(new java.awt.Font("Arial 18 Plain", Font.PLAIN, 18)); // NOI18N
+            titulo.setForeground(new java.awt.Color(254, 254, 254));
+            titulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+            this.add(titulo);
+            //setTitle("Buscar Usuario");                        // colocamos titulo a la ventana
             setSize(420, 550);                                 // colocamos tamanio a la ventana (ancho, alto)
             setLocationRelativeTo(null);                       // centramos la ventana en la pantalla
             setLayout(null);                                   // no usamos ningun layout, solo asi podremos dar posiciones a los componentes
             setResizable(false);                               // hacemos que la ventana no sea redimiensionable
             Border lowerEtched = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
-            TitledBorder title = BorderFactory.createTitledBorder(lowerEtched, accion);
-            Font titleFont = UIManager.getFont("TitledBorder.font");
-            title.setTitleFont( titleFont.deriveFont(Font.ITALIC + Font.BOLD, 20) );
-            setBorder(title);
+          //  TitledBorder title = BorderFactory.createTitledBorder(lowerEtched, accion);
+           // Font titleFont = UIManager.getFont("TitledBorder.font");
+         //   title.setTitleFont( titleFont.deriveFont(Font.ITALIC + Font.BOLD, 20) );
+           // setBorder(title);
             this.accion = accion;
             if(accion.equals("Listar Usuarios")){
                 configurarComponentesFiltrar();
@@ -221,10 +247,16 @@ public class InterfazAdministrador extends JFrame implements ActionListener{
             actionlistener = new Actionlistener();
             
             label_buscar.setBounds(10, 50, 100, 35);
+            label_buscar.setFont(new java.awt.Font("Arial 18 Plain", Font.PLAIN, 18)); // NOI18N
+            label_buscar.setForeground(new java.awt.Color(254, 254, 254));
+            
             txt_buscar.setBounds(125, 50, 300, 35);
             btn_buscar.setBounds(125, 90, 145, 35);
             btn_cancelar.setBounds(280, 90, 145, 35);
             label_alerta.setBounds(10, 130, 400, 32);
+            label_alerta.setFont(new java.awt.Font("Arial 18 Plain", Font.PLAIN, 18)); // NOI18N
+            label_alerta.setForeground(new java.awt.Color(254, 254, 254));
+            
             txt_buscar.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1));
             
             btn_buscar.addActionListener(actionlistener);
@@ -257,14 +289,26 @@ public class InterfazAdministrador extends JFrame implements ActionListener{
             //label_buscar.setBounds(10, 50, 100, 35);
             //txt_buscar.setBounds(125, 50, 250, 35);
             label_sedes_id.setBounds(10, 50, 100, 35);
+            label_sedes_id.setFont(new java.awt.Font("Arial 18 Plain", Font.PLAIN, 18)); // NOI18N
+            label_sedes_id.setForeground(new java.awt.Color(254, 254, 254));
+            
             label_rol.setBounds(10, 90, 100, 35);
+            label_rol.setFont(new java.awt.Font("Arial 18 Plain", Font.PLAIN, 18)); // NOI18N
+            label_rol.setForeground(new java.awt.Color(254, 254, 254));
+            
             label_estados.setBounds(10, 130, 100, 35);
+            label_estados.setFont(new java.awt.Font("Arial 18 Plain", Font.PLAIN, 18)); // NOI18N
+            label_estados.setForeground(new java.awt.Color(254, 254, 254));
+            
             comb_sedes_id.setBounds(125, 50, 300, 35);
             comb_rol.setBounds(125, 90, 300, 35);
             comb_estados.setBounds(125, 130, 300, 35);
             btn_buscar.setBounds(125, 170, 145, 35);
             btn_cancelar.setBounds(280, 170, 145, 35);
             label_alerta.setBounds(10, 210, 400, 32);
+            label_alerta.setFont(new java.awt.Font("Arial 18 Plain", Font.PLAIN, 18)); // NOI18N
+            label_alerta.setForeground(new java.awt.Color(254, 254, 254));
+            
             txt_buscar.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1));
 
             btn_buscar.addActionListener(actionlistener);
@@ -491,13 +535,21 @@ public class InterfazAdministrador extends JFrame implements ActionListener{
         String[] sedes_idonly;
 
         public PanelCrearUsuario(String accion, String[] datos_usuario){
+             javax.swing.JLabel titulo = new javax.swing.JLabel();
+            titulo.setText("BIENVENIDO"); 
+            titulo.setBounds (0,0,115,50);
+            titulo.setFont(new java.awt.Font("Arial 18 Plain", Font.PLAIN, 18)); // NOI18N
+            titulo.setForeground(new java.awt.Color(254, 254, 254));
+            titulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+            this.add(titulo);
+            
             setLayout(null);
             this.setSize(420, 550);
             this.accion = accion;
             Border lowerEtched = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
             TitledBorder title = BorderFactory.createTitledBorder(lowerEtched, this.accion);
-            Font titleFont = UIManager.getFont("TitledBorder.font");
-            title.setTitleFont( titleFont.deriveFont(Font.ITALIC + Font.BOLD, 20) );
+           // Font titleFont = UIManager.getFont("TitledBorder.font");
+           // title.setTitleFont( titleFont.deriveFont(Font.ITALIC + Font.BOLD, 20) );
             this.setBorder(title);
             changeListener = new ChangeListener();
             actionlistener = new Actionlistenr();
@@ -529,18 +581,61 @@ public class InterfazAdministrador extends JFrame implements ActionListener{
 
             //Ubicación de etiquetas
             label_id.setBounds(5, 30, 150, 35);
+            label_id.setFont(new java.awt.Font("Arial 18 Plain", Font.PLAIN, 18)); // NOI18N
+            label_id.setForeground(new java.awt.Color(254, 254, 254));
+            
             label_id_sede.setBounds(5, 67, 150, 35);
+            label_id_sede.setFont(new java.awt.Font("Arial 18 Plain", Font.PLAIN, 18)); // NOI18N
+            label_id_sede.setForeground(new java.awt.Color(254, 254, 254));
+            
             label_rol.setBounds(5, 104, 150, 35);
+            label_rol.setFont(new java.awt.Font("Arial 18 Plain", Font.PLAIN, 18)); // NOI18N
+            label_rol.setForeground(new java.awt.Color(254, 254, 254));
+            
             label_primer_nombre.setBounds(5, 141, 150, 35);
+            label_primer_nombre.setFont(new java.awt.Font("Arial 18 Plain", Font.PLAIN, 18)); // NOI18N
+            label_primer_nombre.setForeground(new java.awt.Color(254, 254, 254));
+            
+            
             label_segundo_nombre.setBounds(5, 178, 150, 35);
+            label_segundo_nombre.setFont(new java.awt.Font("Arial 18 Plain", Font.PLAIN, 18)); // NOI18N
+            label_segundo_nombre.setForeground(new java.awt.Color(254, 254, 254));
+            
             label_prime_apellido.setBounds(5, 215, 150, 35);
+            label_prime_apellido.setFont(new java.awt.Font("Arial 18 Plain", Font.PLAIN, 18)); // NOI18N
+            label_prime_apellido.setForeground(new java.awt.Color(254, 254, 254));
+            
+            
             label_segundo_apellido.setBounds(5, 252, 150, 35);
+            label_segundo_apellido.setFont(new java.awt.Font("Arial 18 Plain", Font.PLAIN, 18)); // NOI18N
+            label_segundo_apellido.setForeground(new java.awt.Color(254, 254, 254));
+            
             label_direccion.setBounds(5, 289, 150, 35);
+            label_direccion.setFont(new java.awt.Font("Arial 18 Plain", Font.PLAIN, 18)); // NOI18N
+            label_direccion.setForeground(new java.awt.Color(254, 254, 254));
+            
             label_telefono.setBounds(5, 326, 150, 35);
+            label_telefono.setFont(new java.awt.Font("Arial 18 Plain", Font.PLAIN, 18)); // NOI18N
+            label_telefono.setForeground(new java.awt.Color(254, 254, 254));
+            
             label_email.setBounds(5, 363, 150, 35);
+            label_email.setFont(new java.awt.Font("Arial 18 Plain", Font.PLAIN, 18)); // NOI18N
+            label_email.setForeground(new java.awt.Color(254, 254, 254));
+            
+            
             label_password.setBounds(5, 400, 150, 35);
+            label_password.setFont(new java.awt.Font("Arial 18 Plain", Font.PLAIN, 18)); // NOI18N
+            label_password.setForeground(new java.awt.Color(254, 254, 254));
+            
+            
             label_estado.setBounds(5, 437, 150, 35);
+            label_estado.setFont(new java.awt.Font("Arial 18 Plain", Font.PLAIN, 18)); // NOI18N
+            label_estado.setForeground(new java.awt.Color(254, 254, 254));
+            
             label_alert.setBounds(10, 472, 450, 25);
+            label_alert.setFont(new java.awt.Font("Arial 18 Plain", Font.PLAIN, 18)); // NOI18N
+            label_alert.setForeground(new java.awt.Color(254, 254, 254));
+            
 
             //label_alert.setOpaque(true);
             //label_alert.setBackground(Color.RED);
@@ -899,16 +994,23 @@ public class InterfazAdministrador extends JFrame implements ActionListener{
             
         }
         public PanelListarUsuarios(String id_sede, String rol, String estado){
-            setTitle("Buscar Usuario");                        // colocamos titulo a la ventana
+            javax.swing.JLabel titulo = new javax.swing.JLabel();
+            titulo.setText("Buscar Usuario"); 
+            titulo.setBounds (0,0,115,50);
+            titulo.setFont(new java.awt.Font("Arial 18 Plain", Font.PLAIN, 18)); // NOI18N
+            titulo.setForeground(new java.awt.Color(254, 254, 254));
+            titulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+            this.add(titulo);
+           // setTitle("Buscar Usuario");                        // colocamos titulo a la ventana
             setSize(420, 550);                                 // colocamos tamanio a la ventana (ancho, alto)
             setLocationRelativeTo(null);                       // centramos la ventana en la pantalla
             setLayout(null);                                   // no usamos ningun layout, solo asi podremos dar posiciones a los componentes
             setResizable(false);                               // hacemos que la ventana no sea redimiensionable
             Border lowerEtched = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
-            TitledBorder title = BorderFactory.createTitledBorder(lowerEtched, "Lista de Usuarios");
-            Font titleFont = UIManager.getFont("TitledBorder.font");
-            title.setTitleFont( titleFont.deriveFont(Font.ITALIC + Font.BOLD, 20) );
-            setBorder(title); 
+           // TitledBorder title = BorderFactory.createTitledBorder(lowerEtched, "Lista de Usuarios");
+           // Font titleFont = UIManager.getFont("TitledBorder.font");
+            ///itle.setTitleFont( titleFont.deriveFont(Font.ITALIC + Font.BOLD, 20) );
+           // setBorder(title); 
             
             configurarLLenarTabla(id_sede, rol, estado);
         }
