@@ -76,6 +76,16 @@ public class ControladorEvento {
         }
         return nombres_ids_eventos;
     }
+    
+     public String[] listarIdNombreEventosAsistentePago(String asistente_id) {
+        String[] nombres_ids_eventos;
+        Evento[] eventos = daoEvento.listarEventosAsistentePago(asistente_id);
+        nombres_ids_eventos = new String[eventos.length];
+        for (int i = 0; i < eventos.length; i++) {
+            nombres_ids_eventos[i] = eventos[i].getIdentificacion() + " - " + eventos[i].getNombre() + " - " + eventos[i].getValor();
+        }
+        return nombres_ids_eventos;
+    }
 
     public String[] listarIdsEvento(int evento_id) {
         return daoEvento.listarIdsEvento(evento_id);

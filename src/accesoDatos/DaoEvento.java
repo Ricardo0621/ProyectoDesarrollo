@@ -140,11 +140,65 @@ public class DaoEvento {
         return eventos;
     }//Fin listarEventos()
 
+    
     public Evento[] listarEventosAsistente(String asistente_id) {
         Evento[] eventos;
         Evento evento;
         String sql_count = "SELECT COUNT(*) AS filas FROM pagos WHERE id_asistente='" + asistente_id + "' AND estado='Pendiente'";
         String sql = "SELECT id_evento FROM pagos WHERE id_asistente='" + asistente_id + "' AND estado='Pendiente'";
+        int filas = 0;
+        int contador = 0;
+        try {
+            Connection conn = fachada.getConnetion();
+            Statement sentencia = conn.createStatement();
+            ResultSet tabla = sentencia.executeQuery(sql_count);
+            tabla.next();
+            filas = tabla.getInt("filas");
+            eventos = new Evento[filas];
+            tabla = sentencia.executeQuery(sql);
+            while (tabla.next()) {
+                sql = "SELECT * FROM eventos WHERE id=" + tabla.getInt(1);
+                try {
+                    Statement sentencia1 = conn.createStatement();
+                    ResultSet tabla1 = sentencia1.executeQuery(sql);
+                    while (tabla1.next()) {
+                        evento = new Evento();
+                        evento.setIdentificacion(tabla1.getString(1));
+                        evento.setIdEmpleado(tabla1.getString(2));
+                        evento.setNombre(tabla1.getString(3));
+                        evento.setDescipcion(tabla1.getString(4));
+                        evento.setFechaCreacion(tabla1.getString(5));
+                        evento.setFechaInicio(tabla1.getString(6));
+                        evento.setFechaFin(tabla1.getString(7));
+                        evento.setHorario(tabla1.getString(8));
+                        evento.setHoras(Integer.parseInt(tabla1.getString(9)));
+                        evento.setValor(Integer.parseInt(tabla1.getString(10)));
+                        evento.setLugar(tabla1.getString(11));
+                        evento.setCupos(Integer.parseInt(tabla1.getString(12)));
+                        evento.setEstado(tabla1.getString(13));
+                        eventos[contador] = evento;
+                        contador++;
+                    }
+                } catch (SQLException ex) {
+                    System.out.println(ex);
+                } catch (Exception ex) {
+                    System.out.println(ex);
+                }
+            }
+            return eventos;
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        return null;
+    }
+    
+    public Evento[] listarEventosAsistentePago(String asistente_id) {
+        Evento[] eventos;
+        Evento evento;
+        String sql_count = "SELECT COUNT(*) AS filas FROM pagos WHERE id_asistente='" + asistente_id + "' AND estado='Pagado'";
+        String sql = "SELECT id_evento FROM pagos WHERE id_asistente='" + asistente_id + "' AND estado='Pagado'";
         int filas = 0;
         int contador = 0;
         try {

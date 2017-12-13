@@ -39,7 +39,10 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfWriter;
+import java.awt.Desktop;
+import java.io.File;
 import java.io.FileOutputStream;
+import javax.swing.JFileChooser;
 import reportes.Reportes;
 
 /**
@@ -255,6 +258,7 @@ public class InterfazOperador extends JFrame implements ActionListener {
         JTextField txt_direccion;
         JTextField txt_telefono;
         JTextField txt_email;
+        JComboBox eventosBox;
 
         //Labels
         JLabel label_id;
@@ -271,6 +275,10 @@ public class InterfazOperador extends JFrame implements ActionListener {
         JButton btn_cancelar;
         JButton btn_enviar;
         JButton btn_imprimir;
+        JButton btn_guardar;
+        JRadioButton btn_escarapela;
+        JRadioButton btn_diploma;
+        
         ChangeListener changeListener;
         Actionlistenr actionlistener;
 
@@ -290,8 +298,10 @@ public class InterfazOperador extends JFrame implements ActionListener {
         String accion;
         String[] sedes_id;
         String[] sedes_idonly;
-
+        String[] datos_pdf;
+        
         public PanelCrearAsistente(String accion, String[] datos_usuario) {
+            datos_pdf = datos_usuario;
             setLayout(null);
             this.setSize(420, 550);
             this.accion = accion;
@@ -302,6 +312,7 @@ public class InterfazOperador extends JFrame implements ActionListener {
             this.setBorder(title);
             changeListener = new ChangeListener();
             actionlistener = new Actionlistenr();
+            
             configurarEtiquetas();
             configurarCampos();
             configurarBotones();
@@ -361,7 +372,7 @@ public class InterfazOperador extends JFrame implements ActionListener {
             txt_direccion = new JTextField();
             txt_telefono = new JTextField();
             txt_email = new JTextField();
-
+            eventosBox = new JComboBox<String>();
             //Posicionar Campos
             txt_id.setBounds(165, 70, 300, 35);
             txt_primer_nombre.setBounds(165, 107, 300, 35);
@@ -371,6 +382,7 @@ public class InterfazOperador extends JFrame implements ActionListener {
             txt_direccion.setBounds(165, 253, 300, 35);
             txt_telefono.setBounds(165, 290, 300, 35);
             txt_email.setBounds(165, 327, 300, 35);
+            eventosBox.setBounds(165, 364, 300, 35);
 
             //evntos
             txt_id.addKeyListener(changeListener);
@@ -398,13 +410,24 @@ public class InterfazOperador extends JFrame implements ActionListener {
             btn_enviar = new JButton("Enviar");
             btn_cancelar = new JButton("Cancelar");
             btn_imprimir = new JButton("Imprmir");
+            btn_guardar = new JButton("guardar");
+            
+            btn_escarapela = new JRadioButton("Escarapela");
+            btn_diploma = new JRadioButton("Diploma");
             btn_enviar.setBounds(165, 400, 145, 35);
             btn_imprimir.setBounds(165, 400, 145, 35);
             btn_cancelar.setBounds(320, 400, 145, 35);
-
+            btn_guardar.setBounds(320, 400, 145, 35);
+            
+            btn_escarapela.setBounds(165, 437, 145, 35);
+            btn_diploma.setBounds(320, 437, 145, 35);
             btn_enviar.addActionListener(actionlistener);
             btn_cancelar.addActionListener(actionlistener);
             btn_imprimir.addActionListener(actionlistener);
+            btn_guardar.addActionListener(actionlistener);
+            btn_escarapela.addActionListener(actionlistener);
+            btn_diploma.addActionListener(actionlistener);
+            
             this.add(btn_enviar);
             
             this.add(btn_cancelar);
@@ -429,6 +452,7 @@ public class InterfazOperador extends JFrame implements ActionListener {
         }
 
         public void completarCamposImprimir(String[] datos_asistente) {
+            
             txt_id.setText(datos_asistente[0]);
             txt_id.setEditable(false);
             txt_id.setEnabled(false);
@@ -454,8 +478,23 @@ public class InterfazOperador extends JFrame implements ActionListener {
             txt_email.setEditable(false);
             txt_email.setEnabled(false);
             btn_enviar.setVisible(false);
+            btn_cancelar.setVisible(false);
+            this.add(eventosBox);
             this.add(btn_imprimir);
+            this.add(btn_guardar);
+            this.add(btn_diploma);
+            this.add(btn_escarapela);
+            label_alert.setBounds(10, 480, 450, 25);
+            String[] eventos_nombre;
+            ControladorEvento controladorEvento = new ControladorEvento();
+            eventos_nombre = controladorEvento.listarIdNombreEventosAsistentePago(datos_asistente[0]);
+            eventosBox.addItem("Seleccione");
             
+                for (int i = 0; i < eventos_nombre.length; i++) {
+                    
+                    eventosBox.addItem(eventos_nombre[i].split(" - ")[0]+"-"+eventos_nombre[i].split(" - ")[1]);
+                }
+                eventosBox.setSelectedIndex(0);
             
         }
 
@@ -626,9 +665,79 @@ public class InterfazOperador extends JFrame implements ActionListener {
                     removerPaneles();
                     mostrarPanelAsistente(accion, null, true);
                 }else if (e.getSource().equals(btn_imprimir)) {
+                    
+                    if(btn_diploma.isSelected())
+                    {
+                        btn_escarapela.setSelected(false);
+                        String nombre_evento = eventosBox.getSelectedItem().toString().split(" - ")[1];
+                        GenerarPdf gp= new GenerarPdf(datos_pdf, nombre_evento);
+                        gp.imprimirPdf();
+                    
+                    }else if(btn_escarapela.isSelected())
+                    {
+                        btn_diploma.setSelected(false);
+                        String nombre_evento = eventosBox.getSelectedItem().toString().split(" - ")[1];
+                        GenerarPdf gp= new GenerarPdf(datos_pdf, nombre_evento);
+                        gp.imprimirPdf();
+                    
+                    }
+                    else {
+                        btn_diploma.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+                        btn_escarapela.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+                        label_alert.setText("<html><font color='red' size='4'>!!! Selecciona una opción!!!</font></html>");
+                        btn_diploma.requestFocus();
+                        btn_escarapela.requestFocus();
+                    
+                    
+                    }
+                    
+                    
+                 
+                }
+                else if (e.getSource().equals(btn_diploma)) {
+                         
+                            btn_escarapela.setSelected(false);
+                         }
                 
-                    GenerarPdf gp= new GenerarPdf();
-                    gp.generarPdf("hola como estas", "que tal", "cómo vas", "/home/alejo/prueba.pdf");
+                 else if (e.getSource().equals(btn_escarapela)) {
+                         
+                            btn_diploma.setSelected(false);
+                         }
+                
+                
+                
+                else if (e.getSource().equals(btn_guardar)) {
+                    
+                    if(btn_diploma.isSelected())
+                    {
+                        
+                        String nombre_evento = eventosBox.getSelectedItem().toString().split(" - ")[1];
+                        GenerarPdf gp= new GenerarPdf(datos_pdf, nombre_evento);
+                        gp.generarPdf();
+                    
+                    }else if(btn_escarapela.isSelected())
+                    {
+                        
+                        String nombre_evento = eventosBox.getSelectedItem().toString().split(" - ")[1];
+                        GenerarPdf gp= new GenerarPdf(datos_pdf, nombre_evento);
+                        gp.generarPdf();
+                    
+                    }
+                    else {
+                        btn_diploma.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+                        btn_escarapela.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+                        label_alert.setText("<html><font color='red' size='4'>!!! Selecciona una opción!!!</font></html>");
+                        btn_diploma.requestFocus();
+                        btn_escarapela.requestFocus();
+                    
+                    }
+                    
+                    
+                    
+                    
+                   
+                  
+                    
                 
                 }
                 
@@ -962,11 +1071,28 @@ public class InterfazOperador extends JFrame implements ActionListener {
                 }
             } else if (accion.equals("Imprimir Diplomas")) {
                 ControladorAsistente controladorAsistente = new ControladorAsistente();
-                if (controladorAsistente.consultarAsistente(id_asistente)) {
+                ControladorEvento controladorEvento = new ControladorEvento();
+                String[] datos_asistente_evento = controladorEvento.listarIdNombreEventosAsistentePago(id_asistente);
+               
+                if(datos_asistente_evento.length == 0){
+                    txt_buscar.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+                    label_alerta.setText("<html><font color='red' size='4'>!!! El usuario no está inscrito a ningún evento!!!</font></html>");
+                    txt_buscar.requestFocus();
+                
+                }
+                else if (controladorAsistente.consultarAsistente(id_asistente)) {
                     removerPaneles();
                     String[] datos_asistente = controladorAsistente.extraerAsistente(id_asistente);
                     mostrarPanelAsistente(accion, datos_asistente, true);
                     this.repaint();
+                    
+                }
+                
+                
+                else {
+                    txt_buscar.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+                    label_alerta.setText("<html><font color='red' size='4'>!!! No Existe el asistente con esa identificación!!!</font></html>");
+                    txt_buscar.requestFocus();
                 }
             } else if (accion.equals("Registrar Asistente Evento")) {
                 ControladorAsistente controladorAsistente = new ControladorAsistente();
@@ -1045,7 +1171,10 @@ public class InterfazOperador extends JFrame implements ActionListener {
                     label_alerta.setText("<html><font color='red' size='4'>!!! Ingrese un número de identificación Correcto !!!</font></html>");
                     txt_buscar.requestFocus();
                     return false;
-                } else {
+                } 
+                
+                
+                else {
                     return true;
                 }
             } else if (accion.equals("Eventos")) {
@@ -1394,27 +1523,76 @@ public class InterfazOperador extends JFrame implements ActionListener {
 
     public class GenerarPdf {
         
-        
+     
         
 
         private com.itextpdf.text.Font fuente
                 = new com.itextpdf.text.Font(com.itextpdf.text.Font.FontFamily.COURIER, 24, Font.BOLD);
-
-        public void generarPdf(String header, String info, String footer,  String salida) {
+        private String[] info_usuario;
+        private String header;
+        private String info; 
+        private String footer;  
+        private String salida;
+        private String nombre_evento;
+           public GenerarPdf(String[] info_asistente, String evento){
+    
+            info_usuario = info_asistente;
+            nombre_evento = evento;
+            header = "Esto es una pruebaen la cabecera";
+            info = info_usuario[1]+nombre_evento;
+            footer  = "esto es una prueba al final";
+            
+    }
+        
+        
+        public void generarPdf() {
             try {
+                 JFileChooser fc = new JFileChooser(); 
+                    int opcion = fc.showSaveDialog(null);
+                    
+                    if(opcion == fc.APPROVE_OPTION){
+                        
+                        Document document = new Document(PageSize.A4, 36, 36, 10, 10);
+                        PdfWriter.getInstance(document, new FileOutputStream(fc.getSelectedFile()));
+                        document.open();
+                        document.add(getHeader(header));
+                        document.add(getinfo(info));
+                        document.add(getFooter(footer));
+                        document.close();
+                    
+                    }
 
-                Document document = new Document(PageSize.A4, 36, 36, 10, 10);
-                PdfWriter.getInstance(document, new FileOutputStream(salida));
-                document.open();
-                document.add(getHeader(header));
-                document.add(getinfo(info));
-                document.add(getFooter(footer));
-                document.close();
+                
             } catch (Exception e) {
             }
 
         }
+        
+        
+        public void imprimirPdf() {
+            try {
+                 
+                        
+                        Document document = new Document(PageSize.A4, 36, 36, 10, 10);
+                        PdfWriter.getInstance(document, new FileOutputStream("/home/alejo/hola.pdf"));
+                        document.open();
+                        document.add(getHeader(header));
+                        document.add(getinfo(info));
+                        document.add(getFooter(footer));
+                        document.close();
+                        File file = new File("/home/alejo/hola.pdf");
+                        Desktop.getDesktop().open(file);
+                    
+                    
 
+                
+            } catch (Exception e) {
+            }
+
+        }
+        
+        
+   
         public Paragraph getHeader(String texto) {
 
             Paragraph p = new Paragraph();
