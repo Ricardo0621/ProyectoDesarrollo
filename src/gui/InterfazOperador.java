@@ -69,9 +69,12 @@ public class InterfazOperador extends JFrame implements ActionListener {
         panelCrearAsistente = new PanelCrearAsistente("none", null);
         panelListarAsistentes = new PanelListarAsistentes();
         panelBuscarFiltrarPagarRegistrar = new PanelBuscarFiltrarPagarRegistrar("");
-        configurarUserPanel();
         configurarBotones();
+        configurarUserPanel();
+        
         configurarPanelBienvenida();
+        
+      
     }
 
     private void configurarUserPanel() {
@@ -80,7 +83,42 @@ public class InterfazOperador extends JFrame implements ActionListener {
         this.setLocationRelativeTo(null);                       // centramos la ventana en la pantalla
         this.setLayout(null);                                   // no usamos ningun layout, solo asi podremos dar posiciones a los componentes
         this.setResizable(false);                               // hacemos que la ventana no sea redimiensionable
+        this.getContentPane().setBackground(new java.awt.Color (35,47,65));
+        
+        
+        //PANEL AZUL CLARO
+        javax.swing.JPanel  jPanelAzulClaro = new javax.swing.JPanel();
+        jPanelAzulClaro.setBounds(0,0,240,800) ;
+        jPanelAzulClaro.setBackground(new java.awt.Color(97, 212, 195));
+        //jPanelAzulClaro.add(jLabelABC); 
+       
+       
+        btn_crear_asistente.setBounds(20,50,70,60);
+        btn_modificar_asistente.setBounds(20,120,70,60);
+        btn_listar_asistentes.setBounds(20,190,70,60);
+        btn_registrar_asistente_evento.setBounds(20,260,70,60);
+        btn_registrar_pago.setBounds(20,330,70,60);
+        btn_listar_eventos.setBounds(20,400,70,60);
+        btn_generar_certificados.setBounds(20,470,70,60);
+        btn_reportes.setBounds(20,540,70,60);
+        btn_salir.setBounds(20,610,70,60);
+        
+        jPanelAzulClaro.add(btn_crear_asistente);
+        jPanelAzulClaro.add(btn_modificar_asistente);
+        jPanelAzulClaro.add(btn_listar_asistentes);
+        jPanelAzulClaro.add(btn_registrar_asistente_evento);
+        jPanelAzulClaro.add(btn_registrar_pago);
+        jPanelAzulClaro.add(btn_listar_eventos);
+        jPanelAzulClaro.add(btn_generar_certificados);
+        jPanelAzulClaro.add(btn_reportes);
+        jPanelAzulClaro.add(btn_salir);
+        this.getContentPane().add(jPanelAzulClaro); 
+        
+        
+        
+            
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);    // hacemos que cuando se cierre la ventana termina todo proceso
+   
     }
 
     public void configurarBotones() {
@@ -94,15 +132,6 @@ public class InterfazOperador extends JFrame implements ActionListener {
         btn_reportes = new JButton("Reportes");
         btn_salir = new JButton("Salir");
 
-        btn_crear_asistente.setBounds(25, 20, 150, 50);
-        btn_modificar_asistente.setBounds(25, 75, 150, 50);
-        btn_listar_asistentes.setBounds(25, 130, 150, 50);
-        btn_registrar_asistente_evento.setBounds(25, 185, 150, 50);
-        btn_registrar_pago.setBounds(25, 240, 150, 50);
-        btn_listar_eventos.setBounds(25, 295, 150, 50);
-        btn_generar_certificados.setBounds(25, 350, 150, 50);
-        btn_reportes.setBounds(25, 405, 150, 50);
-        btn_salir.setBounds(25, 460, 150, 50);
 
         btn_crear_asistente.addActionListener(this);
         btn_listar_asistentes.addActionListener(this);
@@ -113,34 +142,31 @@ public class InterfazOperador extends JFrame implements ActionListener {
         btn_generar_certificados.addActionListener(this);
         btn_reportes.addActionListener(this);
         btn_salir.addActionListener(this);
-
-        this.add(btn_crear_asistente);
-        this.add(btn_modificar_asistente);
-        this.add(btn_listar_asistentes);
-        this.add(btn_registrar_asistente_evento);
-        this.add(btn_registrar_pago);
-        this.add(btn_listar_eventos);
-        this.add(btn_generar_certificados);
-        this.add(btn_reportes);
-        this.add(btn_salir);
+        
+        
+        
     }
 
     private void configurarPanelBienvenida() {
         panelBienvenido = new PanelBienvenido();
-        panelBienvenido.setBounds(200, 10, 560, 550);
+        panelBienvenido.setBounds(240, 10, 560, 550);
+        panelBienvenido.setBackground(new java.awt.Color (35,47,65));
+        
         this.add(panelBienvenido);
     }
 
     public void mostrarPanelAsistente(String accion, String[] datos_empleado, boolean visible) {
         panelCrearAsistente = new PanelCrearAsistente(accion, datos_empleado);
-        panelCrearAsistente.setBounds(200, 10, 560, 550);
+        panelCrearAsistente.setBounds(240, 10, 560, 550);
+        panelCrearAsistente.setBackground(new java.awt.Color (35,47,65));
         this.add(panelCrearAsistente);
         panelCrearAsistente.setVisible(visible);
     }
 
     public void mostrarPanelBuscarFiltarPagarInscribir(String accion, boolean visible) {
         panelBuscarFiltrarPagarRegistrar = new PanelBuscarFiltrarPagarRegistrar(accion);
-        panelBuscarFiltrarPagarRegistrar.setBounds(200, 10, 560, 550);
+        panelBuscarFiltrarPagarRegistrar.setBounds(240, 10, 560, 550);
+        panelBuscarFiltrarPagarRegistrar.setBackground(new java.awt.Color (35,47,65));
         this.add(panelBuscarFiltrarPagarRegistrar);
         panelBuscarFiltrarPagarRegistrar.setVisible(visible);
     }
@@ -151,14 +177,14 @@ public class InterfazOperador extends JFrame implements ActionListener {
         } else if (operacion.equals("Estado Pagos Asistente")) {
             panelListarAsistentes = new PanelListarAsistentes(operacion, asistente_id);
         }
-        panelListarAsistentes.setBounds(200, 10, 560, 550);
+        panelListarAsistentes.setBounds(240, 10, 560, 550);
         this.add(panelListarAsistentes);
         panelListarAsistentes.setVisible(true);
     }
 
     public void mostrarPanelListarEventosCampos(String operacion, String campo, String contenido, String fecha1, String fecha2) {
         panelListarAsistentes = new PanelListarAsistentes(operacion, campo, contenido, fecha1, fecha2);
-        panelListarAsistentes.setBounds(200, 10, 560, 550);
+        panelListarAsistentes.setBounds(240, 10, 560, 550);
         this.add(panelListarAsistentes);
         panelListarAsistentes.setVisible(true);
     }
@@ -226,16 +252,26 @@ public class InterfazOperador extends JFrame implements ActionListener {
     private class PanelBienvenido extends JPanel {
 
         public PanelBienvenido() {
-            setTitle("Bienvenido");                        // colocamos titulo a la ventana
+           // setTitle("Bienvenido");  
+            javax.swing.JLabel titulo = new javax.swing.JLabel();
+            titulo.setText("BIENVENIDO"); 
+            titulo.setBounds (0,0,115,50);
+            titulo.setFont(new java.awt.Font("Arial 18 Plain", Font.PLAIN, 18)); // NOI18N
+            titulo.setForeground(new java.awt.Color(254, 254, 254));
+            titulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+            this.add(titulo);
+// colocamos titulo a la ventana
+            setFont(new java.awt.Font("Arial 18 Plain",Font.PLAIN, 18)); // NOI18N
+            setForeground(new java.awt.Color(254, 254, 254));
             setSize(420, 550);                                 // colocamos tamanio a la ventana (ancho, alto)
             setLocationRelativeTo(null);                       // centramos la ventana en la pantalla
             setLayout(null);                                   // no usamos ningun layout, solo asi podremos dar posiciones a los componentes
             setResizable(false);                               // hacemos que la ventana no sea redimiensionable
             Border lowerEtched = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
-            TitledBorder title = BorderFactory.createTitledBorder(lowerEtched, "Bienvenido");
+      //      TitledBorder title = BorderFactory.createTitledBorder(lowerEtched, "Bienvenido");
             Font titleFont = UIManager.getFont("TitledBorder.font");
-            title.setTitleFont(titleFont.deriveFont(Font.ITALIC + Font.BOLD, 20));
-            setBorder(title);
+        //    title.setTitleFont(titleFont.deriveFont(Font.ITALIC + Font.BOLD, 20));
+          //  setBorder(title);
         }
 
     }
@@ -292,14 +328,24 @@ public class InterfazOperador extends JFrame implements ActionListener {
         String[] sedes_idonly;
 
         public PanelCrearAsistente(String accion, String[] datos_usuario) {
+            javax.swing.JLabel titulo = new javax.swing.JLabel();
+            titulo.setText(accion); 
+            titulo.setBounds (0,0,200,50);
+            titulo.setFont(new java.awt.Font("Arial 18 Plain", Font.PLAIN, 18)); // NOI18N
+            titulo.setForeground(new java.awt.Color(254, 254, 254));
+            titulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+            this.add(titulo);
+            
             setLayout(null);
+           // this.setBounds(240,10,420 , 550); 
             this.setSize(420, 550);
             this.accion = accion;
             Border lowerEtched = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
             TitledBorder title = BorderFactory.createTitledBorder(lowerEtched, this.accion);
-            Font titleFont = UIManager.getFont("TitledBorder.font");
-            title.setTitleFont(titleFont.deriveFont(Font.ITALIC + Font.BOLD, 20));
-            this.setBorder(title);
+          //  Font titleFont = UIManager.getFont("TitledBorder.font");
+            //title.setTitleFont(titleFont.deriveFont(Font.ITALIC + Font.BOLD, 20));
+            //this.setBorder(title);
+            
             changeListener = new ChangeListener();
             actionlistener = new Actionlistenr();
             configurarEtiquetas();
@@ -325,18 +371,36 @@ public class InterfazOperador extends JFrame implements ActionListener {
             label_direccion = new JLabel("* Dirección: ", SwingConstants.RIGHT);
             label_telefono = new JLabel("* Teléfono: ", SwingConstants.RIGHT);
             label_email = new JLabel("* email: ", SwingConstants.RIGHT);
-            label_alert = new JLabel("<html><font color='red'></font></html>", SwingConstants.CENTER);
+            label_alert = new JLabel("<html><font color='red'></fohtmlnt></html>", SwingConstants.CENTER);
 
             //Ubicación de etiquetas
             label_id.setBounds(5, 70, 150, 35);
+            label_id.setFont(new java.awt.Font("Arial 18 Plain", Font.PLAIN, 12)); // NOI18N
+            label_id.setForeground(new java.awt.Color(254, 254, 254));
             label_primer_nombre.setBounds(5, 107, 150, 35);
+            label_primer_nombre.setFont(new java.awt.Font("Arial 18 Plain", Font.PLAIN, 12)); // NOI18N
+            label_primer_nombre.setForeground(new java.awt.Color(254, 254, 254));
             label_segundo_nombre.setBounds(5, 142, 150, 35);
+            label_segundo_nombre.setFont(new java.awt.Font("Arial 18 Plain", Font.PLAIN, 12)); // NOI18N
+            label_segundo_nombre.setForeground(new java.awt.Color(254, 254, 254));
             label_prime_apellido.setBounds(5, 179, 150, 35);
+            label_prime_apellido.setFont(new java.awt.Font("Arial 18 Plain", Font.PLAIN, 12)); // NOI18N
+            label_prime_apellido.setForeground(new java.awt.Color(254, 254, 254));
             label_segundo_apellido.setBounds(5, 216, 150, 35);
+            label_segundo_apellido.setFont(new java.awt.Font("Arial 18 Plain", Font.PLAIN, 12)); // NOI18N
+            label_segundo_apellido.setForeground(new java.awt.Color(254, 254, 254));
             label_direccion.setBounds(5, 253, 150, 35);
+            label_direccion.setFont(new java.awt.Font("Arial 18 Plain", Font.PLAIN, 12)); // NOI18N
+            label_direccion.setForeground(new java.awt.Color(254, 254, 254));
             label_telefono.setBounds(5, 290, 150, 35);
+            label_telefono.setFont(new java.awt.Font("Arial 18 Plain", Font.PLAIN, 12)); // NOI18N
+            label_telefono.setForeground(new java.awt.Color(254, 254, 254));
             label_email.setBounds(5, 327, 150, 35);
+            label_email.setFont(new java.awt.Font("Arial 18 Plain", Font.PLAIN, 12)); // NOI18N
+            label_email.setForeground(new java.awt.Color(254, 254, 254));
             label_alert.setBounds(10, 364, 450, 25);
+            label_alert.setFont(new java.awt.Font("Arial 18 Plain", Font.PLAIN, 12)); // NOI18N
+            label_alert.setForeground(new java.awt.Color(254, 254, 254));
 
             //Add labels
             add(label_id);
@@ -677,6 +741,14 @@ public class InterfazOperador extends JFrame implements ActionListener {
         JDateChooser fecha_final;
 
         public PanelBuscarFiltrarPagarRegistrar(String accion) {
+            javax.swing.JLabel titulo = new javax.swing.JLabel();
+            titulo.setText(accion); 
+            titulo.setBounds (0,0,250,50);
+            titulo.setFont(new java.awt.Font("Arial 18 Plain", Font.PLAIN, 18)); // NOI18N
+            titulo.setForeground(new java.awt.Color(254, 254, 254));
+            titulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+            this.add(titulo); 
+            
             setTitle(accion);                        // colocamos titulo a la ventana
             setSize(420, 550);                                 // colocamos tamanio a la ventana (ancho, alto)
             setLocationRelativeTo(null);                       // centramos la ventana en la pantalla
@@ -714,10 +786,22 @@ public class InterfazOperador extends JFrame implements ActionListener {
             actionlistener = new Actionlistener();
 
             label_buscar.setBounds(10, 50, 100, 35);
+            label_buscar.setFont(new java.awt.Font("Arial 18 Plain", Font.PLAIN, 12)); // NOI18N
+            label_buscar.setForeground(new java.awt.Color(254, 254, 254));
+
             txt_buscar.setBounds(125, 50, 300, 35);
+            
+            
             btn_buscar.setBounds(125, 90, 145, 35);
+          //  label_eventos_id.setFont(new java.awt.Font("Arial 18 Plain", Font.PLAIN, 12)); // NOI18N
+         //   label_eventos_id.setForeground(new java.awt.Color(254, 254, 254));
+
             btn_cancelar.setBounds(280, 90, 145, 35);
             label_alerta.setBounds(10, 130, 400, 32);
+            label_alerta.setFont(new java.awt.Font("Arial 18 Plain", Font.PLAIN, 12)); // NOI18N
+            label_alerta.setForeground(new java.awt.Color(254, 254, 254));
+
+            
             txt_buscar.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1));
 
             btn_buscar.addActionListener(actionlistener);
@@ -741,10 +825,18 @@ public class InterfazOperador extends JFrame implements ActionListener {
             actionlistener = new Actionlistener();
 
             label_eventos_id.setBounds(10, 50, 100, 35);
+            label_eventos_id.setFont(new java.awt.Font("Arial 18 Plain", Font.PLAIN, 12)); // NOI18N
+            label_eventos_id.setForeground(new java.awt.Color(254, 254, 254));
+
             comb_eventos_id.setBounds(125, 50, 300, 35);
+            
             btn_buscar.setBounds(125, 87, 145, 35);
+            
             btn_cancelar.setBounds(280, 87, 145, 35);
+           
             label_alerta.setBounds(10, 135, 400, 32);
+            label_alerta.setFont(new java.awt.Font("Arial 18 Plain", Font.PLAIN, 12)); // NOI18N
+            label_alerta.setForeground(new java.awt.Color(254, 254, 254));
 
             comb_eventos_id.addActionListener(actionlistener);
             btn_buscar.addActionListener(actionlistener);
@@ -770,10 +862,17 @@ public class InterfazOperador extends JFrame implements ActionListener {
             actionlistener = new Actionlistener();
 
             label_buscar.setBounds(10, 50, 100, 35);
+            label_buscar.setFont(new java.awt.Font("Arial 18 Plain", Font.PLAIN, 12)); // NOI18N
+            label_buscar.setForeground(new java.awt.Color(254, 254, 254));
+
+            
             txt_buscar.setBounds(125, 50, 300, 35);
             btn_buscar.setBounds(125, 90, 145, 35);
             btn_cancelar.setBounds(280, 90, 145, 35);
             label_alerta.setBounds(10, 130, 400, 32);
+            label_alerta.setFont(new java.awt.Font("Arial 18 Plain", Font.PLAIN, 12)); // NOI18N
+            label_alerta.setForeground(new java.awt.Color(254, 254, 254));
+
             txt_buscar.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1));
             btn_buscar.addActionListener(actionlistener);
             btn_cancelar.addActionListener(actionlistener);
@@ -793,15 +892,34 @@ public class InterfazOperador extends JFrame implements ActionListener {
 
         public void configurarComponentesPagoEvento() {
             label_alerta = new JLabel("<html><font color='red'></font></html>", SwingConstants.CENTER);
+             label_alerta.setFont(new java.awt.Font("Arial 18 Plain", Font.PLAIN, 12)); // NOI18N
+            label_alerta.setForeground(new java.awt.Color(254, 254, 254));
+
             label_buscar = new JLabel("Identificación: ", SwingConstants.RIGHT);
+             label_buscar.setFont(new java.awt.Font("Arial 18 Plain", Font.PLAIN, 12)); // NOI18N
+            label_buscar.setForeground(new java.awt.Color(254, 254, 254));
+
             txt_buscar = new JTextField();
             label_eventos_id = new JLabel("Evento", SwingConstants.RIGHT);
+            label_eventos_id.setFont(new java.awt.Font("Arial 18 Plain", Font.PLAIN, 12)); // NOI18N
+            label_eventos_id.setForeground(new java.awt.Color(254, 254, 254));
+
             label_valor = new JLabel("Total: ", SwingConstants.RIGHT);
+            label_valor.setFont(new java.awt.Font("Arial 18 Plain", Font.PLAIN, 12)); // NOI18N
+            label_valor.setForeground(new java.awt.Color(254, 254, 254));
+
+            
             txt_valor = new JTextField("0");
             txt_valor.setEditable(false);
             label_metodos_pago = new JLabel("Metodo Pago", SwingConstants.RIGHT);
+            label_metodos_pago.setFont(new java.awt.Font("Arial 18 Plain", Font.PLAIN, 12)); // NOI18N
+            label_metodos_pago.setForeground(new java.awt.Color(254, 254, 254));
+
             comb_eventos_id = new JComboBox();
             label_seleccion_operacion = new JLabel("Operación", SwingConstants.RIGHT);
+            label_seleccion_operacion.setFont(new java.awt.Font("Arial 18 Plain", Font.PLAIN, 12)); // NOI18N
+            label_seleccion_operacion.setForeground(new java.awt.Color(254, 254, 254));
+
             comb_seleccion_operacion = new JComboBox();
             String[] opciones = {"Seleccione", "Tarjeta Crédito", "Efectivo", "Cheque"};
             comb_metodos_pago = new JComboBox(opciones);
@@ -812,12 +930,21 @@ public class InterfazOperador extends JFrame implements ActionListener {
             keylistener = new Keylistener();
             actionlistener = new Actionlistener();
             label_seleccion_operacion.setBounds(10, 50, 100, 35);
+            label_seleccion_operacion.setFont(new java.awt.Font("Arial 18 Plain", Font.PLAIN, 12)); // NOI18N
+            label_seleccion_operacion.setForeground(new java.awt.Color(254, 254, 254));
+
             comb_seleccion_operacion.setBounds(125, 50, 300, 35);
             label_buscar.setBounds(10, 90, 100, 35);
+            label_buscar.setFont(new java.awt.Font("Arial 18 Plain", Font.PLAIN, 12)); // NOI18N
+            label_buscar.setForeground(new java.awt.Color(254, 254, 254));
+
             txt_buscar.setBounds(125, 90, 300, 35);
             btn_buscar.setBounds(125, 130, 145, 35);
             btn_cancelar.setBounds(280, 130, 145, 35);
             label_alerta.setBounds(10, 170, 400, 32);
+            label_alerta.setFont(new java.awt.Font("Arial 18 Plain", Font.PLAIN, 12)); // NOI18N
+            label_alerta.setForeground(new java.awt.Color(254, 254, 254));
+
             txt_buscar.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1));
 
             btn_buscar.addActionListener(actionlistener);
@@ -859,20 +986,33 @@ public class InterfazOperador extends JFrame implements ActionListener {
             fecha_inicial.getJCalendar().setPreferredSize(new Dimension(500, 200));
             fecha_inicial.setFont(new Font("Dialog", Font.PLAIN, 10));
             label_seleccion_operacion = new JLabel("Fecha Final", SwingConstants.RIGHT);
+            
             fecha_final = new JDateChooser();
             fecha_final.getJCalendar().setPreferredSize(new Dimension(500, 200));
             fecha_final.setFont(new Font("Dialog", Font.PLAIN, 10));
             radio_estado.setBounds(200, 50, 100, 25);
             radio_cupos.setBounds(300, 50, 100, 25);
             label_eventos_id.setBounds(10, 80, 100, 35);
+            label_eventos_id.setFont(new java.awt.Font("Arial 18 Plain", Font.PLAIN, 12)); // NOI18N
+            label_eventos_id.setForeground(new java.awt.Color(254, 254, 254));
+
             comb_eventos_id.setBounds(125, 80, 400, 35);
             label_metodos_pago.setBounds(10, 120, 100, 35);
+            label_metodos_pago.setFont(new java.awt.Font("Arial 18 Plain", Font.PLAIN, 12)); // NOI18N
+            label_metodos_pago.setForeground(new java.awt.Color(254, 254, 254));
+
             fecha_inicial.setBounds(125, 120, 400, 35);
             label_seleccion_operacion.setBounds(10, 160, 100, 35);
+            label_seleccion_operacion.setFont(new java.awt.Font("Arial 18 Plain", Font.PLAIN, 12)); // NOI18N
+            label_seleccion_operacion.setForeground(new java.awt.Color(254, 254, 254));
+
             fecha_final.setBounds(125, 160, 400, 35);
             btn_buscar.setBounds(125, 200, 145, 35);
             btn_cancelar.setBounds(280, 200, 170, 35);
             label_alerta.setBounds(10, 240, 400, 32);
+            label_alerta.setFont(new java.awt.Font("Arial 18 Plain", Font.PLAIN, 12)); // NOI18N
+            label_alerta.setForeground(new java.awt.Color(254, 254, 254));
+
 
             comb_eventos_id.addActionListener(actionlistener);
             btn_buscar.addActionListener(actionlistener);
@@ -1301,16 +1441,19 @@ public class InterfazOperador extends JFrame implements ActionListener {
 
         public PanelListarAsistentes(String operacion, int evento_id) {
             iniciarComponentes(operacion);
+            this.setBackground(new java.awt.Color (35,47,65));
             configurarLLenarTablaAsistentesPorEvento(evento_id);
         }
 
         public PanelListarAsistentes(String operacion, String asistente_id) {
             iniciarComponentes(operacion);
+            this.setBackground(new java.awt.Color (35,47,65));
             configurarLLenarTablaEstadoPago(asistente_id);
         }
 
         public PanelListarAsistentes(String operacion, String campo, String contenido, String fecha1, String fecha2) {
             iniciarComponentes(operacion);
+            this.setBackground(new java.awt.Color (35,47,65));
             configurarLLenarTablaEventosCampo(campo, contenido, fecha1, fecha2);
         }
 
