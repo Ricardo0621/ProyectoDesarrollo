@@ -733,14 +733,14 @@ public class InterfazOperador extends JFrame implements ActionListener {
                     if(btn_diploma.isSelected())
                     {
                         btn_escarapela.setSelected(false);
-                        String nombre_evento = eventosBox.getSelectedItem().toString().split(" - ")[1];
+                        String nombre_evento = eventosBox.getSelectedItem().toString().split(" - ")[0];
                         GenerarPdf gp= new GenerarPdf(datos_pdf, nombre_evento);
                         gp.imprimirPdf();
                     
                     }else if(btn_escarapela.isSelected())
                     {
                         btn_diploma.setSelected(false);
-                        String nombre_evento = eventosBox.getSelectedItem().toString().split(" - ")[1];
+                        String nombre_evento = eventosBox.getSelectedItem().toString().split(" - ")[0];
                         GenerarPdf gp= new GenerarPdf(datos_pdf, nombre_evento);
                         gp.imprimirPdf();
                     
@@ -1681,9 +1681,10 @@ public class InterfazOperador extends JFrame implements ActionListener {
     
             info_usuario = info_asistente;
             nombre_evento = evento;
-            header = "Esto es una pruebaen la cabecera";
-            info = info_usuario[1]+nombre_evento;
-            footer  = "esto es una prueba al final";
+            header = "DIPLOMA";
+            info = "ABC certifica que "+info_usuario[1]+" "+info_usuario[2]+" "+info_usuario[3]+" asistió al evento "+nombre_evento 
+                    +" y aprobó con éxito todas las exigencias requeridas para su graduación";
+            footer  = "Felicitaciones por tu logro!!";
             
     }
         
@@ -1717,6 +1718,7 @@ public class InterfazOperador extends JFrame implements ActionListener {
                  
                         
                         Document document = new Document(PageSize.A4, 36, 36, 10, 10);
+                        
                         PdfWriter.getInstance(document, new FileOutputStream("/home/alejo/hola.pdf"));
                         document.open();
                         document.add(getHeader(header));
@@ -1741,6 +1743,7 @@ public class InterfazOperador extends JFrame implements ActionListener {
             Paragraph p = new Paragraph();
             Chunk c = new Chunk();
             p.setAlignment(Element.ALIGN_CENTER);
+            p.setSpacingAfter(190);
             c.append(texto);
             c.setFont(fuente);
             p.add(c);
@@ -1752,6 +1755,7 @@ public class InterfazOperador extends JFrame implements ActionListener {
             Paragraph p = new Paragraph();
             Chunk c = new Chunk();
             p.setAlignment(Element.ALIGN_CENTER);
+            p.setSpacingAfter(600);
             c.append(texto);
             c.setFont(fuente);
             p.add(c);
